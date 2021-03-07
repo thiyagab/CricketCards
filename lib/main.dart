@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import './player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stack_card/flutter_stack_card.dart';
@@ -26,13 +28,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Player> _playerData = Player().playerData;
+  List<Player> _playerData = null;
+  List<Player> _botData = null;
+
   var width, height;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO remove this initialization, this will be initialized during prepare game step
+     _playerData =Player().playerData;
+     _botData = Player().playerData.toList();
+    _botData.shuffle();
+  }
 
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height-120;
     width = MediaQuery.of(context).size.width;
+
+    _prepareGame(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,40 +57,55 @@ class _MyHomePageState extends State<MyHomePage> {
       Column(children:[
         SizedBox(height: 10,),
       Text("Bot"),
-        //TODO: Change this cards for bot, now its same, just to illustrate prototype
-      Container(
-        height:this.height/2,
-        padding: const EdgeInsets.only(top: 8.0),
-        child: StackCard.builder(
-          dimension: StackDimension(width: this.width,height:this.height/2),
-          itemCount: _playerData.length,
-          onSwap: (index) {
-            print("Page change to $index");
-          },
-          itemBuilder: (context, index) {
-            Player movie = _playerData[index];
-            return _itemBuilder(movie,index);
-          },
-        ),
-      ),
+      _botCardsBuilder(context),
         Text("You"),
-        Container(
-          height:this.height/2,
-          padding: const EdgeInsets.only(top: 8.0),
-          child: StackCard.builder(
-            dimension: StackDimension(width: this.width,height:this.height/2),
-            itemCount: _playerData.length,
-            onSwap: (index) {
-              print("Page change to $index");
-            },
-            itemBuilder: (context, index) {
-              index=(index+1)%3;
-              Player movie = _playerData[index];
-              return _itemBuilder(movie,index);
-            },
-          ),
-        )
+        _playerCardsBuilder(context)
       ])
+    );
+  }
+
+  void _prepareGame(BuildContext context) {
+    //TODO
+    //1. build UI for player to choose team
+    //2. UI to show bot selected opponent team
+    //3. Shuffle the players and assign to bot and player
+  }
+
+  Widget _botCardsBuilder(context){
+    //TODO bot cards should be picked from different teams
+    return Container(
+      height:this.height/2,
+      padding: const EdgeInsets.only(top: 8.0),
+      child: StackCard.builder(
+        dimension: StackDimension(width: this.width,height:this.height/2),
+        itemCount: _botData.length,
+        onSwap: (index) {
+          print("Page change to $index");
+        },
+        itemBuilder: (context, index) {
+          Player movie = _botData[index];
+          return _itemBuilder(movie,index);
+        },
+      ),
+    );
+  }
+
+  Widget _playerCardsBuilder(context){
+    return Container(
+      height:this.height/2,
+      padding: const EdgeInsets.only(top: 8.0),
+      child: StackCard.builder(
+        dimension: StackDimension(width: this.width,height:this.height/2),
+        itemCount: _playerData.length,
+        onSwap: (index) {
+          print("Page change to $index");
+        },
+        itemBuilder: (context, index) {
+          index=(index+1)%3;
+          Player movie = _playerData[index];
+          return _itemBuilder(movie,index);
+        },
+      ),
     );
   }
 
@@ -117,4 +147,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ]),
     );
   }
+
+
 }
