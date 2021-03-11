@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:warofcards/model/player.dart';
+import 'package:ipltrumpcards/model/player.dart';
 
 class TrumpModel extends ChangeNotifier {
   List<Player> botCards;
