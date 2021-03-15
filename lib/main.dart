@@ -1,23 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ipltrumpcards/model/TrumpModel.dart';
-import 'package:ipltrumpcards/ui/GamePlay.dart';
-import 'package:provider/provider.dart';
+import 'package:dart_json_mapper/dart_json_mapper.dart' show JsonMapper;
+import 'package:dart_json_mapper_mobx/dart_json_mapper_mobx.dart'
+    show mobXAdapter;
+import 'package:ipltrumpcards/ui/CricketCards.dart';
+import 'main.mapper.g.dart' show initializeJsonMapper;
 
-void main() => runApp(
-      ChangeNotifierProvider(
-        create: (context) => TrumpModel(),
-        child: MyApp(),
-      ),
-    );
+void main() {
+  initializeJsonMapper();
+  JsonMapper().useAdapter(mobXAdapter);
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cricket Cards',
-      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
-      home: GamePlay(title: 'Cricket Cards'),
-    );
-  }
+  runApp(CricketCards());
 }

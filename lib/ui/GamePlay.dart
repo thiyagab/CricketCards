@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ipltrumpcards/model/TrumpModel.dart';
-import 'package:ipltrumpcards/model/player.dart';
+import 'package:ipltrumpcards/model_bkp/TrumpModel.dart';
+import 'package:ipltrumpcards/model_bkp/player.dart';
 import 'package:provider/provider.dart';
 
 class GamePlay extends StatefulWidget {
