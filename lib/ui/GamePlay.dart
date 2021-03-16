@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
@@ -15,9 +17,11 @@ class GamePlay extends StatefulWidget {
 class _GamePlayState extends State<GamePlay> {
   var width, height;
   TrumpModel trumpModel;
+  ScrollController _itemScrollController;
 
   @override
   void initState() {
+    _itemScrollController = ScrollController();
     super.initState();
     _prepareGame(context);
   }
@@ -56,9 +60,29 @@ class _GamePlayState extends State<GamePlay> {
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                child: player == null
-                    ? Center(child: Text("Tap on card to play"))
-                    : _buildPlayerDetails(player, model))));
+                child: _checkStateAndRenderCard(player, model))));
+  }
+
+  Widget _checkStateAndRenderCard(Player player, TrumpModel model) {
+    if (player == null) {
+      return Center(
+          child: GestureDetector(
+              onTap: () => {model.moveCard()},
+              child: Text("Tap on card to play")));
+    } else if (model.isGameOver()) {
+      return _endcard(model);
+    } else {
+      return _buildPlayerDetails(player, model);
+    }
+  }
+
+  Widget _endcard(TrumpModel model) {
+    return Center(
+        child: Text("Bot: " +
+            model.botScore.toString() +
+            "\n" +
+            "You: " +
+            model.playerScore.toString()));
   }
 
   Widget _buildPlayerDetails(Player player, TrumpModel model) {
@@ -77,52 +101,48 @@ class _GamePlayState extends State<GamePlay> {
   }
 
   void _trumpCard(TrumpModel model) {
-    model.botCard = model.botCards[model.selectedIndex];
-    //TODO now just comparing number of matches, need to build logic to compare the selected attribute
-    // also score 0 is set explicitly to make the player already played, -1 is considered as unplayed
-    if (model.botCard.nummatches > model.playerCard.nummatches) {
-      model.botCard.score = 100;
-      model.playerCard.score = 0;
-    } else {
-      model.playerCard.score = 100;
-      model.botCard.score = 0;
-    }
-    model.refreshBotCard();
+    model.refreshBotAndScore();
+    Timer(
+        Duration(seconds: 2),
+        () => {
+              model.moveCard(),
+              if (model.selectedIndex < 7)
+                _itemScrollController.animateTo(
+                    (this.width / 5) * model.selectedIndex,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.ease)
+            });
   }
 
   Widget _cards(context, List<Player> cards, TrumpModel model) {
+    List<Widget> cardWidgets = [];
+    for (int i = 0; i < cards.length; i++) {
+      cardWidgets.add(Container(
+          width: this.width / 5,
+          child: Card(
+            elevation: 2,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+            child: Center(
+              child: Text(
+                _cardState(cards[i], i),
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+          )));
+    }
     return Container(
       height: height / 8, // card height
-      child: ListView.builder(
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        itemCount: cards.length,
-        itemBuilder: (context, i) {
-          return Container(
-              width: this.width / 5,
-              child: GestureDetector(
-                  onTap: () {
-                    //If the score is -1, then its not played,and for played cards, dont process tap
-                    if (cards[i].score < 0) _cardSelected(model, i);
-                  },
-                  child: Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Center(
-                      child: Text(
-                        _cardState(cards[i], i),
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  )));
-        },
+        controller: _itemScrollController,
+        child: Row(children: cardWidgets),
       ),
     );
   }
 
   void _cardSelected(TrumpModel model, int index) {
-    model.setPlayerCard(index);
-    model.botCard = null;
+    model.moveCard();
   }
 
   String _cardState(Player player, int index) {

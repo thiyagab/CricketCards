@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Text("Error");
+          return Center(child:Text("Error"));
         }
 
         // Once complete, show your application
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text("Loading...");
+        return Center(child: Text("Loading..."));
       },
     );
   }
