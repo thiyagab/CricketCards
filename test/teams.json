@@ -1,0 +1,98 @@
+[
+{
+    "teamId": 111,
+    "fullName": "Chennai Super Kings",
+    "shortName": "Super Kings",
+    "abbreviation": "CSK",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "FDB913",
+    "secondaryColor": "0081E5"
+},
+{
+    "teamId": 222,
+    "fullName": "Delhi Capitals",
+    "shortName": "Delhi",
+    "abbreviation": "DC",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "004C93",
+    "secondaryColor": "F83430"
+},
+{
+    "teamId": 333,
+    "fullName": "Punjab Kings",
+    "shortName": "Punjab Kings",
+    "abbreviation": "PBKS",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "DA1F3D",
+    "secondaryColor": "FFFFFF"
+},
+{
+    "teamId": 444,
+    "fullName": "Kolkata Knight Riders",
+    "shortName": "Knight Riders",
+    "abbreviation": "KKR",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "6F2C91",
+    "secondaryColor": "FFFFFF"
+},
+{
+    "teamId": 555,
+    "fullName": "Mumbai Indians",
+    "shortName": "Mumbai",
+    "abbreviation": "MI",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "00AEEF",
+    "secondaryColor": "FFFFFF"
+},
+{
+    "teamId": 666,
+    "fullName": "Sunrisers Hyderabad",
+    "shortName": "Sunrisers",
+    "abbreviation": "SRH",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "FF9C00",
+    "secondaryColor": "FFFFFF"
+},
+{
+    "teamId": 777,
+    "fullName": "Rajasthan Royals",
+    "shortName": "Royals",
+    "abbreviation": "RR",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "004B8C",
+    "secondaryColor": "FFFFFF"
+},
+{
+    "teamId": 888,
+    "fullName": "Royal Challengers Bangalore",
+    "shortName": "Challengers",
+    "abbreviation": "RCB",
+    "captainName": "m",
+    "type": "m",
+    "totalWins": 1,
+    "totalScore": 10,
+    "primaryColor": "000000",
+    "secondaryColor": "FF3245"
+}
+]
