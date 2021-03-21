@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,7 @@ class GamePlay extends StatefulWidget {
 
 class _GamePlayState extends State<GamePlay> {
   var width, height;
-  TrumpModel trumpModel;
+
   ScrollController _itemScrollController;
 
   @override
@@ -40,23 +42,31 @@ class _GamePlayState extends State<GamePlay> {
     width = MediaQuery.of(context).size.width;
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
-            child: Container(
-                color: Colors.white,
-                child: Column(children: [
-                  _cards(context, model.botCards, model),
-                  _card(context, model.botCard, model),
-                  _card(context, model.playerCard, model),
-                  _cards(context, model.playerCards, model),
-                ]))));
+                child: Container(
+                    child: Column(children: [
+              _cards(context, model.botCards, model, Teams.MUMBAI),
+              _card(context, model.botCard, model, Teams.MUMBAI),
+              _card(context, model.playerCard, model, Teams.CHENNAI),
+              _cards(context, model.playerCards, model, Teams.CHENNAI),
+            ]))));
   }
 
-  Widget _card(BuildContext context, Player player, TrumpModel model) {
+  Widget _card(
+      BuildContext context, Player player, TrumpModel model, Teams team) {
     return Center(
         child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Color.fromARGB(0, 236, 182, 49),
+              Color.fromARGB(0, 217, 94, 19)
+            ])),
             height: this.height / 3,
-            width: (this.width / 2),
+            width: (this.width - 30),
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-            child: Card(
+            child: GradientCard(
+                gradient: Gradients.buildGradient(Alignment.topLeft,
+                    Alignment.bottomRight, [team.color1, team.color2]),
+                shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -114,12 +124,13 @@ class _GamePlayState extends State<GamePlay> {
             });
   }
 
-  Widget _cards(context, List<Player> cards, TrumpModel model) {
+  Widget _cards(context, List<Player> cards, TrumpModel model, Teams team) {
     List<Widget> cardWidgets = [];
     for (int i = 0; i < cards.length; i++) {
       cardWidgets.add(Container(
           width: this.width / 5,
           child: Card(
+            color: team.color1,
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),

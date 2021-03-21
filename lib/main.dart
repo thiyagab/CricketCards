@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
-import 'package:ipltrumpcards/ui/GamePlay.dart';
+import 'package:ipltrumpcards/ui/TeamList.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Center(child:Text("Error"));
+          return Center(child: Text("Error"));
         }
 
         // Once complete, show your application
@@ -35,8 +35,15 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Cricket Cards',
             theme: ThemeData(
-                primarySwatch: Colors.blue, canvasColor: Colors.white),
-            home: GamePlay(title: 'Cricket Cards'),
+                primarySwatch: Colors.blue,
+                canvasColor: Colors.white,
+                textTheme:
+                    TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle())
+                        .apply(
+                            bodyColor: Colors.white,
+                            displayColor: Colors.white)),
+            home: TeamList(),
+            // GamePlay(title: 'Cricket Cards'),
           );
         }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:ipltrumpcards/model/player.dart';
 
+import 'Team.dart';
+
 class TrumpModel extends ChangeNotifier {
   List<Player> botCards;
   List<Player> playerCards;
@@ -14,6 +16,10 @@ class TrumpModel extends ChangeNotifier {
     playerCards = Player().playerData;
     botCards = Player().playerData.toList();
     botCards.shuffle();
+    botCards.forEach((player) {
+      player.team = Teams.MUMBAI;
+    });
+
     // playerCard = playerCards.first;
     // botCard = botCards.first;
   }
