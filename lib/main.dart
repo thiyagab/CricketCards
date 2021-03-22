@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
+import 'package:ipltrumpcards/ui/GamePlay.dart';
 import 'package:ipltrumpcards/ui/TeamList.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Center(child: Text("Error"));
+          print(snapshot.error);
+          return Center(child: Text("Error", textDirection: TextDirection.ltr));
         }
 
         // Once complete, show your application
@@ -42,13 +44,14 @@ class MyApp extends StatelessWidget {
                         .apply(
                             bodyColor: Colors.white,
                             displayColor: Colors.white)),
-            home: TeamList(),
+            home: GamePlay(),
             // GamePlay(title: 'Cricket Cards'),
           );
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(child: Text("Loading..."));
+        return Center(
+            child: Text("Loading...", textDirection: TextDirection.ltr));
       },
     );
   }
