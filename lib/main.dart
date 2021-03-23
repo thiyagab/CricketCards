@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Cricket Cards',
             theme: ThemeData(
-                primarySwatch: Colors.blue,
-                canvasColor: Colors.white,
+                // primarySwatch: Colors.blue,
+                canvasColor: Colors.blue[900],
                 textTheme:
                     TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle())
                         .apply(

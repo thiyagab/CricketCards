@@ -37,14 +37,14 @@ class TrumpCard extends StatelessWidget {
   Widget playerInfoContainer(Player player, width) {
     return Container(
       width: (width - (width / 5)) / 2 - 20,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          colorFilter: new ColorFilter.mode(
-              player.team.color2.withOpacity(0.1), BlendMode.dstATop),
-          image: AssetImage('assets/images/csk-logo.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     colorFilter: new ColorFilter.mode(
+      //         player.team.color2.withOpacity(0.1), BlendMode.dstATop),
+      //     image: AssetImage('assets/images/csk-logo.png'),
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
