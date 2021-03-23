@@ -22,9 +22,8 @@ class _GamePlayState extends State<GamePlay>
 
   Size _size = Size(0, 0);
   Offset _position = Offset.zero;
+  GlobalKey miniPlayerCard;
 
-  final GlobalKey miniBotCardKey = GlobalKey();
-  final GlobalKey miniPlayerCardKey = GlobalKey();
   int selectedPlayerIndex = -1;
   bool nextPlayer = false;
 
@@ -39,7 +38,7 @@ class _GamePlayState extends State<GamePlay>
     super.initState();
     _prepareGame(context);
     _controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
     // #enddocregion AnimationController, tweens
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.easeInCubic);
@@ -51,21 +50,25 @@ class _GamePlayState extends State<GamePlay>
     super.dispose();
   }
 
-  void updateSizeAndPositions() {
-    final miniCardContext = miniPlayerCardKey.currentContext;
+  void updateSizeAndPositions({bool reverse = false}) {
+    final miniCardContext = miniPlayerCard.currentContext;
     if (miniCardContext != null) {
-      final RenderBox box = miniPlayerCardKey.currentContext.findRenderObject();
+      final RenderBox box = miniCardContext.findRenderObject();
       final positions = box.localToGlobal(Offset.zero);
       print('box $box');
       // final RenderBox renderBox = context.findRenderObject();
       Size viewSize = Size(box.size.width, box.size.height);
-      Offset viewPosition = Offset(positions.dx, height / 4.4);
+      Offset viewPosition = Offset(0, positions.dy);
       print('updateSizeAndPositions $viewSize $viewPosition');
       setState(() {
         _position = viewPosition;
         _size = viewSize;
       });
-      _controller.forward();
+      if (!reverse) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     } else {
       debugPrint('Couldn\'t find the card context');
     }
@@ -90,14 +93,12 @@ class _GamePlayState extends State<GamePlay>
         children: [
           Column(
             children: [
-              _cards(
-                  context, model.botCards, model, Teams.MUMBAI, miniBotCardKey),
+              _cards(context, model.botCards, model, Teams.MUMBAI, true),
               if (isPlayerSelected && !model.isGameOver())
                 _card(context, model.botCard, model, Teams.MUMBAI, true, true),
               _card(context, model.playerCard, model, Teams.CHENNAI,
                   isPlayerSelected),
-              _cards(context, model.playerCards, model, Teams.CHENNAI,
-                  miniPlayerCardKey)
+              _cards(context, model.playerCards, model, Teams.CHENNAI)
             ],
           ),
           if (model.playerCard != null)
@@ -141,8 +142,8 @@ class _GamePlayState extends State<GamePlay>
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: GestureDetector(
                 onTap: () {
-                  updateSizeAndPositions();
                   model.moveCard();
+                  updateSizeAndPositions();
                 },
                 child: _checkStateAndRenderCard(
                     isPlayerSelected, model, isBotCard))),
@@ -202,12 +203,19 @@ class _GamePlayState extends State<GamePlay>
   } */
 
   Widget _cards(context, List<Player> cards, TrumpModel model, Teams team,
-      GlobalKey cardKey) {
+      [bool isBot = false]) {
     List<Widget> cardWidgets = [];
     for (int i = 0; i < cards.length; i++) {
+      GlobalKey cardKey;
+      if (i == 0) {
+        if (!isBot) {
+          miniPlayerCard = GlobalKey();
+          cardKey = miniPlayerCard;
+        }
+      }
       cardWidgets.add(Container(
+          key: cardKey,
           width: this.width / 5,
-          key: model.selectedIndex + 1 == i ? cardKey : null,
           child: Card(
             color: team.color1,
             elevation: 2,
@@ -278,6 +286,7 @@ class AnimatedCard extends AnimatedWidget {
     Timer(
         Duration(seconds: 2),
         () => {
+              print('Moving '),
               model.moveCard(),
               if (model.selectedIndex < 7)
                 scrollController.animateTo(
@@ -293,11 +302,14 @@ class AnimatedCard extends AnimatedWidget {
     playerDetails.add(SizedBox(height: 10));
     playerDetails.add(TextButton(
         onPressed: () {
-          animationController.reverse();
+          updateSizeAndPositions(reverse: true);
           animationController.addStatusListener((status) {
             if (status == AnimationStatus.dismissed) {
-              updateSizeAndPositions();
               _trumpCard(model);
+              if (!model.isGameOver()) {
+                Future.delayed(
+                    Duration(seconds: 2), () => updateSizeAndPositions());
+              }
             }
           });
         },
@@ -318,7 +330,7 @@ class AnimatedCard extends AnimatedWidget {
         'position from AnimatedCard is ${_bottomPositionTween.begin} ${_bottomPositionTween.end}');
 
     Tween _sizeHeightTween =
-        Tween<double>(begin: size.height, end: this.screenHeight / 3);
+        Tween<double>(begin: size.height + 10, end: this.screenHeight / 3);
     Tween _sizeWidthTween =
         Tween<double>(begin: size.width, end: screenWidth - 30);
     final animation = listenable as Animation<double>;
