@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/player.dart';
 
 import 'Team.dart';
@@ -15,7 +16,7 @@ class TrumpModel extends ChangeNotifier {
   Teams playerTeam;
 
   void dummy() {
-    playerCards = Player().playerData;
+    playerCards = Utils.playersMap[Teams.CHENNAI.toString()];
     botCards = [];
     playerCards.forEach((player) {
       player.team = playerTeam;
@@ -55,7 +56,7 @@ class TrumpModel extends ChangeNotifier {
   //TODO now just comparing number of matches, need to build logic to compare the selected attribute
   // also score 0 is set explicitly to make the player already played, -1 is considered as unplayed
   void updateScore() {
-    if (botCard.nummatches > playerCard.nummatches) {
+    if (int.parse(botCard.totalMatches) > int.parse(playerCard.totalMatches)) {
       botCard.score = 100;
       playerCard.score = 0;
       this.botScore += 100;

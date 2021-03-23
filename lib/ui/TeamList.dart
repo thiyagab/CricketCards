@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
@@ -21,7 +19,7 @@ class TeamList extends StatelessWidget {
   }
 
   List<Widget> _teamlist(BuildContext context) {
-    List<Team> teams = fetchTeams();
+    List<Team> teams = Utils.fetchTeams();
     List<Widget> teamWidgets = [];
 
     teams.forEach((team) {
@@ -61,15 +59,5 @@ class TeamList extends StatelessWidget {
           team.totalWins.toString(),
       textAlign: TextAlign.center,
     ));
-  }
-
-  List<Team> fetchTeams() {
-    //TODO build this team list from firebase with totalwins and total plays
-    List<Team> teams = [];
-    Random random = Random(1000);
-    Teams.values.forEach((element) {
-      teams.add(Team(element, random.nextInt(1000) + 500, random.nextInt(500)));
-    });
-    return teams;
   }
 }

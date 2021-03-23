@@ -51,7 +51,7 @@ class TrumpCard extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(top: 30),
               child: Text(
-                player.name,
+                player.shortName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Oswald',
@@ -91,9 +91,9 @@ class TrumpCard extends StatelessWidget {
             children: [
               CustomButton(
                   'Runs', '5240', player.team.color1, handleOnTapEvent),
-              CustomButton('Matches', player.nummatches.toString(),
+              CustomButton('Matches', player.totalMatches.toString(),
                   player.team.color1, handleOnTapEvent),
-              CustomButton('Avg., Score', player.bataverage.toString(),
+              CustomButton('Avg., Score', player.battingAverage.toString(),
                   player.team.color1, handleOnTapEvent),
               CustomButton(
                   'Strike Rate', '98.23', player.team.color1, handleOnTapEvent)

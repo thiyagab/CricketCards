@@ -1,6 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/ui/TeamList.dart';
 
 void main() {
@@ -11,13 +11,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // Create the initialization Future outside of `build`:
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Initialize FlutterFire:
-      future: _initialization,
+      future: Utils.initialize(),
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {

@@ -4,15 +4,15 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "886333a7b939d45e559d79174b30064e",
-"index.html": "c149129b2a7ebf3f5c2c9174bb7759a3",
-"/": "c149129b2a7ebf3f5c2c9174bb7759a3",
-"main.dart.js": "2ab637fa2b7675ca6947396b0140900e",
+"index.html": "50e0d36b9d45d62fa468539bead5631d",
+"/": "50e0d36b9d45d62fa468539bead5631d",
+"main.dart.js": "3bed06572ff77c0f00275376d1513033",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "cc19f3f0e5156c0ccaa0e5f0ead3685d",
-"assets/AssetManifest.json": "20d9382621d7e92155d88a1f79841eeb",
-"assets/NOTICES": "73c82161f7714151520dc2c36151d07c",
+"assets/AssetManifest.json": "248d6ee6fee0cf64ad06a379707c9b11",
+"assets/NOTICES": "fcd3833d35b65df927f4170d41ecf887",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
@@ -23,7 +23,15 @@ const RESOURCES = {
 "assets/assets/images/dhoni.jpg": "41fdd5ddecce8c03c1a295112360b167",
 "assets/assets/images/AUS.png": "dff87541c31b85adea545328c20e7fe8",
 "assets/assets/images/all-rounder.png": "b0d0b6fbc0fbdb3645d14ac7b85f9968",
-"assets/assets/images/kohli.jpg": "f6bf887a49a1dd07aaeed7738047ca14"
+"assets/assets/images/kohli.jpg": "f6bf887a49a1dd07aaeed7738047ca14",
+"assets/assets/teams/bengaluru.json": "409e5958228a7bb42cf2e519ea4fadb4",
+"assets/assets/teams/chennai.json": "409e5958228a7bb42cf2e519ea4fadb4",
+"assets/assets/teams/mumbai.json": "c61347f8e58001c60b67946817fbe4bd",
+"assets/assets/teams/delhi.json": "409e5958228a7bb42cf2e519ea4fadb4",
+"assets/assets/teams/hyderabad.json": "6814ac9e58e133b8e8e56c51b4b7f37b",
+"assets/assets/teams/punjab.json": "409e5958228a7bb42cf2e519ea4fadb4",
+"assets/assets/teams/kolkata.json": "d382ce0fa6754344a611baf074ea4e35",
+"assets/assets/teams/rajasthan.json": "6814ac9e58e133b8e8e56c51b4b7f37b"
 };
 
 // The application shell files that are downloaded before a service worker can

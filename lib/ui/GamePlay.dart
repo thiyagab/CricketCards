@@ -40,28 +40,28 @@ class _GamePlayState extends State<GamePlay> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                   _cards(context, model.botCards, model),
-                  // _card(context, model.botCard, model, Teams.MUMBAI),
-                  // _card(context, model.playerCard, model, Teams.CHENNAI),
-                  model.botCard == null
-                      ? _card(context, model.botCard, model, model.botTeam)
+                  model.botCard == null || model.isGameOver()
+                      ? _card(context, model, botCardTeam(model))
                       : TrumpCard(model.botCard),
-                  model.playerCard == null
-                      ? _card(
-                          context, model.playerCard, model, model.playerTeam)
+                  model.playerCard == null || model.isGameOver()
+                      ? _card(context, model, model.playerTeam)
                       : TrumpCard(model.playerCard),
                   _cards(context, model.playerCards, model),
                 ]))));
   }
 
-  Widget _card(
-      BuildContext context, Player player, TrumpModel model, Teams team) {
+  Teams botCardTeam(TrumpModel model) {
+    return model
+        .botCards[model.selectedIndex == -1 ||
+                model.selectedIndex == model.botCards.length
+            ? 0
+            : model.selectedIndex]
+        .team;
+  }
+
+  Widget _card(BuildContext context, TrumpModel model, Teams team) {
     return Center(
         child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              Color.fromARGB(0, 236, 182, 49),
-              Color.fromARGB(0, 217, 94, 19)
-            ])),
             height: this.height / 3,
             width: (this.width - 30),
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -72,18 +72,16 @@ class _GamePlayState extends State<GamePlay> {
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                child: _checkStateAndRenderCard(player, model))));
+                child: _checkStateAndRenderCard(model))));
   }
 
-  Widget _checkStateAndRenderCard(Player player, TrumpModel model) {
-    if (player == null) {
+  Widget _checkStateAndRenderCard(TrumpModel model) {
+    if (model.isGameOver()) {
+      return _endcard(model);
+    } else {
       return Center(
           child: GestureDetector(
               onTap: () => {model.moveCard()}, child: Text("Waiting to play")));
-    } else if (model.isGameOver()) {
-      return _endcard(model);
-    } else {
-      return _buildPlayerDetails(player, model);
     }
   }
 
@@ -98,14 +96,14 @@ class _GamePlayState extends State<GamePlay> {
 
   Widget _buildPlayerDetails(Player player, TrumpModel model) {
     List<Widget> playerDetails = [];
-    playerDetails.add(Text(player.name, style: TextStyle(fontSize: 20)));
+    playerDetails.add(Text(player.shortName, style: TextStyle(fontSize: 20)));
     playerDetails.add(SizedBox(height: 10));
     playerDetails.add(TextButton(
         onPressed: () => {_trumpCard(model)},
-        child: Text("Matches: " + player.nummatches.toString(),
+        child: Text("Matches: " + player.totalMatches.toString(),
             style: TextStyle(fontSize: 15))));
     playerDetails.add(TextButton(
-        child: Text("Average: " + player.bataverage.toString(),
+        child: Text("Average: " + player.battingAverage.toString(),
             style: TextStyle(fontSize: 15))));
     return Container(
         padding: EdgeInsets.all(10), child: Column(children: playerDetails));
@@ -159,8 +157,8 @@ class _GamePlayState extends State<GamePlay> {
 
   String _cardState(Player player, int index) {
     //See if the card is already played
-    if (player.score > -1) {
-      return player.name + "\n" + player.score.toString();
+    if (player.score != null && player.score > -1) {
+      return player.shortName + "\n" + player.score.toString();
     } else {
       return (index + 1).toString();
     }
