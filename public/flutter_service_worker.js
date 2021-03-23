@@ -4,20 +4,25 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "886333a7b939d45e559d79174b30064e",
-"index.html": "4df9594f6c7e723344ece99501cd1376",
-"/": "4df9594f6c7e723344ece99501cd1376",
-"main.dart.js": "0b2ab9f0737c06b3fe733a0a9fb5ccd3",
+"index.html": "3fc0783413b03d78bf2ce338e4728ae9",
+"/": "3fc0783413b03d78bf2ce338e4728ae9",
+"main.dart.js": "7dcf27c008893105c5204c5caf5cdec2",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"manifest.json": "a7222e5cfaafef498b0b89886ac371e1",
-"assets/AssetManifest.json": "9d32972b77961a2a4bcd33001c641d8c",
-"assets/NOTICES": "dd3f76edba31dd1b98947bfe190c6db8",
+"manifest.json": "cc19f3f0e5156c0ccaa0e5f0ead3685d",
+"assets/AssetManifest.json": "20d9382621d7e92155d88a1f79841eeb",
+"assets/NOTICES": "73c82161f7714151520dc2c36151d07c",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
+"assets/assets/images/bowler.png": "4fcf93a5f7d4682958fdac3a31291bdc",
+"assets/assets/images/csk-logo.png": "ab1f205ecc2c6c7bad4b6b5d22d2ccb7",
+"assets/assets/images/batsman.png": "300c2d0ba311d7f06d2c28972cdc25d1",
 "assets/assets/images/pant.png": "60085131cde12cd6c04c7bfbf4594094",
 "assets/assets/images/dhoni.jpg": "41fdd5ddecce8c03c1a295112360b167",
+"assets/assets/images/AUS.png": "dff87541c31b85adea545328c20e7fe8",
+"assets/assets/images/all-rounder.png": "b0d0b6fbc0fbdb3645d14ac7b85f9968",
 "assets/assets/images/kohli.jpg": "f6bf887a49a1dd07aaeed7738047ca14"
 };
 

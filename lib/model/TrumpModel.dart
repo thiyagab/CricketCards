@@ -11,14 +11,22 @@ class TrumpModel extends ChangeNotifier {
   Player botCard;
   Player playerCard;
   int selectedIndex = -1;
+  Teams botTeam;
+  Teams playerTeam;
 
   void dummy() {
     playerCards = Player().playerData;
-    botCards = Player().playerData.toList();
-    botCards.shuffle();
-    botCards.forEach((player) {
-      player.team = Teams.MUMBAI;
+    botCards = [];
+    playerCards.forEach((player) {
+      player.team = playerTeam;
+      Player botPlayer = player.copy();
+      botPlayer.team = botTeam;
+      botCards.add(botPlayer);
     });
+
+    botCards.shuffle();
+    // botCard=botCards[0];
+    // playerCard=playerCards[0];
 
     // playerCard = playerCards.first;
     // botCard = botCards.first;

@@ -1,13 +1,16 @@
 import 'Team.dart';
 
 class Player {
-  final int id;
-  final String name;
-  final String image;
-  final int nummatches;
-  final double bataverage;
-  final int num50s;
-  final int num100s;
+  int id;
+  String name;
+  String image;
+  int nummatches;
+  double bataverage;
+  int num50s;
+  int num100s;
+  int totalruns;
+  double strikerate;
+
   int score = -1;
   Teams team;
 
@@ -19,7 +22,21 @@ class Player {
       this.bataverage,
       this.num50s,
       this.num100s,
-      this.team});
+      this.team,
+      this.totalruns});
+
+  copy() {
+    return Player(
+        id: this.id,
+        name: this.name,
+        image: this.image,
+        nummatches: this.nummatches,
+        bataverage: this.bataverage,
+        num50s: this.num50s,
+        num100s: this.num100s,
+        team: this.team,
+        totalruns: this.totalruns);
+  }
 
   List<Player> get playerData => [
         new Player(

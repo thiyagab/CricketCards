@@ -1,18 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/ui/TeamList.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => TrumpModel(),
-      child: MyApp(),
-    ),
-  );
+  //TODO The state model is completely pulled up to the root, if we build more complex ui, think of pushing it down
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +23,6 @@ class MyApp extends StatelessWidget {
         if (snapshot.hasError) {
           return Center(child: Text("Error"));
         }
-
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(

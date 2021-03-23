@@ -8,6 +8,8 @@ import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
 
+import 'TrumpCard.dart';
+
 class GamePlay extends StatefulWidget {
   GamePlay({Key key, this.title}) : super(key: key);
   final String title;
@@ -25,15 +27,6 @@ class _GamePlayState extends State<GamePlay> {
   void initState() {
     _itemScrollController = ScrollController();
     super.initState();
-    _prepareGame(context);
-  }
-
-  void _prepareGame(BuildContext context) {
-    //TODO
-    //1. build UI for player to choose team
-    //2. UI to show bot selected opponent team
-    //3. Shuffle the players and assign to bot and player
-    Provider.of<TrumpModel>(context, listen: false).dummy();
   }
 
   @override
@@ -43,12 +36,21 @@ class _GamePlayState extends State<GamePlay> {
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
                 child: Container(
-                    child: Column(children: [
-              _cards(context, model.botCards, model, Teams.MUMBAI),
-              _card(context, model.botCard, model, Teams.MUMBAI),
-              _card(context, model.playerCard, model, Teams.CHENNAI),
-              _cards(context, model.playerCards, model, Teams.CHENNAI),
-            ]))));
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                  _cards(context, model.botCards, model),
+                  // _card(context, model.botCard, model, Teams.MUMBAI),
+                  // _card(context, model.playerCard, model, Teams.CHENNAI),
+                  model.botCard == null
+                      ? _card(context, model.botCard, model, model.botTeam)
+                      : TrumpCard(model.botCard),
+                  model.playerCard == null
+                      ? _card(
+                          context, model.playerCard, model, model.playerTeam)
+                      : TrumpCard(model.playerCard),
+                  _cards(context, model.playerCards, model),
+                ]))));
   }
 
   Widget _card(
@@ -77,8 +79,7 @@ class _GamePlayState extends State<GamePlay> {
     if (player == null) {
       return Center(
           child: GestureDetector(
-              onTap: () => {model.moveCard()},
-              child: Text("Tap on card to play")));
+              onTap: () => {model.moveCard()}, child: Text("Waiting to play")));
     } else if (model.isGameOver()) {
       return _endcard(model);
     } else {
@@ -124,13 +125,13 @@ class _GamePlayState extends State<GamePlay> {
             });
   }
 
-  Widget _cards(context, List<Player> cards, TrumpModel model, Teams team) {
+  Widget _cards(context, List<Player> cards, TrumpModel model) {
     List<Widget> cardWidgets = [];
     for (int i = 0; i < cards.length; i++) {
       cardWidgets.add(Container(
           width: this.width / 5,
           child: Card(
-            color: team.color1,
+            color: cards[i].team.color1,
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
