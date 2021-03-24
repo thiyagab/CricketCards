@@ -27,25 +27,42 @@ class TrumpModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void refreshBotAndScore() {
+  void refreshBotAndScore(String key, String value) {
     if (selectedIndex >= 0) {
       this.botCard = botCards[selectedIndex];
-      updateScore();
+      updateScore(key, value);
       notifyListeners();
     }
   }
 
+  static final List<String> LOWER_FIRST_ATTRIBUTES = [
+    'bowlingAverage',
+    'bowlingEconomy',
+    'bowlingStrikeRate',
+  ];
+
   //TODO @vasanth now just comparing number of matches, need to build logic to compare the selected attribute
   // also score 0 is set explicitly to make the player already played, -1 is considered as unplayed
-  void updateScore() {
-    if (int.parse(botCard.totalMatches) > int.parse(playerCard.totalMatches)) {
-      botCard.score = POINTS_PER_WIN;
-      playerCard.score = 0;
-      this.botScore += POINTS_PER_WIN;
-    } else {
+  void updateScore(String key, String value) {
+    bool playerWins = false;
+    String botValuestr = botCard.toJson()[key];
+    double botvalue = (botValuestr == null || botValuestr.isEmpty)
+        ? 0
+        : double.parse(botValuestr);
+    double playervalue =
+        (value == null || value.isEmpty) ? 0 : double.parse(value);
+    playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
+        ? botvalue > playervalue
+        : playervalue > botvalue;
+
+    if (playerWins) {
       playerCard.score = POINTS_PER_WIN;
       botCard.score = 0;
       this.playerScore += POINTS_PER_WIN;
+    } else {
+      botCard.score = POINTS_PER_WIN;
+      playerCard.score = 0;
+      this.botScore += POINTS_PER_WIN;
     }
   }
 }

@@ -6,18 +6,19 @@ import 'package:ipltrumpcards/common/Utils.dart';
 class CustomButton extends StatelessWidget {
   final String btnTitle;
   final String btnValue;
+  final String btnKey;
   final Color btnColor;
   Function(String title, String value, BuildContext context) handleOnTapEvent;
 
-  CustomButton(
-      this.btnTitle, this.btnValue, this.btnColor, this.handleOnTapEvent);
+  CustomButton(this.btnTitle, this.btnKey, this.btnValue, this.btnColor,
+      this.handleOnTapEvent);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         child: GestureDetector(
             onTap: () =>
-                {this.handleOnTapEvent(this.btnTitle, this.btnValue, context)},
+                {this.handleOnTapEvent(this.btnKey, this.btnValue, context)},
             child: Container(
               width: 85,
               height: 45,

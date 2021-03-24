@@ -29,6 +29,45 @@ class Player {
   int score = -1;
   Teams team;
 
+  static final Map<String, String> DISPLAY_MAP = {
+    'totalMatches': 'Matches',
+    "totalNotOuts": "NotOuts",
+    "totalRuns": "Runs",
+    "highestScore": "H/S",
+    "battingAverage": "Bat Avg",
+    "totalBallsFaced": "Balls Faced",
+    "battingStrikeRate": "Bt Str Rate",
+    "totalFours": "4s",
+    "totalSixes": "6s",
+    "totalFifties": "50s",
+    "totalBallsBowled": "Balls Bwld",
+    "totalRunsConceded": "Runs Given",
+    "totalWickets": "Wickets",
+    "bowlingAverage": "Bwl Avg",
+    "bowlingEconomy": "Economy",
+    "bowlingStrikeRate": "Bw Str Rate"
+  };
+
+  static final List<String> BATTING_ATTRIBUTES = [
+    "totalMatches",
+    "totalRuns",
+    "highestScore",
+    "battingAverage",
+    "battingStrikeRate",
+    "totalFours",
+    "totalSixes",
+    "totalFifties"
+  ];
+  static final List<String> BOWLING_ATTRIBUTES = [
+    "totalMatches",
+    "totalNotOuts",
+    "totalRunsConceded",
+    "totalBallsBowled",
+    "totalWickets",
+    "bowlingAverage",
+    "bowlingEconomy",
+    "bowlingStrikeRate",
+  ];
   Player() {}
 
   /// A necessary factory constructor for creating a new User instance

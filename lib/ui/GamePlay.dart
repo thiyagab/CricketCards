@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
@@ -43,10 +41,10 @@ class _GamePlayState extends State<GamePlay> {
                   _cards(context, model.botCards, model),
                   model.botCard == null || model.isGameOver()
                       ? _card(context, model, botCardTeam(model))
-                      : TrumpCard(model.botCard),
+                      : TrumpCard(model.botCard, _itemScrollController),
                   model.playerCard == null || model.isGameOver()
                       ? _card(context, model, model.playerTeam)
-                      : TrumpCard(model.playerCard),
+                      : TrumpCard(model.playerCard, _itemScrollController),
                   _cards(context, model.playerCards, model),
                 ]))));
   }
@@ -112,17 +110,17 @@ class _GamePlayState extends State<GamePlay> {
   }
 
   void _trumpCard(TrumpModel model) {
-    model.refreshBotAndScore();
-    Timer(
-        Duration(seconds: 2),
-        () => {
-              model.moveCard(),
-              if (model.selectedIndex < 7)
-                _itemScrollController.animateTo(
-                    (this.width / 5) * model.selectedIndex,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.ease)
-            });
+    // model.refreshBotAndScore();
+    // Timer(
+    //     Duration(seconds: 2),
+    //     () => {
+    //           model.moveCard(),
+    //           if (model.selectedIndex < 7)
+    //             _itemScrollController.animateTo(
+    //                 (this.width / 5) * model.selectedIndex,
+    //                 duration: Duration(milliseconds: 500),
+    //                 curve: Curves.ease)
+    //         });
   }
 
   Widget _cards(context, List<Player> cards, TrumpModel model) {
