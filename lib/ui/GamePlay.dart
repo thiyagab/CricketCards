@@ -232,6 +232,7 @@ class _GamePlayState extends State<GamePlay>
     return Container(
       height: height / 8, // card height
       child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         controller: _itemScrollController,
         child: Row(children: cardWidgets),
