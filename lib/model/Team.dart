@@ -1,12 +1,31 @@
 import 'dart:ui';
 
 class Team {
-  final Teams name;
+  Teams name;
   final int totalPlays;
   final int totalWins;
-  List<Color> colors;
+  final int score;
 
-  Team(this.name, this.totalPlays, this.totalWins);
+  // Team(this.name, this.totalPlays, this.totalWins, this.score);
+
+  Team(String name, this.totalPlays, this.totalWins, this.score) {
+    team(name);
+  }
+
+  team(String team) {
+    this.name = teamsMap[team];
+  }
+
+  Map<String, Teams> teamsMap = {
+    "chennai": Teams.CHENNAI,
+    "mumbai": Teams.MUMBAI,
+    "bengaluru": Teams.BENGALURU,
+    "punjab": Teams.PUNJAB,
+    "hyderabad": Teams.HYDERABAD,
+    "kolkata": Teams.KOLKATA,
+    "delhi": Teams.DELHI,
+    "rajasthan": Teams.RAJASTHAN
+  };
 }
 
 enum Teams {

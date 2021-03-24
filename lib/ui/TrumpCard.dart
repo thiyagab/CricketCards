@@ -89,27 +89,27 @@ class TrumpCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomButton(
-                  'Runs', '5240', player.team.color1, handleOnTapEvent),
+              CustomButton('Runs', player.totalRuns, player.team.color1,
+                  handleOnTapEvent),
               CustomButton('Matches', player.totalMatches.toString(),
                   player.team.color1, handleOnTapEvent),
               CustomButton('Avg., Score', player.battingAverage.toString(),
                   player.team.color1, handleOnTapEvent),
-              CustomButton(
-                  'Strike Rate', '98.23', player.team.color1, handleOnTapEvent)
+              CustomButton('Strike Rate', player.battingStrikeRate,
+                  player.team.color1, handleOnTapEvent)
             ],
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomButton(
-                  'Catches', '48', player.team.color1, handleOnTapEvent),
-              CustomButton(
-                  'Wickets', '30', player.team.color1, handleOnTapEvent),
-              CustomButton('Bowling Avg.,', '29.37', player.team.color1,
+              CustomButton('Bw Strike', player.bowlingStrikeRate,
+                  player.team.color1, handleOnTapEvent),
+              CustomButton('Wickets', player.totalWickets, player.team.color1,
                   handleOnTapEvent),
-              CustomButton(
-                  'Economy', '6.23', player.team.color1, handleOnTapEvent)
+              CustomButton('Bowling Avg.,', player.bowlingAverage,
+                  player.team.color1, handleOnTapEvent),
+              CustomButton('Economy', player.bowlingEconomy, player.team.color1,
+                  handleOnTapEvent)
             ],
           )
         ],

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
@@ -77,6 +78,7 @@ class _GamePlayState extends State<GamePlay> {
 
   Widget _checkStateAndRenderCard(TrumpModel model) {
     if (model.isGameOver()) {
+      Utils.updateScore(model);
       return _endcard(model);
     } else {
       return Center(

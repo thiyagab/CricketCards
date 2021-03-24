@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,13 +57,22 @@ class Utils {
     return Firebase.initializeApp();
   }
 
-  static List<Team> fetchTeams() {
-    //TODO build this team list from firebase with totalwins and total plays
-    List<Team> teams = [];
-    Random random = Random(1000);
-    Teams.values.forEach((element) {
-      teams.add(Team(element, random.nextInt(1000) + 500, random.nextInt(500)));
-    });
-    return teams;
+  static updateScore(TrumpModel model) {
+    int points = 0;
+
+    if (model.playerScore > model.botScore) {
+      points = model.playerScore - model.botScore;
+    }
+    String team = model.playerTeam.toString().substring(6).toLowerCase();
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('teams').doc(team);
+    //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
+    teamReference.get().then((value) => {
+          teamReference.update({
+            "score": value.data()['score'] + points,
+            "plays": value.data()['plays'] + 1,
+            "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
+          }),
+        });
   }
 }

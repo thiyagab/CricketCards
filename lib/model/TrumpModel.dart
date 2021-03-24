@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/player.dart';
 
 import 'Team.dart';
@@ -12,26 +11,9 @@ class TrumpModel extends ChangeNotifier {
   Player botCard;
   Player playerCard;
   int selectedIndex = -1;
-  Teams botTeam;
   Teams playerTeam;
 
-  void dummy() {
-    playerCards = Utils.playersMap[Teams.CHENNAI.toString()];
-    botCards = [];
-    playerCards.forEach((player) {
-      player.team = playerTeam;
-      Player botPlayer = player.copy();
-      botPlayer.team = botTeam;
-      botCards.add(botPlayer);
-    });
-
-    botCards.shuffle();
-    // botCard=botCards[0];
-    // playerCard=playerCards[0];
-
-    // playerCard = playerCards.first;
-    // botCard = botCards.first;
-  }
+  final int POINTS_PER_WIN = 1;
 
   bool isGameOver() {
     return selectedIndex >= playerCards.length;
@@ -53,17 +35,17 @@ class TrumpModel extends ChangeNotifier {
     }
   }
 
-  //TODO now just comparing number of matches, need to build logic to compare the selected attribute
+  //TODO @vasanth now just comparing number of matches, need to build logic to compare the selected attribute
   // also score 0 is set explicitly to make the player already played, -1 is considered as unplayed
   void updateScore() {
     if (int.parse(botCard.totalMatches) > int.parse(playerCard.totalMatches)) {
-      botCard.score = 100;
+      botCard.score = POINTS_PER_WIN;
       playerCard.score = 0;
-      this.botScore += 100;
+      this.botScore += POINTS_PER_WIN;
     } else {
-      playerCard.score = 100;
+      playerCard.score = POINTS_PER_WIN;
       botCard.score = 0;
-      this.playerScore += 100;
+      this.playerScore += POINTS_PER_WIN;
     }
   }
 }

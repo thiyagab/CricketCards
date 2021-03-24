@@ -7,29 +7,50 @@ part of 'player.dart';
 // **************************************************************************
 
 Player _$PlayerFromJson(Map<String, dynamic> json) {
-  return Player(
-    id: json['id'] as int,
-    shortName: json['shortName'] as String,
-    totalMatches: json['totalMatches'] as String,
-    battingAverage: json['battingAverage'] as String,
-    totalFifties: json['totalFifties'] as String,
-    num100s: json['num100s'] as String,
-    team: _$enumDecodeNullable(_$TeamsEnumMap, json['team']),
-    totalRuns: json['totalRuns'] as String,
-  )
+  return Player()
+    ..id = json['id'] as int
+    ..shortName = json['shortName'] as String
+    ..role = json['role'] as String
+    ..totalMatches = json['totalMatches'] as String
+    ..totalNotOuts = json['totalNotOuts'] as String
+    ..totalRuns = json['totalRuns'] as String
+    ..highestScore = json['highestScore'] as String
+    ..battingAverage = json['battingAverage'] as String
+    ..totalBallsFaced = json['totalBallsFaced'] as String
     ..battingStrikeRate = json['battingStrikeRate'] as String
-    ..score = json['score'] as int;
+    ..totalFours = json['totalFours'] as String
+    ..totalSixes = json['totalSixes'] as String
+    ..totalFifties = json['totalFifties'] as String
+    ..totalBallsBowled = json['totalBallsBowled'] as String
+    ..totalRunsConceded = json['totalRunsConceded'] as String
+    ..totalWickets = json['totalWickets'] as String
+    ..bowlingAverage = json['bowlingAverage'] as String
+    ..bowlingEconomy = json['bowlingEconomy'] as String
+    ..bowlingStrikeRate = json['bowlingStrikeRate'] as String
+    ..score = json['score'] as int
+    ..team = _$enumDecodeNullable(_$TeamsEnumMap, json['team']);
 }
 
 Map<String, dynamic> _$PlayerToJson(Player instance) => <String, dynamic>{
       'id': instance.id,
       'shortName': instance.shortName,
+      'role': instance.role,
       'totalMatches': instance.totalMatches,
-      'battingAverage': instance.battingAverage,
-      'totalFifties': instance.totalFifties,
-      'num100s': instance.num100s,
+      'totalNotOuts': instance.totalNotOuts,
       'totalRuns': instance.totalRuns,
+      'highestScore': instance.highestScore,
+      'battingAverage': instance.battingAverage,
+      'totalBallsFaced': instance.totalBallsFaced,
       'battingStrikeRate': instance.battingStrikeRate,
+      'totalFours': instance.totalFours,
+      'totalSixes': instance.totalSixes,
+      'totalFifties': instance.totalFifties,
+      'totalBallsBowled': instance.totalBallsBowled,
+      'totalRunsConceded': instance.totalRunsConceded,
+      'totalWickets': instance.totalWickets,
+      'bowlingAverage': instance.bowlingAverage,
+      'bowlingEconomy': instance.bowlingEconomy,
+      'bowlingStrikeRate': instance.bowlingStrikeRate,
       'score': instance.score,
       'team': _$TeamsEnumMap[instance.team],
     };
