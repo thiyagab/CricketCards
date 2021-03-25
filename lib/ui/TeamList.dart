@@ -43,25 +43,51 @@ class TeamList extends StatelessWidget {
     return Expanded(
         child: GestureDetector(
             onTap: () => _navigateToGamePlay(context, team),
-            child: GradientCard(
-                gradient: Gradients.buildGradient(
-                    Alignment.topLeft,
-                    Alignment.bottomRight,
-                    [team.name.color1, team.name.color2]),
-                shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: buildTeamWidget(team))));
+            child: Hero(
+              tag: team.name.toString(),
+              child: GradientCard(
+                  margin: EdgeInsets.only(bottom: 12),
+                  gradient: Gradients.buildGradient(
+                      Alignment.topLeft,
+                      Alignment.bottomRight,
+                      [team.name.color1, team.name.color2]),
+                  shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: buildTeamWidget(team)),
+            )));
   }
 
-  _navigateToGamePlay(BuildContext context, Team team) {
+  /*  _navigateToGamePlay(BuildContext context, Team team) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (context) => Utils.prepareGame(team.name),
-                child: GamePlay())));
+                child: GamePlay(teamName: team.name.toString()))));
+  } */
+
+  _navigateToGamePlay(BuildContext context, Team team) {
+    return Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          ChangeNotifierProvider(
+              create: (context) => Utils.prepareGame(team.name),
+              child: GamePlay(teamName: team.name.toString())),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(-1, 0);
+        var end = Offset.zero;
+        var curve = Curves.easeIn;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    ));
   }
 
   Widget buildTeamWidget(Team team) {
