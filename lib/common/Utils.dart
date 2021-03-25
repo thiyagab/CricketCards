@@ -22,7 +22,13 @@ class Utils {
     trumpModel.playerCards =
         sortByRoleAndGetEleven(playersMap[team.toString()]);
     trumpModel.botCards = buildBotTeam(team);
+    trumpModel.selectedIndex = 0;
+    trumpModel.playerCard = trumpModel.playerCards[0];
     return trumpModel;
+  }
+
+  static teamName(Teams team) {
+    return team.toString().substring(6).toLowerCase();
   }
 
   static List<Player> buildBotTeam(Teams playerTeam) {

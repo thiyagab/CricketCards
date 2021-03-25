@@ -47,7 +47,8 @@ class TrumpCard extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(top: 30),
               child: Text(
-                player.shortName + "\n" + playerTotalScore(context),
+                player.shortName,
+                // + "\n" + playerTotalScore(context),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Oswald',
@@ -59,17 +60,23 @@ class TrumpCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Image(
-                      image: AssetImage('assets/images/AUS.png'),
-                      width: 50,
-                      height: 40,
-                      fit: BoxFit.fitWidth),
+                  // Image(
+                  //     image: AssetImage('assets/images/AUS.png'),
+                  //     width: 50,
+                  //     height: 40,
+                  //     fit: BoxFit.fitWidth),
+                  Text(Utils.teamName(player.team),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Oswald',
+                          fontSize: 12,
+                          color: Utils.textColor.withOpacity(0.3))),
                   Image(
                       image: AssetImage(player.role == 'batsman'
                           ? 'assets/images/batsman.png'
                           : 'assets/images/bowler.png'),
-                      width: 50,
-                      height: 40)
+                      width: 25,
+                      height: 20)
                 ],
               ))
         ],
