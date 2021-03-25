@@ -73,7 +73,9 @@ class TrumpCard extends StatelessWidget {
                       height: 40,
                       fit: BoxFit.fitWidth),
                   Image(
-                      image: AssetImage('assets/images/all-rounder.png'),
+                      image: AssetImage(player.role == 'batsman'
+                          ? 'assets/images/batsman.png'
+                          : 'assets/images/bowler.png'),
                       width: 50,
                       height: 40)
                 ],
@@ -85,9 +87,9 @@ class TrumpCard extends StatelessWidget {
 
   Widget playerStatisticsContainer(Player player) {
     Map<String, dynamic> playerJson = player.toJson();
-    // List<String> attributes = player.role == "bowler"
-    //     ? Player.BOWLING_ATTRIBUTES
-    //     : Player.BATTING_ATTRIBUTES;
+    List<String> attributes = player.role == "bowler"
+        ? Player.BOWLING_ATTRIBUTES
+        : Player.BATTING_ATTRIBUTES;
     return Expanded(
         child: Container(
       margin: EdgeInsets.fromLTRB(0, 5, 5, 5),
@@ -96,7 +98,7 @@ class TrumpCard extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: Player.BATTING_ATTRIBUTES.sublist(0, 4).map((attribute) {
+            children: attributes.sublist(0, 4).map((attribute) {
               return CustomButton(Player.DISPLAY_MAP[attribute], attribute,
                   playerJson[attribute], player.team.color1, handleOnTapEvent);
             }).toList(),
@@ -104,7 +106,7 @@ class TrumpCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             //TODO this should be conditional, based on role
-            children: Player.BOWLING_ATTRIBUTES.sublist(4).map((attribute) {
+            children: attributes.sublist(4).map((attribute) {
               return CustomButton(Player.DISPLAY_MAP[attribute], attribute,
                   playerJson[attribute], player.team.color1, handleOnTapEvent);
             }).toList(),

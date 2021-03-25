@@ -19,11 +19,9 @@ class Utils {
   static TrumpModel prepareGame(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
-    trumpModel.playerCards = playersMap[team.toString()];
-    trumpModel.playerCards.shuffle();
-    trumpModel.playerCards = trumpModel.playerCards.sublist(0, 11);
+    trumpModel.playerCards =
+        sortByRoleAndGetEleven(playersMap[team.toString()]);
     trumpModel.botCards = buildBotTeam(team);
-
     return trumpModel;
   }
 
@@ -34,9 +32,19 @@ class Utils {
         botPlayers.addAll(playersMap[team.toString()]);
       }
     });
-    botPlayers.shuffle();
-    //TODO search and add exact 6 batsman and bowlers in order
-    return botPlayers.sublist(0, 11);
+
+    return sortByRoleAndGetEleven(botPlayers);
+  }
+
+  static List<Player> sortByRoleAndGetEleven(List<Player> players) {
+    players.shuffle();
+    //Once sorted, batsman comes first and bowler next, so pick the top 6 and last 5.
+    //For this logic to work, the list should have atleast 6 batsmand and 5 bowlers
+    players.sort((a, b) => a.role.compareTo(b.role));
+    List<Player> finalList = [];
+    finalList.addAll(players.sublist(0, 6));
+    finalList.addAll(players.sublist(players.length - 5, players.length));
+    return finalList;
   }
 
   static Map<String, List<Player>> playersMap = new Map();
