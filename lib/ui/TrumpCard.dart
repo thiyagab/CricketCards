@@ -52,7 +52,7 @@ class TrumpCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Oswald',
-                    fontSize: 32,
+                    fontSize: 28,
                     color: Utils.textColor.withOpacity(0.7)),
               )),
           Container(

@@ -51590,7 +51590,7 @@ q.f=s[0]
 return q},
 $S:340}
 V.oD.prototype={
-O:function(a,b){var s=this,r=null,q=s.e=b.ad(t.w).f.a.a,p=s.c,o=O.a41(p.fy),n=K.ms(10),m=s.e,l=L.h2(p.a,A.h4(r,r,P.at(C.F.am(178.5),255,255,255),r,r,r,r,r,"Oswald",r,r,32,r,r,r,r,!0,r,r,r,r,r,r),C.bE),k=L.h2(C.c.cf(J.bm(p.fy),6).toLowerCase(),A.h4(r,r,P.at(C.F.am(76.5),255,255,255),r,r,r,r,r,"Oswald",r,r,12,r,r,r,r,!0,r,r,r,r,r,r),C.bE),j=p.b==="batsman"?"assets/images/batsman.png":"assets/images/bowler.png",i=t.fQ
+O:function(a,b){var s=this,r=null,q=s.e=b.ad(t.w).f.a.a,p=s.c,o=O.a41(p.fy),n=K.ms(10),m=s.e,l=L.h2(p.a,A.h4(r,r,P.at(C.F.am(178.5),255,255,255),r,r,r,r,r,"Oswald",r,r,28,r,r,r,r,!0,r,r,r,r,r,r),C.bE),k=L.h2(C.c.cf(J.bm(p.fy),6).toLowerCase(),A.h4(r,r,P.at(C.F.am(76.5),255,255,255),r,r,r,r,r,"Oswald",r,r,12,r,r,r,r,!0,r,r,r,r,r,r),C.bE),j=p.b==="batsman"?"assets/images/batsman.png":"assets/images/bowler.png",i=t.fQ
 return T.iT(M.dy(V.agO(T.Tx(H.c([M.dy(T.qa(H.c([new T.jp(new V.b1(0,30,0,0),l,r),M.dy(T.Tx(H.c([k,new U.r5(new L.pP(j),25,20,r)],i),C.hJ),r,r,r,new V.b1(15,0,10,15),r)],i),C.cg,C.hJ),r,r,r,r,(m-m/5)/2-20),s.Xw(p)],i),C.jU),o,10,new X.cx(n,C.k)),r,240,r,new V.b1(0,5,0,5),q-q/8),r,r)},
 Xw:function(a){var s,r,q,p,o,n=null
 a.toString
