@@ -13,17 +13,18 @@ class TrumpCard extends StatelessWidget {
 
   final ScrollController itemScrollController;
 
-  var width;
-
   TrumpCard(this.player, this.itemScrollController);
+  double width;
+  double height;
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.width;
     width = MediaQuery.of(context).size.width;
     return Center(
         child: Container(
-            height: 240,
-            width: width - (width / 8),
+            height: height / 3,
+            width: (width - 30),
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
             child: Card(
                 color: player.team.color2,

@@ -5,13 +5,14 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
+import 'package:ipltrumpcards/ui/TapToPlay.dart';
 import 'package:provider/provider.dart';
 
 import 'TrumpCard.dart';
 
 class GamePlay extends StatefulWidget {
-  GamePlay({Key key, this.title}) : super(key: key);
-  final String title;
+  GamePlay({Key key, this.teamName}) : super(key: key);
+  final String teamName;
 
   @override
   _GamePlayState createState() => _GamePlayState();
@@ -28,25 +29,39 @@ class _GamePlayState extends State<GamePlay> {
     super.initState();
   }
 
+  List<Widget> _getPlayerView(TrumpModel model) {
+    List<Widget> widgets = [];
+    if (model.playerCard == null) {
+      widgets.add(TapToPlay(
+        model: model,
+      ));
+    } else {
+      widgets.add(model.botCard == null || model.isGameOver()
+          ? _card(context, model, botCardTeam(model))
+          : TrumpCard(model.botCard, _itemScrollController));
+      widgets.add(model.isGameOver()
+          ? _card(context, model, model.playerTeam)
+          : TrumpCard(model.playerCard, _itemScrollController));
+    }
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Consumer<TrumpModel>(
-        builder: (context, model, child) => SafeArea(
-                child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+        builder: (context, model, child) => Container(
+            color: const Color(0xffdbe4ee),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   _cards(context, model.botCards, model),
-                  model.botCard == null || model.isGameOver()
-                      ? _card(context, model, botCardTeam(model))
-                      : TrumpCard(model.botCard, _itemScrollController),
-                  model.playerCard == null || model.isGameOver()
-                      ? _card(context, model, model.playerTeam)
-                      : TrumpCard(model.playerCard, _itemScrollController),
-                  _cards(context, model.playerCards, model),
-                ]))));
+                  ..._getPlayerView(model),
+                  Hero(
+                      tag: widget.teamName,
+                      child: _cards(context, model.playerCards, model)),
+                ])));
   }
 
   Teams botCardTeam(TrumpModel model) {
