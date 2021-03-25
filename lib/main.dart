@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
-import 'package:ipltrumpcards/ui/GamePlay.dart';
 import 'package:ipltrumpcards/ui/TeamList.dart';
-import 'package:ipltrumpcards/ui/TapToPlay.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,31 +20,27 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Center(child: Text("Error", textDirection: TextDirection.ltr));
+          return Center(child: Text("Error"));
         }
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-              title: 'Cricket Cards',
-              theme: ThemeData(
-                  // primarySwatch: Colors.blue,
-                  canvasColor: Colors.blue[900],
-                  textTheme:
-                      TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle())
-                          .apply(
-                              bodyColor: Colors.white,
-                              displayColor: Colors.white)),
-              home: SafeArea(
-                  child: Scaffold(
-                      backgroundColor: const Color(0xffdbe4ee),
-                      body: TeamList()))
-              // GamePlay(title: 'Cricket Cards'),
-              );
+            title: 'Cricket Cards',
+            theme: ThemeData(
+                // primarySwatch: Colors.blue,
+                canvasColor: Colors.blue[900],
+                textTheme:
+                    TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle())
+                        .apply(
+                            bodyColor: Colors.white,
+                            displayColor: Colors.white)),
+            home: TeamList(),
+            // GamePlay(title: 'Cricket Cards'),
+          );
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(
-            child: Text("Loading...", textDirection: TextDirection.ltr));
+        return Center(child: Text("Loading..."));
       },
     );
   }
