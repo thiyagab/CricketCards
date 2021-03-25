@@ -41,14 +41,6 @@ class TrumpCard extends StatelessWidget {
   Widget playerInfoContainer(Player player, BuildContext context) {
     return Container(
       width: (this.width - (this.width / 5)) / 2 - 20,
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //     colorFilter: new ColorFilter.mode(
-      //         player.team.color2.withOpacity(0.1), BlendMode.dstATop),
-      //     image: AssetImage('assets/images/csk-logo.png'),
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -120,18 +112,19 @@ class TrumpCard extends StatelessWidget {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
 
     return (model.playerTeam == player.team
-            ? model.playerScore.toString()
-            : model.botScore.toString()) +
-        "/" +
-        (model.playerScore + model.botScore).toString();
+        ? model.playerScore.toString()
+        : model.botScore.toString());
+    // + "/" +
+    // (model.playerScore + model.botScore).toString();
   }
 
   handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
     model.refreshBotAndScore(key, value);
     Timer(
-        Duration(seconds: 2),
+        Duration(seconds: 3),
         () => {
+              // showScoreDialog(context, model)
               model.moveCard(),
               if (model.selectedIndex < 7)
                 itemScrollController.animateTo(
@@ -139,5 +132,16 @@ class TrumpCard extends StatelessWidget {
                     duration: Duration(milliseconds: 500),
                     curve: Curves.ease)
             });
+  }
+
+  showScoreDialog(BuildContext context, TrumpModel model) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+              title: Text("You won"),
+              backgroundColor: model.playerTeam.color1,
+              children: [Text("Hello World"), Text("Click here")]);
+        });
   }
 }
