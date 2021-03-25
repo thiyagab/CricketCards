@@ -13,6 +13,8 @@ class TrumpModel extends ChangeNotifier {
   int selectedIndex = -1;
   Teams playerTeam;
 
+  String lastSelectedLabel;
+
   final int POINTS_PER_WIN = 1;
 
   bool isGameOver() {
@@ -24,6 +26,7 @@ class TrumpModel extends ChangeNotifier {
       this.playerCard = playerCards[selectedIndex];
     }
     botCard = null;
+    lastSelectedLabel = null;
     notifyListeners();
   }
 
@@ -31,6 +34,7 @@ class TrumpModel extends ChangeNotifier {
     if (selectedIndex >= 0) {
       this.botCard = botCards[selectedIndex];
       updateScore(key, value);
+      lastSelectedLabel = key;
       notifyListeners();
     }
   }

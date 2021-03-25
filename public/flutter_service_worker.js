@@ -4,9 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "886333a7b939d45e559d79174b30064e",
-"index.html": "3edfeff784a6bb629fc7972e2951ad10",
-"/": "3edfeff784a6bb629fc7972e2951ad10",
-"main.dart.js": "fb78f9f20867ff97a361d037ab57bcc7",
+"index.html": "ff7aa285a89b6ef00afc067363a4521b",
+"/": "ff7aa285a89b6ef00afc067363a4521b",
+"main.dart.js": "95978f636a856d9d79d480e3b3c64098",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
@@ -24,14 +24,14 @@ const RESOURCES = {
 "assets/assets/images/AUS.png": "dff87541c31b85adea545328c20e7fe8",
 "assets/assets/images/all-rounder.png": "b0d0b6fbc0fbdb3645d14ac7b85f9968",
 "assets/assets/images/kohli.jpg": "f6bf887a49a1dd07aaeed7738047ca14",
-"assets/assets/teams/bengaluru.json": "1f7b6049abe73218548fe77e095d2644",
-"assets/assets/teams/chennai.json": "54a782bd7071aba292331e01e25e9975",
-"assets/assets/teams/mumbai.json": "60d0cc0fcd24f877b6fc2dafbe8755d0",
-"assets/assets/teams/delhi.json": "ba6cfe7c6b554370830444e5762d27cb",
-"assets/assets/teams/hyderabad.json": "9d89aa6b1f404cd16e2dd90ab7dafc6e",
-"assets/assets/teams/punjab.json": "133499563a77629c3c861e90ee3ecc5c",
-"assets/assets/teams/kolkata.json": "9844047d1d137777c5abd03fe24b94ad",
-"assets/assets/teams/rajasthan.json": "2b737ace7d79e9776ef1ec955e97567f"
+"assets/assets/teams/bengaluru.json": "838c1fad2eaebae3fd7daab3eaea9870",
+"assets/assets/teams/chennai.json": "9802c648cd69d09497a63beca7fb06fb",
+"assets/assets/teams/mumbai.json": "e3eea95c8681044dbf0faca44e81d93d",
+"assets/assets/teams/delhi.json": "00e21a8f82ef6a3afba991e967b75739",
+"assets/assets/teams/hyderabad.json": "36e6fa9ac10cd6b56df1126879a159d5",
+"assets/assets/teams/punjab.json": "b4476f6a2e1a74b449f85182a0224ffa",
+"assets/assets/teams/kolkata.json": "a0725a7a102a52aa27e92fbecfd15324",
+"assets/assets/teams/rajasthan.json": "fe299f128b7556c86fb9bc7ad56d8fca"
 };
 
 // The application shell files that are downloaded before a service worker can

@@ -42,21 +42,14 @@ class TrumpCard extends StatelessWidget {
   Widget playerInfoContainer(Player player, BuildContext context) {
     return Container(
       width: (this.width - (this.width / 5)) / 2 - 20,
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //     colorFilter: new ColorFilter.mode(
-      //         player.team.color2.withOpacity(0.1), BlendMode.dstATop),
-      //     image: AssetImage('assets/images/csk-logo.png'),
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
               padding: EdgeInsets.only(top: 30),
               child: Text(
-                player.shortName + "\n" + playerTotalScore(context),
+                player.shortName,
+                // + "\n" + playerTotalScore(context),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'Oswald',
@@ -68,15 +61,23 @@ class TrumpCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  // Image(
+                  //     image: AssetImage('assets/images/AUS.png'),
+                  //     width: 50,
+                  //     height: 40,
+                  //     fit: BoxFit.fitWidth),
+                  Text(Utils.teamName(player.team),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'Oswald',
+                          fontSize: 12,
+                          color: Utils.textColor.withOpacity(0.3))),
                   Image(
-                      image: AssetImage('assets/images/AUS.png'),
-                      width: 50,
-                      height: 40,
-                      fit: BoxFit.fitWidth),
-                  Image(
-                      image: AssetImage('assets/images/all-rounder.png'),
-                      width: 50,
-                      height: 40)
+                      image: AssetImage(player.role == 'batsman'
+                          ? 'assets/images/batsman.png'
+                          : 'assets/images/bowler.png'),
+                      width: 25,
+                      height: 20)
                 ],
               ))
         ],
@@ -86,9 +87,9 @@ class TrumpCard extends StatelessWidget {
 
   Widget playerStatisticsContainer(Player player) {
     Map<String, dynamic> playerJson = player.toJson();
-    // List<String> attributes = player.role == "bowler"
-    //     ? Player.BOWLING_ATTRIBUTES
-    //     : Player.BATTING_ATTRIBUTES;
+    List<String> attributes = player.role == "bowler"
+        ? Player.BOWLING_ATTRIBUTES
+        : Player.BATTING_ATTRIBUTES;
     return Expanded(
         child: Container(
       margin: EdgeInsets.fromLTRB(0, 5, 5, 5),
@@ -97,7 +98,7 @@ class TrumpCard extends StatelessWidget {
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: Player.BATTING_ATTRIBUTES.sublist(0, 4).map((attribute) {
+            children: attributes.sublist(0, 4).map((attribute) {
               return CustomButton(Player.DISPLAY_MAP[attribute], attribute,
                   playerJson[attribute], player.team.color1, handleOnTapEvent);
             }).toList(),
@@ -105,7 +106,7 @@ class TrumpCard extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             //TODO this should be conditional, based on role
-            children: Player.BOWLING_ATTRIBUTES.sublist(4).map((attribute) {
+            children: attributes.sublist(4).map((attribute) {
               return CustomButton(Player.DISPLAY_MAP[attribute], attribute,
                   playerJson[attribute], player.team.color1, handleOnTapEvent);
             }).toList(),
@@ -119,18 +120,19 @@ class TrumpCard extends StatelessWidget {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
 
     return (model.playerTeam == player.team
-            ? model.playerScore.toString()
-            : model.botScore.toString()) +
-        "/" +
-        (model.playerScore + model.botScore).toString();
+        ? model.playerScore.toString()
+        : model.botScore.toString());
+    // + "/" +
+    // (model.playerScore + model.botScore).toString();
   }
 
   handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
     model.refreshBotAndScore(key, value);
     Timer(
-        Duration(seconds: 2),
+        Duration(seconds: 3),
         () => {
+              // showScoreDialog(context, model)
               model.moveCard(),
               if (model.selectedIndex < 7)
                 itemScrollController.animateTo(
@@ -138,5 +140,16 @@ class TrumpCard extends StatelessWidget {
                     duration: Duration(milliseconds: 500),
                     curve: Curves.ease)
             });
+  }
+
+  showScoreDialog(BuildContext context, TrumpModel model) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+              title: Text("You won"),
+              backgroundColor: model.playerTeam.color1,
+              children: [Text("Hello World"), Text("Click here")]);
+        });
   }
 }

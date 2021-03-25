@@ -73,6 +73,7 @@ class _GamePlayState extends State<GamePlay> {
         .team;
   }
 
+  //TODO This can be moved into TrumpCard
   Widget _card(BuildContext context, TrumpModel model, Teams team) {
     return Center(
         child: Container(
@@ -96,7 +97,13 @@ class _GamePlayState extends State<GamePlay> {
     } else {
       return Center(
           child: GestureDetector(
-              onTap: () => {model.moveCard()}, child: Text("Waiting to play")));
+              onTap: () => {model.moveCard()},
+              child: Text(Utils.teamName(model.playerTeam) +
+                  ": " +
+                  model.playerScore.toString() +
+                  "      ipl11: " +
+                  model.botScore.toString() +
+                  "\n\nTap on an attribute to play")));
     }
   }
 
