@@ -40,7 +40,11 @@ class MyApp extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(child: Text("Loading..."));
+        return Center(
+            child: Text(
+          "Loading...",
+          textDirection: TextDirection.ltr,
+        ));
       },
     );
   }

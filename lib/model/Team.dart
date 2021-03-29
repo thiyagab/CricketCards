@@ -42,9 +42,9 @@ enum Teams {
 extension TeamColors on Teams {
   Color get color1 {
     return [
-      Color.fromARGB(255, 236, 182, 49),
-      Color.fromARGB(255, 52, 93, 154),
-      Color.fromARGB(255, 1, 1, 1),
+      Color.fromARGB(255, 236, 182, 49), //Chennai
+      Color.fromARGB(255, 52, 93, 154), //Mumbai
+      Color.fromARGB(255, 1, 1, 1), //Bengaluru
       Color.fromARGB(255, 146, 69, 69),
       Color.fromARGB(255, 218, 98, 66),
       Color.fromARGB(255, 100, 69, 137),
@@ -52,6 +52,15 @@ extension TeamColors on Teams {
       Color.fromARGB(255, 58, 77, 151),
     ][this.index];
   }
+
+  // Chennai - yellow
+  // Bengaluru- Meroon
+  // Mumbai - Blue
+  // Delhi - navy blue
+  // Punjab - Red
+  // Rajasthan - pink
+  // Kolkata -  dark purple
+  // Hyderabad - orange
 
   Color get color2 {
     return [

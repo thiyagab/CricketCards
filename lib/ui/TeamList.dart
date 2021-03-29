@@ -22,12 +22,14 @@ class TeamList extends StatelessWidget {
         }
 
         return Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: snapshot.data.docs.map((DocumentSnapshot document) {
-                return row(context, fromDocument(document));
+              children: Iterable<int>.generate(snapshot.data.docs.length)
+                  .map((index) {
+                return row(
+                    context, fromDocument(snapshot.data.docs[index]), index);
               }).toList(),
             ));
       },
@@ -39,7 +41,7 @@ class TeamList extends StatelessWidget {
     return Team(data['name'], data['plays'], data['wins'], data['score']);
   }
 
-  Widget row(BuildContext context, Team team) {
+  Widget row(BuildContext context, Team team, int position) {
     return Expanded(
         child: GestureDetector(
             onTap: () => _navigateToGamePlay(context, team),
@@ -47,12 +49,12 @@ class TeamList extends StatelessWidget {
                 gradient: Gradients.buildGradient(
                     Alignment.topLeft,
                     Alignment.bottomRight,
-                    [team.name.color1, team.name.color2]),
+                    [team.name.color1, team.name.color1]),
                 shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                child: buildTeamWidget(team))));
+                child: buildTeamWidget(team, position))));
   }
 
   _navigateToGamePlay(BuildContext context, Team team) {
@@ -64,11 +66,35 @@ class TeamList extends StatelessWidget {
                 child: GamePlay())));
   }
 
-  Widget buildTeamWidget(Team team) {
-    return Center(
-        child: Text(
-      team.name.toString().substring(6) + ", Score: " + team.score.toString(),
-      textAlign: TextAlign.center,
-    ));
+  Widget buildTeamWidget(Team team, int position) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+            flex: 2,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        team.name.toString().substring(6),
+                        textAlign: TextAlign.start,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                            team.score.toString() + " points",
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                                color: Utils.textColor.withOpacity(0.5)),
+                          ))
+                    ]))),
+        Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: Text("#" + (position + 1).toString() + "   >"))
+      ],
+    );
   }
 }
