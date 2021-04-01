@@ -1,10 +1,12 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
 
+import 'PlayerCard.dart';
 import 'TrumpCard.dart';
 
 class GamePlay extends StatefulWidget {
@@ -15,8 +17,23 @@ class GamePlay extends StatefulWidget {
   _GamePlayState createState() => _GamePlayState();
 }
 
-class _GamePlayState extends State<GamePlay> {
+class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
+  AnimationController animationController;
   var width, height;
+
+  @override
+  void initState() {
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 600), vsync: this);
+    super.initState();
+    animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +50,19 @@ class _GamePlayState extends State<GamePlay> {
                       TrumpCard(model.botCard, false),
                       // _cards(context, model.botCards, model, false),
                       _scorePanel(context, model),
-                      TrumpCard(model.playerCard, true),
+                      // TrumpCard(model.playerCard, true),
+                      PlayerCard(
+                        animation: Tween(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval(0.1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController,
+                        startColor: model.playerTeam.color1,
+                        endColor: model.playerTeam.color2,
+                        player: model.playerCard,
+                      ),
+
                       // _cards(context, model.playerCards, model, false),
                     ]))));
   }
@@ -102,7 +131,7 @@ class _GamePlayState extends State<GamePlay> {
     return Align(
       // alignment: Alignment.topRight,
       heightFactor: 0.01,
-      child: TrumpCard(player, isPlayer),
+      child: PlayerCard(),
     );
   }
 }

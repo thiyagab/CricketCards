@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
+import 'package:ipltrumpcards/ui/CricketCardsTheme.dart';
 import 'package:ipltrumpcards/ui/TeamList.dart';
 
 void main() {
@@ -29,11 +30,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
                 // primarySwatch: Colors.blue,
                 canvasColor: Colors.blue[900],
-                textTheme:
-                    TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle())
-                        .apply(
-                            bodyColor: Colors.white,
-                            displayColor: Colors.white)),
+                textTheme: CricketCardsAppTheme.textTheme),
             home: TeamList(),
             // GamePlay(title: 'Cricket Cards'),
           );
