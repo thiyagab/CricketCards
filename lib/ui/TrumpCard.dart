@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
@@ -10,16 +11,24 @@ import 'package:provider/provider.dart';
 
 class TrumpCard extends StatelessWidget {
   final Player player;
-
-  final ScrollController itemScrollController;
-
+  final bool isPlayer;
+  GlobalKey<FlipCardState> flipState;
   var width;
 
-  TrumpCard(this.player, this.itemScrollController);
+  TrumpCard(this.player, this.isPlayer);
 
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
+    return card(context, player.open);
+    // : FlipCard(
+    //     // key: flipState,
+    //     flipOnTouch: true,
+    //     front: card(context, false),
+    //     back: card(context, true));
+  }
+
+  Widget card(BuildContext context, bool open) {
     return Center(
         child: Container(
             height: 240,
@@ -30,12 +39,18 @@ class TrumpCard extends StatelessWidget {
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  children: <Widget>[
-                    playerInfoContainer(player, context),
-                    playerStatisticsContainer(player)
-                  ],
-                ))));
+                child: open
+                    ? Row(
+                        children: <Widget>[
+                          playerInfoContainer(player, context),
+                          playerStatisticsContainer(player)
+                        ],
+                      )
+                    : Center(
+                        child: Text(
+                        Utils.teamName(player.team) + "\n" + player.role,
+                        textAlign: TextAlign.center,
+                      )))));
   }
 
   Widget playerInfoContainer(Player player, BuildContext context) {
@@ -127,28 +142,41 @@ class TrumpCard extends StatelessWidget {
 
   handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
+    if (flipState != null) flipState.currentState.toggleCard();
     model.refreshBotAndScore(key, value);
+
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 1),
         () => {
               // showScoreDialog(context, model)
               model.moveCard(),
-              if (model.selectedIndex < 7)
-                itemScrollController.animateTo(
-                    (this.width / 5) * model.selectedIndex,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.ease)
+              if (model.selectedIndex >= model.playerCards.length)
+                {showScoreDialog(context, model)}
+              // if (model.selectedIndex < 7)
+              // itemScrollController.animateTo(
+              //     (this.width / 5) * model.selectedIndex,
+              //     duration: Duration(milliseconds: 500),
+              //     curve: Curves.ease)
             });
   }
 
-  showScoreDialog(BuildContext context, TrumpModel model) {
+  String displayText;
+  showScoreDialog(BuildContext context, final TrumpModel model) {
+    Utils.updateScore(model);
+    displayText = Utils.teamName(model.playerTeam) +
+        (model.playerScore > model.botScore ? " Won" : " Lost");
     showDialog(
         context: context,
         builder: (context) {
-          return SimpleDialog(
-              title: Text("You won"),
-              backgroundColor: model.playerTeam.color1,
-              children: [Text("Hello World"), Text("Click here")]);
-        });
+          return AlertDialog(title: Text(displayText),
+
+              // backgroundColor: model.playerTeam.color1,
+              actions: [
+                TextButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    child: Text("Ok"))
+              ]);
+          // children: [Text("Hello World"), Text("Click here")]);
+        }).then((value) => Navigator.pop(context));
   }
 }

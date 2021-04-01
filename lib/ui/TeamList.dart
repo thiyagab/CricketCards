@@ -22,10 +22,11 @@ class TeamList extends StatelessWidget {
         }
 
         return Container(
-            padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
+            padding: EdgeInsets.fromLTRB(50, 100, 50, 50),
+            color: Colors.white70,
             child: new Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: Iterable<int>.generate(snapshot.data.docs.length)
                   .map((index) {
                 return row(
@@ -50,8 +51,8 @@ class TeamList extends StatelessWidget {
                     Alignment.topLeft,
                     Alignment.bottomRight,
                     [team.name.color1, team.name.color1]),
-                shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
-                elevation: 2,
+                // shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
+                elevation: 4,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 child: buildTeamWidget(team, position))));

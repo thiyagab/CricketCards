@@ -24,15 +24,17 @@ class TrumpModel extends ChangeNotifier {
   void moveCard() {
     if (++selectedIndex < playerCards.length) {
       this.playerCard = playerCards[selectedIndex];
+      this.botCard = botCards[selectedIndex];
+      this.botCard.open = false;
+      lastSelectedLabel = null;
     }
-    botCard = null;
-    lastSelectedLabel = null;
+
     notifyListeners();
   }
 
   void refreshBotAndScore(String key, String value) {
     if (selectedIndex >= 0) {
-      this.botCard = botCards[selectedIndex];
+      this.botCard.open = true;
       updateScore(key, value);
       lastSelectedLabel = key;
       notifyListeners();

@@ -25,8 +25,12 @@ class Player {
   String bowlingEconomy;
   String bowlingStrikeRate;
 
-  int score = -1;
   Teams team;
+
+  int score = -1;
+
+  //Couldnt find a better place to have the open/close state of player cards, can be moved if we found one
+  bool open = true;
 
   static final Map<String, String> DISPLAY_MAP = {
     'totalMatches': 'Matches',

@@ -1,3 +1,4 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
@@ -32,21 +33,20 @@ class _GamePlayState extends State<GamePlay> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+    GlobalKey<FlipCardState> flipState = new GlobalKey();
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
-                child: Container(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                  _cards(context, model.botCards, model),
-                  model.botCard == null || model.isGameOver()
-                      ? _card(context, model, botCardTeam(model))
-                      : TrumpCard(model.botCard, _itemScrollController),
-                  model.playerCard == null || model.isGameOver()
-                      ? _card(context, model, model.playerTeam)
-                      : TrumpCard(model.playerCard, _itemScrollController),
-                  _cards(context, model.playerCards, model),
-                ]))));
+            child: Container(
+                color: Colors.white70,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TrumpCard(model.botCard, false),
+                      // _cards(context, model.botCards, model, false),
+                      _scorePanel(context, model),
+                      TrumpCard(model.playerCard, true),
+                      // _cards(context, model.playerCards, model, false),
+                    ]))));
   }
 
   Teams botCardTeam(TrumpModel model) {
@@ -56,6 +56,20 @@ class _GamePlayState extends State<GamePlay> {
             ? 0
             : model.selectedIndex]
         .team;
+  }
+
+  Widget _scorePanel(BuildContext context, TrumpModel model) {
+    return Container(
+        child: RichText(
+            text: TextSpan(children: <TextSpan>[
+      TextSpan(
+          text: model.playerScore.toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32)),
+      TextSpan(text: '      vs      ', style: TextStyle()),
+      TextSpan(
+          text: model.botScore.toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32)),
+    ])));
   }
 
   //TODO This can be moved into TrumpCard
@@ -130,35 +144,71 @@ class _GamePlayState extends State<GamePlay> {
     //         });
   }
 
-  Widget _cards(context, List<Player> cards, TrumpModel model) {
-    List<Widget> cardWidgets = [];
-    for (int i = 0; i < cards.length; i++) {
-      cardWidgets.add(Container(
-          width: this.width / 5,
-          child: Card(
-            color: cards[i].team.color1,
-            elevation: 2,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-            child: Center(
-              child: Text(
-                _cardState(cards[i], i),
-                style: TextStyle(fontSize: 12),
-              ),
-            ),
-          )));
+  Widget _cards(context, List<Player> cards, TrumpModel model, bool isPlayer) {
+    Tween<Offset> _offset =
+        Tween(begin: Offset(-1, isPlayer ? -1 : 1), end: Offset(0, 0));
+
+    final GlobalKey<AnimatedListState> _listKey =
+        GlobalKey<AnimatedListState>();
+    List<Widget> miniCardList = [];
+
+    if (model.playerScore == 0 && model.botScore == 0) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Future ft = Future(() {});
+        cards.asMap().forEach((index, elements) {
+          ft = ft.then((value) {
+            return Future.delayed(const Duration(milliseconds: 100), () {
+              miniCardList.add(this.miniCard(context, cards[index], isPlayer));
+              _listKey.currentState.insertItem(miniCardList.length - 1);
+            });
+          });
+        });
+      });
+    } else {
+      cards.asMap().forEach((index, elements) {
+        return miniCardList.add(this.miniCard(context, cards[index], isPlayer));
+      });
+      // miniCardList.removeAt(model.selectedIndex);
+      // _listKey.currentState
+      //     .removeItem(model.selectedIndex, (context, animation) => null);
     }
+
     return Container(
-      height: height / 8, // card height
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        controller: _itemScrollController,
-        child: Row(children: cardWidgets),
-      ),
+        // card height
+        height: 50,
+        child:
+            // Row(children: [
+            // Padding(
+            //     padding: EdgeInsets.only(left: 40),
+            //     child: DefaultTextStyle(
+            //         textAlign: TextAlign.end,
+            //         style:
+            //             TextStyle(color: model.playerTeam.color1, fontSize: 20),
+            //         child: Text("0 Points"))),
+            AnimatedList(
+                key: _listKey,
+                reverse: true,
+                scrollDirection: Axis.vertical,
+                initialItemCount: miniCardList.length,
+                itemBuilder: (context, index, animation) {
+                  return SlideTransition(
+                    position: animation.drive(_offset),
+                    child: miniCardList[index],
+                  );
+                })
+        // ])
+        );
+  }
+
+  Widget miniCard(BuildContext context, Player player, bool isPlayer) {
+    return Align(
+      // alignment: Alignment.topRight,
+      heightFactor: 0.01,
+      child: TrumpCard(player, isPlayer),
     );
   }
 
-  void _cardSelected(TrumpModel model, int index) {
+  void _cardSelected(TrumpModel model) {
     model.moveCard();
   }
 

@@ -4802,6 +4802,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 charcode
 dart_style
 fixnum
+flip_card
 glob
 http_multi_server
 http_parser

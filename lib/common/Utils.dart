@@ -24,6 +24,8 @@ class Utils {
     trumpModel.botCards = buildBotTeam(team);
     trumpModel.selectedIndex = 0;
     trumpModel.playerCard = trumpModel.playerCards[0];
+    trumpModel.botCard=trumpModel.botCards[0];
+    trumpModel.botCard.open=false;
     return trumpModel;
   }
 
