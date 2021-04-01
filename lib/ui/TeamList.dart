@@ -22,7 +22,7 @@ class TeamList extends StatelessWidget {
         }
 
         return Container(
-            padding: EdgeInsets.fromLTRB(50, 100, 50, 50),
+            padding: EdgeInsets.fromLTRB(50, 50, 50, 50),
             color: Colors.white70,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -146,7 +146,7 @@ class TrumpCard extends StatelessWidget {
     model.refreshBotAndScore(key, value);
 
     Timer(
-        Duration(seconds: 1),
+        Duration(seconds: 3),
         () => {
               model.moveCard(),
               if (model.selectedIndex >= model.playerCards.length)
