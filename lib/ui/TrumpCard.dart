@@ -148,15 +148,9 @@ class TrumpCard extends StatelessWidget {
     Timer(
         Duration(seconds: 1),
         () => {
-              // showScoreDialog(context, model)
               model.moveCard(),
               if (model.selectedIndex >= model.playerCards.length)
                 {showScoreDialog(context, model)}
-              // if (model.selectedIndex < 7)
-              // itemScrollController.animateTo(
-              //     (this.width / 5) * model.selectedIndex,
-              //     duration: Duration(milliseconds: 500),
-              //     curve: Curves.ease)
             });
   }
 
@@ -176,7 +170,6 @@ class TrumpCard extends StatelessWidget {
                     onPressed: () => {Navigator.pop(context)},
                     child: Text("Ok"))
               ]);
-          // children: [Text("Hello World"), Text("Click here")]);
         }).then((value) => Navigator.pop(context));
   }
 }
