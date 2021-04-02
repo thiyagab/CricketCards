@@ -39,7 +39,7 @@ class PlayerCard extends StatelessWidget {
   Widget _add3DButton(String attribute, String value) {
     String attributeName = Player.DISPLAY_MAP[attribute];
     double parsedValue = 0; // Variable name should start with small letter
-    bool isNumberVal = true;
+    bool isNumberVal = false;
     try {
       parsedValue = double.parse(value);
     } catch (e) {
