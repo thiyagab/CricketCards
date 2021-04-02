@@ -1,5 +1,61 @@
 [
     {
+        "id": "6661",
+        "fullName": "Abdul Samad",
+        "shortName": "A Samad",
+        "nationality": "Indian",
+        "dateOfBirth": "2001-10-28",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "11",
+        "totalNotOuts": "0",
+        "totalRuns": "307",
+        "highestScore": "68",
+        "battingAverage": "39.46",
+        "totalBallsFaced": "524",
+        "battingStrikeRate": "113",
+        "totalFours": "23",
+        "totalSixes": "11",
+        "totalFifties": "3",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "5"
+    },
+    {
+        "id": "6662",
+        "fullName": "Abhishek Sharma",
+        "shortName": "A Sharma",
+        "nationality": "Indian",
+        "dateOfBirth": "2000-09-04",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "False",
+        "role": "bowler",
+        "totalMatches": "11",
+        "totalNotOuts": "3",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "126",
+        "totalRunsConceded": "166",
+        "totalWickets": "7",
+        "bowlingAverage": "23",
+        "bowlingEconomy": "7.9",
+        "bowlingStrikeRate": "18",
+        "bestBowlingFigure": "2(10)",
+        "catchesTaken": "3"
+    },
+    {
         "id": "6663",
         "fullName": "Basil Thampi",
         "shortName": "B Thampi",
@@ -23,7 +79,9 @@
         "totalWickets": "17",
         "bowlingAverage": "40.82",
         "bowlingEconomy": "9.79",
-        "bowlingStrikeRate": "25"
+        "bowlingStrikeRate": "25",
+        "bestBowlingFigure": "3(29)",
+        "catchesTaken": "4"
     },
     {
         "id": "6664",
@@ -49,7 +107,9 @@
         "totalWickets": "136",
         "bowlingAverage": "23.91",
         "bowlingEconomy": "7.23",
-        "bowlingStrikeRate": "19.83"
+        "bowlingStrikeRate": "19.83",
+        "bestBowlingFigure": "5(19)",
+        "catchesTaken": "27"
     },
     {
         "id": "6665",
@@ -75,7 +135,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "66"
     },
     {
         "id": "6666",
@@ -101,7 +163,9 @@
         "totalWickets": "19",
         "bowlingAverage": "28.36",
         "bowlingEconomy": "8.42",
-        "bowlingStrikeRate": "20.21"
+        "bowlingStrikeRate": "20.21",
+        "bestBowlingFigure": "3(25)",
+        "catchesTaken": "5"
     },
     {
         "id": "6667",
@@ -127,7 +191,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "16"
     },
     {
         "id": "6668",
@@ -153,7 +219,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "22"
     },
     {
         "id": "6669",
@@ -179,7 +247,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "71"
     },
     {
         "id": "66610",
@@ -205,7 +275,9 @@
         "totalWickets": "20",
         "bowlingAverage": "21",
         "bowlingEconomy": "7.89",
-        "bowlingStrikeRate": "15.95"
+        "bowlingStrikeRate": "15.95",
+        "bestBowlingFigure": "4(25)",
+        "catchesTaken": "7"
     },
     {
         "id": "66611",
@@ -231,7 +303,9 @@
         "totalWickets": "11",
         "bowlingAverage": "29.27",
         "bowlingEconomy": "6.54",
-        "bowlingStrikeRate": "26.81"
+        "bowlingStrikeRate": "26.81",
+        "bestBowlingFigure": "4(11)",
+        "catchesTaken": "6"
     },
     {
         "id": "66612",
@@ -257,7 +331,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "6"
     },
     {
         "id": "66613",
@@ -283,7 +359,9 @@
         "totalWickets": "75",
         "bowlingAverage": "20.49",
         "bowlingEconomy": "6.24",
-        "bowlingStrikeRate": "19.68"
+        "bowlingStrikeRate": "19.68",
+        "bestBowlingFigure": "3(7)",
+        "catchesTaken": "18"
     },
     {
         "id": "66614",
@@ -309,7 +387,9 @@
         "totalWickets": "109",
         "bowlingAverage": "24.27",
         "bowlingEconomy": "7.71",
-        "bowlingStrikeRate": "18.87"
+        "bowlingStrikeRate": "18.87",
+        "bestBowlingFigure": "4(20)",
+        "catchesTaken": "11"
     },
     {
         "id": "66615",
@@ -335,7 +415,37 @@
         "totalWickets": "47",
         "bowlingAverage": "37.19",
         "bowlingEconomy": "7.53",
-        "bowlingStrikeRate": "29.59"
+        "bowlingStrikeRate": "29.59",
+        "bestBowlingFigure": "3(16)",
+        "catchesTaken": "15"
+    },
+    {
+        "id": "66616",
+        "fullName": "Shreevats Goswami",
+        "shortName": "S Goswami",
+        "nationality": "Indian",
+        "dateOfBirth": "1989-05-18",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "False",
+        "role": "batsman",
+        "totalMatches": "19",
+        "totalNotOuts": "2",
+        "totalRuns": "309",
+        "highestScore": "66",
+        "battingAverage": "20.60",
+        "totalBallsFaced": "195",
+        "battingStrikeRate": "158.46",
+        "totalFours": "21",
+        "totalSixes": "23",
+        "totalFifties": "3",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "17"
     },
     {
         "id": "66617",
@@ -361,7 +471,9 @@
         "totalWickets": "51",
         "bowlingAverage": "28.41",
         "bowlingEconomy": "8.65",
-        "bowlingStrikeRate": "19.70"
+        "bowlingStrikeRate": "19.70",
+        "bestBowlingFigure": "4(29)",
+        "catchesTaken": "7"
     },
     {
         "id": "66618",
@@ -387,7 +499,9 @@
         "totalWickets": "27",
         "bowlingAverage": "21",
         "bowlingEconomy": "8.92",
-        "bowlingStrikeRate": "14.11"
+        "bowlingStrikeRate": "14.11",
+        "bestBowlingFigure": "3(30)",
+        "catchesTaken": "1"
     },
     {
         "id": "66619",
@@ -413,7 +527,9 @@
         "totalWickets": "18",
         "bowlingAverage": "34.38",
         "bowlingEconomy": "8.19",
-        "bowlingStrikeRate": "25.16"
+        "bowlingStrikeRate": "25.16",
+        "bestBowlingFigure": "2(24)",
+        "catchesTaken": "3"
     },
     {
         "id": "66620",
@@ -439,7 +555,37 @@
         "totalWickets": "6",
         "bowlingAverage": "38.16",
         "bowlingEconomy": "8.42",
-        "bowlingStrikeRate": "27.16"
+        "bowlingStrikeRate": "27.16",
+        "bestBowlingFigure": "1(11)",
+        "catchesTaken": "18"
+    },
+    {
+        "id": "66621",
+        "fullName": "Virat Singh",
+        "shortName": "V Singh",
+        "nationality": "Indian",
+        "dateOfBirth": "1997-12-08",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "False",
+        "role": "batsman",
+        "totalMatches": "22",
+        "totalNotOuts": "0",
+        "totalRuns": "334",
+        "highestScore": "56",
+        "battingAverage": "17.57",
+        "totalBallsFaced": "250",
+        "battingStrikeRate": "133.60",
+        "totalFours": "31",
+        "totalSixes": "10",
+        "totalFifties": "3",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
     },
     {
         "id": "66622",
@@ -465,7 +611,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "62"
     },
     {
         "id": "66623",
@@ -491,7 +639,9 @@
         "totalWickets": "12",
         "bowlingAverage": "33",
         "bowlingEconomy": "8.80",
-        "bowlingStrikeRate": "22.50"
+        "bowlingStrikeRate": "22.50",
+        "bestBowlingFigure": "2(14)",
+        "catchesTaken": "8"
     },
     {
         "id": "66624",
@@ -517,7 +667,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "28"
     },
     {
         "id": "66625",
@@ -543,6 +695,8 @@
         "totalWickets": "17",
         "bowlingAverage": "33.11",
         "bowlingEconomy": "8.23",
-        "bowlingStrikeRate": "24.11"
+        "bowlingStrikeRate": "24.11",
+        "bestBowlingFigure": "3(27)",
+        "catchesTaken": "2"
     }
 ]

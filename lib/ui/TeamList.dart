@@ -27,14 +27,22 @@ class TeamList extends StatelessWidget {
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: Iterable<int>.generate(snapshot.data.docs.length)
-                  .map((index) {
-                return row(
-                    context, fromDocument(snapshot.data.docs[index]), index);
-              }).toList(),
+              children: teamList(context, snapshot.data.docs),
             ));
       },
     );
+  }
+
+  List<Widget> teamList(
+      BuildContext context, List<QueryDocumentSnapshot> docs) {
+    List<Widget> widgets = Iterable<int>.generate(docs.length).map((index) {
+      return row(context, fromDocument(docs[index]), index);
+    }).toList();
+    widgets.add(Padding(
+        padding: EdgeInsets.only(top: 30),
+        child:
+            DefaultTextStyle(style: TextStyle(), child: Text("Version: 0.1"))));
+    return widgets;
   }
 
   Team fromDocument(DocumentSnapshot document) {

@@ -23,7 +23,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "103"
     },
     {
         "id": "8882",
@@ -49,7 +51,9 @@
         "totalWickets": "21",
         "bowlingAverage": "17.61",
         "bowlingEconomy": "7.73",
-        "bowlingStrikeRate": "13.66"
+        "bowlingStrikeRate": "13.66",
+        "bestBowlingFigure": "6(19)",
+        "catchesTaken": "1"
     },
     {
         "id": "8883",
@@ -75,7 +79,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "8"
     },
     {
         "id": "8884",
@@ -101,7 +107,9 @@
         "totalWickets": "18",
         "bowlingAverage": "24.61",
         "bowlingEconomy": "8.38",
-        "bowlingStrikeRate": "17.61"
+        "bowlingStrikeRate": "17.61",
+        "bestBowlingFigure": "3(13)",
+        "catchesTaken": "5"
     },
     {
         "id": "8885",
@@ -127,7 +135,9 @@
         "totalWickets": "39",
         "bowlingAverage": "27.79",
         "bowlingEconomy": "9.08",
-        "bowlingStrikeRate": "18.35"
+        "bowlingStrikeRate": "18.35",
+        "bestBowlingFigure": "4(32)",
+        "catchesTaken": "12"
     },
     {
         "id": "8886",
@@ -153,7 +163,9 @@
         "totalWickets": "17",
         "bowlingAverage": "45.64",
         "bowlingEconomy": "8.28",
-        "bowlingStrikeRate": "33.05"
+        "bowlingStrikeRate": "33.05",
+        "bestBowlingFigure": "2(24)",
+        "catchesTaken": "5"
     },
     {
         "id": "8887",
@@ -179,7 +191,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "3"
     },
     {
         "id": "8888",
@@ -205,7 +219,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
     },
     {
         "id": "8889",
@@ -231,7 +247,9 @@
         "totalWickets": "4",
         "bowlingAverage": "92",
         "bowlingEconomy": "8.79",
-        "bowlingStrikeRate": "62.75"
+        "bowlingStrikeRate": "62.75",
+        "bestBowlingFigure": "2(25)",
+        "catchesTaken": "77"
     },
     {
         "id": "88810",
@@ -257,7 +275,9 @@
         "totalWickets": "24",
         "bowlingAverage": "31.20",
         "bowlingEconomy": "6.87",
-        "bowlingStrikeRate": "27.25"
+        "bowlingStrikeRate": "27.25",
+        "bestBowlingFigure": "3(16)",
+        "catchesTaken": "7"
     },
     {
         "id": "88811",
@@ -283,7 +303,37 @@
         "totalWickets": "121",
         "bowlingAverage": "22.50",
         "bowlingEconomy": "7.67",
-        "bowlingStrikeRate": "17.60"
+        "bowlingStrikeRate": "17.60",
+        "bestBowlingFigure": "4(25)",
+        "catchesTaken": "20"
+    },
+    {
+        "id": "88812",
+        "fullName": "Daniel Sams",
+        "shortName": "D Sams",
+        "nationality": "Australian",
+        "dateOfBirth": "1992-10-27",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "25",
+        "totalNotOuts": "6",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "521",
+        "totalRunsConceded": "743",
+        "totalWickets": "12",
+        "bowlingAverage": "22",
+        "bowlingEconomy": "8.5",
+        "bowlingStrikeRate": "15.5",
+        "bestBowlingFigure": "2(24)",
+        "catchesTaken": "3"
     },
     {
         "id": "88813",
@@ -309,7 +359,9 @@
         "totalWickets": "46",
         "bowlingAverage": "29.32",
         "bowlingEconomy": "8.74",
-        "bowlingStrikeRate": "20.13"
+        "bowlingStrikeRate": "20.13",
+        "bestBowlingFigure": "3(28)",
+        "catchesTaken": "12"
     },
     {
         "id": "88814",
@@ -335,7 +387,9 @@
         "totalWickets": "19",
         "bowlingAverage": "41.50",
         "bowlingEconomy": "8.57",
-        "bowlingStrikeRate": "28.73"
+        "bowlingStrikeRate": "28.73",
+        "bestBowlingFigure": "",
+        "catchesTaken": "30"
     },
     {
         "id": "88815",
@@ -361,7 +415,93 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "5"
+    },
+    {
+        "id": "88816",
+        "fullName": "Rajat Patidar",
+        "shortName": "R Patidar",
+        "nationality": "Indian",
+        "dateOfBirth": "1993-06-01",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "11",
+        "totalNotOuts": "1",
+        "totalRuns": "340",
+        "highestScore": "48",
+        "battingAverage": "20",
+        "totalBallsFaced": "240",
+        "battingStrikeRate": "143",
+        "totalFours": "21",
+        "totalSixes": "12",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "3"
+    },
+    {
+        "id": "88817",
+        "fullName": "Mohammed Azharuddeen",
+        "shortName": "M Azharuddeen",
+        "nationality": "Indian",
+        "dateOfBirth": "1994-03-22",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "22",
+        "totalNotOuts": "2",
+        "totalRuns": "451",
+        "highestScore": "137",
+        "battingAverage": "22.55",
+        "totalBallsFaced": "317",
+        "battingStrikeRate": "142",
+        "totalFours": "15",
+        "totalSixes": "18",
+        "totalFifties": "",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
+    },
+    {
+        "id": "88818",
+        "fullName": "Kyle Jamieson",
+        "shortName": "K Jamieson",
+        "nationality": "New Zealander",
+        "dateOfBirth": "1994-12-30",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "8",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "172",
+        "totalRunsConceded": "281",
+        "totalWickets": "4",
+        "bowlingAverage": "70",
+        "bowlingEconomy": "9",
+        "bowlingStrikeRate": "43",
+        "bestBowlingFigure": "2(42)",
+        "catchesTaken": "3"
     },
     {
         "id": "88819",
@@ -387,7 +527,9 @@
         "totalWickets": "34",
         "bowlingAverage": "30.50",
         "bowlingEconomy": "7.94",
-        "bowlingStrikeRate": "23.02"
+        "bowlingStrikeRate": "23.02",
+        "bestBowlingFigure": "2(10)",
+        "catchesTaken": "19"
     },
     {
         "id": "88820",
@@ -413,6 +555,64 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "4"
+    },
+    {
+        "id": "88821",
+        "fullName": "K.S Bharat",
+        "shortName": "KS Bharat",
+        "nationality": "Indian",
+        "dateOfBirth": "1993-10-03",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "3",
+        "totalNotOuts": "0",
+        "totalRuns": "67",
+        "highestScore": "53",
+        "battingAverage": "47",
+        "totalBallsFaced": "33",
+        "battingStrikeRate": "142",
+        "totalFours": "2",
+        "totalSixes": "5",
+        "totalFifties": "1",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
+    },
+    {
+        "id": "88822",
+        "fullName": "Finn Allen",
+        "shortName": "F Allen",
+        "nationality": "New Zealander",
+        "dateOfBirth": "1999-04-22",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "4",
+        "totalNotOuts": "2",
+        "totalRuns": "41",
+        "highestScore": "30",
+        "battingAverage": "20",
+        "totalBallsFaced": "27",
+        "battingStrikeRate": "151",
+        "totalFours": "7",
+        "totalSixes": "3",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "4"
     }
 ]

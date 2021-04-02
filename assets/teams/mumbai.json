@@ -23,7 +23,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "3"
     },
     {
         "playedId": "5552",
@@ -49,7 +51,37 @@
         "totalWickets": "1",
         "bowlingAverage": "11",
         "bowlingEconomy": "5.50",
-        "bowlingStrikeRate": "12"
+        "bowlingStrikeRate": "12",
+        "bestBowlingFigure": "1(11)",
+        "catchesTaken": "1"
+    },
+    {
+        "playedId": "5553",
+        "fullName": "Anmolpreet Singh",
+        "shortName": "A Singh",
+        "nationality": "Indian",
+        "dateOfBirth": "1998-03-28",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "4",
+        "totalNotOuts": "2",
+        "totalRuns": "41",
+        "highestScore": "30",
+        "battingAverage": "20",
+        "totalBallsFaced": "27",
+        "battingStrikeRate": "151",
+        "totalFours": "7",
+        "totalSixes": "3",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
     },
     {
         "playedId": "5554",
@@ -75,7 +107,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "10"
     },
     {
         "playedId": "5555",
@@ -101,7 +135,9 @@
         "totalWickets": "86",
         "bowlingAverage": "28.20",
         "bowlingEconomy": "8.25",
-        "bowlingStrikeRate": "20.50"
+        "bowlingStrikeRate": "20.50",
+        "bestBowlingFigure": "4(14)",
+        "catchesTaken": "22"
     },
     {
         "playedId": "5556",
@@ -127,7 +163,9 @@
         "totalWickets": "42",
         "bowlingAverage": "31.26",
         "bowlingEconomy": "9.06",
-        "bowlingStrikeRate": "20.69"
+        "bowlingStrikeRate": "20.69",
+        "bestBowlingFigure": "3(20)",
+        "catchesTaken": "49"
     },
     {
         "playedId": "5557",
@@ -153,7 +191,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "16"
     },
     {
         "playedId": "5558",
@@ -179,7 +219,9 @@
         "totalWickets": "109",
         "bowlingAverage": "23.71",
         "bowlingEconomy": "7.41",
-        "bowlingStrikeRate": "19.19"
+        "bowlingStrikeRate": "19.19",
+        "bestBowlingFigure": "4(14)",
+        "catchesTaken": "9"
     },
     {
         "playedId": "5559",
@@ -205,7 +247,9 @@
         "totalWickets": "6",
         "bowlingAverage": "48.16",
         "bowlingEconomy": "6.56",
-        "bowlingStrikeRate": "44"
+        "bowlingStrikeRate": "44",
+        "bestBowlingFigure": "1(8)",
+        "catchesTaken": "4"
     },
     {
         "playedId": "55510",
@@ -231,7 +275,9 @@
         "totalWickets": "60",
         "bowlingAverage": "32.66",
         "bowlingEconomy": "8.87",
-        "bowlingStrikeRate": "22.08"
+        "bowlingStrikeRate": "22.08",
+        "bestBowlingFigure": "4(44)",
+        "catchesTaken": "90"
     },
     {
         "playedId": "55511",
@@ -257,7 +303,37 @@
         "totalWickets": "46",
         "bowlingAverage": "32.78",
         "bowlingEconomy": "7.26",
-        "bowlingStrikeRate": "27.06"
+        "bowlingStrikeRate": "27.06",
+        "bestBowlingFigure": "3(14)",
+        "catchesTaken": "22"
+    },
+    {
+        "playedId": "55512",
+        "fullName": "Mohsin Khan",
+        "shortName": "M Khan",
+        "nationality": "Indian",
+        "dateOfBirth": "1998-07-15",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "False",
+        "role": "bowler",
+        "totalMatches": "12",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "229",
+        "totalRunsConceded": "322",
+        "totalWickets": "7",
+        "bowlingAverage": "46",
+        "bowlingEconomy": "8.43",
+        "bowlingStrikeRate": "32.71",
+        "bestBowlingFigure": "2(16)",
+        "catchesTaken": "2"
     },
     {
         "playedId": "55513",
@@ -283,7 +359,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "49"
     },
     {
         "playedId": "55514",
@@ -309,7 +387,9 @@
         "totalWickets": "30",
         "bowlingAverage": "26.63",
         "bowlingEconomy": "7.46",
-        "bowlingStrikeRate": "21.40"
+        "bowlingStrikeRate": "21.40",
+        "bestBowlingFigure": "3(19)",
+        "catchesTaken": "8"
     },
     {
         "playedId": "55515",
@@ -335,7 +415,9 @@
         "totalWickets": "15",
         "bowlingAverage": "29",
         "bowlingEconomy": "7.95",
-        "bowlingStrikeRate": "22.13"
+        "bowlingStrikeRate": "22.13",
+        "bestBowlingFigure": "",
+        "catchesTaken": "89"
     },
     {
         "playedId": "55516",
@@ -361,7 +443,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "24"
     },
     {
         "playedId": "55517",
@@ -387,7 +471,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "50"
     },
     {
         "playedId": "55518",
@@ -413,7 +499,9 @@
         "totalWickets": "63",
         "bowlingAverage": "25.03",
         "bowlingEconomy": "8.53",
-        "bowlingStrikeRate": "17.60"
+        "bowlingStrikeRate": "17.60",
+        "bestBowlingFigure": "4(18)",
+        "catchesTaken": "18"
     },
     {
         "playedId": "55519",
@@ -439,7 +527,9 @@
         "totalWickets": "4",
         "bowlingAverage": "44.25",
         "bowlingEconomy": "9.83",
-        "bowlingStrikeRate": "27"
+        "bowlingStrikeRate": "27",
+        "bestBowlingFigure": "2(27)",
+        "catchesTaken": "5"
     },
     {
         "playedId": "55520",
@@ -465,7 +555,9 @@
         "totalWickets": "41",
         "bowlingAverage": "22.56",
         "bowlingEconomy": "7.71",
-        "bowlingStrikeRate": "17.53"
+        "bowlingStrikeRate": "17.53",
+        "bestBowlingFigure": "4(20)",
+        "catchesTaken": "10"
     },
     {
         "playedId": "55521",
@@ -491,7 +583,9 @@
         "totalWickets": "156",
         "bowlingAverage": "27.32",
         "bowlingEconomy": "7.87",
-        "bowlingStrikeRate": "20.83"
+        "bowlingStrikeRate": "20.83",
+        "bestBowlingFigure": "4(17)",
+        "catchesTaken": "40"
     },
     {
         "playedId": "55522",
@@ -517,6 +611,92 @@
         "totalWickets": "3",
         "bowlingAverage": "79.66",
         "bowlingEconomy": "9.95",
-        "bowlingStrikeRate": "48"
+        "bowlingStrikeRate": "48",
+        "bestBowlingFigure": "1(17)",
+        "catchesTaken": "1"
+    },
+    {
+        "playedId": "55523",
+        "fullName": "Yudhvir Charak",
+        "shortName": "Y Charak",
+        "nationality": "Indian",
+        "dateOfBirth": "1997-09-13",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "4",
+        "totalNotOuts": "1",
+        "totalRuns": "36",
+        "highestScore": "31",
+        "battingAverage": "12",
+        "totalBallsFaced": "26",
+        "battingStrikeRate": "138",
+        "totalFours": "2",
+        "totalSixes": "4",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
+    },
+    {
+        "playedId": "55524",
+        "fullName": "Marco Jansen",
+        "shortName": "M Jansen",
+        "nationality": "South African",
+        "dateOfBirth": "2000-05-01",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "8",
+        "totalNotOuts": "5",
+        "totalRuns": "112",
+        "highestScore": "43",
+        "battingAverage": "37",
+        "totalBallsFaced": "113",
+        "battingStrikeRate": "99",
+        "totalFours": "13",
+        "totalSixes": "2",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "1"
+    },
+    {
+        "playedId": "55525",
+        "fullName": "Arjun Tendulkar",
+        "shortName": "A Tendulkar",
+        "nationality": "Indian",
+        "dateOfBirth": "1999-09-24",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "2",
+        "totalNotOuts": "1",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "42",
+        "totalRunsConceded": "67",
+        "totalWickets": "2",
+        "bowlingAverage": "33",
+        "bowlingEconomy": "9.57",
+        "bowlingStrikeRate": "21",
+        "bestBowlingFigure": "1(33)",
+        "catchesTaken": "1"
     }
 ]

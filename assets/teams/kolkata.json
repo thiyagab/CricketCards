@@ -23,7 +23,9 @@
         "totalWickets": "61",
         "bowlingAverage": "28.08",
         "bowlingEconomy": "8.96",
-        "bowlingStrikeRate": "18.80"
+        "bowlingStrikeRate": "18.80",
+        "bestBowlingFigure": "4(20)",
+        "catchesTaken": "23"
     },
     {
         "id": "4442",
@@ -49,7 +51,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "118"
     },
     {
         "id": "4443",
@@ -75,7 +79,37 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "27"
+    },
+    {
+        "id": "4444",
+        "fullName": "Kamlesh Nagarkoti",
+        "shortName": "K Nagarkoti",
+        "nationality": "Indian",
+        "dateOfBirth": "1999-12-28",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "9",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "156",
+        "totalRunsConceded": "231",
+        "totalWickets": "5",
+        "bowlingAverage": "46",
+        "bowlingEconomy": "8.88",
+        "bowlingStrikeRate": "31",
+        "bestBowlingFigure": "2(23)",
+        "catchesTaken": "4"
     },
     {
         "id": "4445",
@@ -101,7 +135,9 @@
         "totalWickets": "40",
         "bowlingAverage": "30.90",
         "bowlingEconomy": "8.27",
-        "bowlingStrikeRate": "22.40"
+        "bowlingStrikeRate": "22.40",
+        "bestBowlingFigure": "4(20)",
+        "catchesTaken": "11"
     },
     {
         "id": "4446",
@@ -127,7 +163,9 @@
         "totalWickets": "11",
         "bowlingAverage": "38.54",
         "bowlingEconomy": "8.50",
-        "bowlingStrikeRate": "27.18"
+        "bowlingStrikeRate": "27.18",
+        "bestBowlingFigure": "3(15)",
+        "catchesTaken": "1"
     },
     {
         "id": "4447",
@@ -153,7 +191,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "2(11)",
+        "catchesTaken": "11"
     },
     {
         "id": "4448",
@@ -179,7 +219,9 @@
         "totalWickets": "29",
         "bowlingAverage": "31.31",
         "bowlingEconomy": "8.09",
-        "bowlingStrikeRate": "23.20"
+        "bowlingStrikeRate": "23.20",
+        "bestBowlingFigure": "4(34)",
+        "catchesTaken": "5"
     },
     {
         "id": "4449",
@@ -205,7 +247,9 @@
         "totalWickets": "18",
         "bowlingAverage": "44.50",
         "bowlingEconomy": "9.33",
-        "bowlingStrikeRate": "28.61"
+        "bowlingStrikeRate": "28.61",
+        "bestBowlingFigure": "4(30)",
+        "catchesTaken": "4"
     },
     {
         "id": "44410",
@@ -231,7 +275,65 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "15"
+    },
+    {
+        "id": "44411",
+        "fullName": "Sandeep Warrier",
+        "shortName": "S Warrier",
+        "nationality": "Indian",
+        "dateOfBirth": "1991-04-04",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "3",
+        "totalNotOuts": "",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "60",
+        "totalRunsConceded": "64",
+        "totalWickets": "1",
+        "bowlingAverage": "64",
+        "bowlingEconomy": "6.40",
+        "bowlingStrikeRate": "60",
+        "bestBowlingFigure": "1(19)",
+        "catchesTaken": "1"
+    },
+    {
+        "id": "44412",
+        "fullName": "Rinku Singh",
+        "shortName": "R Singh",
+        "nationality": "Indian",
+        "dateOfBirth": "1997-10-12",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "4",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "42",
+        "totalRunsConceded": "90",
+        "totalWickets": "2",
+        "bowlingAverage": "45",
+        "bowlingEconomy": "12",
+        "bowlingStrikeRate": "21",
+        "bestBowlingFigure": "3(38)",
+        "catchesTaken": "6"
     },
     {
         "id": "44413",
@@ -257,7 +359,9 @@
         "totalWickets": "14",
         "bowlingAverage": "34.42",
         "bowlingEconomy": "8.92",
-        "bowlingStrikeRate": "23.14"
+        "bowlingStrikeRate": "23.14",
+        "bestBowlingFigure": "2(15)",
+        "catchesTaken": "7"
     },
     {
         "id": "44414",
@@ -283,7 +387,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "17"
     },
     {
         "id": "44415",
@@ -309,7 +415,37 @@
         "totalWickets": "127",
         "bowlingAverage": "24.77",
         "bowlingEconomy": "6.77",
-        "bowlingStrikeRate": "21.93"
+        "bowlingStrikeRate": "21.93",
+        "bestBowlingFigure": "5(19)",
+        "catchesTaken": "19"
+    },
+    {
+        "id": "44416",
+        "fullName": "Tim Seifert",
+        "shortName": "T Seifert",
+        "nationality": "New Zealander",
+        "dateOfBirth": "1994-12-14",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "32",
+        "totalNotOuts": "4",
+        "totalRuns": "695",
+        "highestScore": "84",
+        "battingAverage": "24",
+        "totalBallsFaced": "522",
+        "battingStrikeRate": "133",
+        "totalFours": "37",
+        "totalSixes": "21",
+        "totalFifties": "10",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "1"
     },
     {
         "id": "44417",
@@ -335,7 +471,9 @@
         "totalWickets": "18",
         "bowlingAverage": "21.72",
         "bowlingEconomy": "7.10",
-        "bowlingStrikeRate": "18.33"
+        "bowlingStrikeRate": "18.33",
+        "bestBowlingFigure": "5(20)",
+        "catchesTaken": "3"
     },
     {
         "id": "44418",
@@ -361,7 +499,65 @@
         "totalWickets": "59",
         "bowlingAverage": "28",
         "bowlingEconomy": "7.46",
-        "bowlingStrikeRate": "22.50"
+        "bowlingStrikeRate": "22.50",
+        "bestBowlingFigure": "3(17)",
+        "catchesTaken": "11"
+    },
+    {
+        "id": "44419",
+        "fullName": "Sheldon Jackson",
+        "shortName": "S Jackson",
+        "nationality": "Indian",
+        "dateOfBirth": "1986-09-27",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "20",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "387",
+        "totalRunsConceded": "602",
+        "totalWickets": "21",
+        "bowlingAverage": "28.66",
+        "bowlingEconomy": "9.33",
+        "bowlingStrikeRate": "18.42",
+        "bestBowlingFigure": "4(11)",
+        "catchesTaken": "2"
+    },
+    {
+        "id": "44420",
+        "fullName": "Vaibhav Arora",
+        "shortName": "V Arora",
+        "nationality": "Indian",
+        "dateOfBirth": "1997-12-14",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "16",
+        "totalNotOuts": "4",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "366",
+        "totalRunsConceded": "512",
+        "totalWickets": "22",
+        "bowlingAverage": "23.27",
+        "bowlingEconomy": "8.39",
+        "bowlingStrikeRate": "16.63",
+        "bestBowlingFigure": "3(33)",
+        "catchesTaken": "4"
     },
     {
         "id": "44421",
@@ -387,7 +583,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "22"
     },
     {
         "id": "44422",
@@ -413,7 +611,9 @@
         "totalWickets": "150",
         "bowlingAverage": "26.44",
         "bowlingEconomy": "7.05",
-        "bowlingStrikeRate": "22.49"
+        "bowlingStrikeRate": "22.49",
+        "bestBowlingFigure": "5(18)",
+        "catchesTaken": "48"
     },
     {
         "id": "44423",
@@ -439,7 +639,37 @@
         "totalWickets": "10",
         "bowlingAverage": "42.90",
         "bowlingEconomy": "9.16",
-        "bowlingStrikeRate": "28.10"
+        "bowlingStrikeRate": "28.10",
+        "bestBowlingFigure": "2(20)",
+        "catchesTaken": "10"
+    },
+    {
+        "id": "44424",
+        "fullName": "Venkatesh Iyer",
+        "shortName": "V Iyer",
+        "nationality": "Indian",
+        "dateOfBirth": "1994-12-25",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "False",
+        "role": "batsman",
+        "totalMatches": "5",
+        "totalNotOuts": "1",
+        "totalRuns": "33",
+        "highestScore": "33",
+        "battingAverage": "16.50",
+        "totalBallsFaced": "29",
+        "battingStrikeRate": "113.79",
+        "totalFours": "4",
+        "totalSixes": "1",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "2"
     },
     {
         "id": "44425",
@@ -465,6 +695,8 @@
         "totalWickets": "34",
         "bowlingAverage": "27.61",
         "bowlingEconomy": "7.86",
-        "bowlingStrikeRate": "21.05"
+        "bowlingStrikeRate": "21.05",
+        "bestBowlingFigure": "4(18)",
+        "catchesTaken": "15"
     }
 ]

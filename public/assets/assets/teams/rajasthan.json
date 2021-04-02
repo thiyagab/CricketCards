@@ -23,7 +23,37 @@
         "totalWickets": "40",
         "bowlingAverage": "21.80",
         "bowlingEconomy": "8.46",
-        "bowlingStrikeRate": "15.45"
+        "bowlingStrikeRate": "15.45",
+        "bestBowlingFigure": "5(17)",
+        "catchesTaken": "7"
+    },
+    {
+        "id": "7772",
+        "fullName": "Anuj Rawat",
+        "shortName": "A Rawat",
+        "nationality": "Indian",
+        "dateOfBirth": "1999-10-17",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "False",
+        "role": "batsman",
+        "totalMatches": "8",
+        "totalNotOuts": "3",
+        "totalRuns": "150",
+        "highestScore": "56",
+        "battingAverage": "30",
+        "totalBallsFaced": "143",
+        "battingStrikeRate": "118",
+        "totalFours": "10",
+        "totalSixes": "6",
+        "totalFifties": "1",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": ""
     },
     {
         "id": "7773",
@@ -49,7 +79,9 @@
         "totalWickets": "28",
         "bowlingAverage": "34.35",
         "bowlingEconomy": "8.52",
-        "bowlingStrikeRate": "24.17"
+        "bowlingStrikeRate": "24.17",
+        "bestBowlingFigure": "3(15)",
+        "catchesTaken": "20"
     },
     {
         "id": "7774",
@@ -75,7 +107,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "49"
     },
     {
         "id": "7775",
@@ -101,7 +135,9 @@
         "totalWickets": "81",
         "bowlingAverage": "29.87",
         "bowlingEconomy": "8.83",
-        "bowlingStrikeRate": "20.29"
+        "bowlingStrikeRate": "20.29",
+        "bestBowlingFigure": "5(25)",
+        "catchesTaken": "24"
     },
     {
         "id": "7776",
@@ -127,7 +163,9 @@
         "totalWickets": "46",
         "bowlingAverage": "21.32",
         "bowlingEconomy": "7.13",
-        "bowlingStrikeRate": "17.93"
+        "bowlingStrikeRate": "17.93",
+        "bestBowlingFigure": "3(15)",
+        "catchesTaken": "9"
     },
     {
         "id": "7777",
@@ -153,7 +191,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "31"
     },
     {
         "id": "7778",
@@ -179,7 +219,9 @@
         "totalWickets": "9",
         "bowlingAverage": "40.77",
         "bowlingEconomy": "9.61",
-        "bowlingStrikeRate": "25.44"
+        "bowlingStrikeRate": "25.44",
+        "bestBowlingFigure": "2(36)",
+        "catchesTaken": "2"
     },
     {
         "id": "7779",
@@ -205,7 +247,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "1"
     },
     {
         "id": "77710",
@@ -231,7 +275,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "13"
     },
     {
         "id": "77711",
@@ -257,7 +303,9 @@
         "totalWickets": "16",
         "bowlingAverage": "26.68",
         "bowlingEconomy": "8.54",
-        "bowlingStrikeRate": "18.75"
+        "bowlingStrikeRate": "18.75",
+        "bestBowlingFigure": "4(23)",
+        "catchesTaken": "3"
     },
     {
         "id": "77712",
@@ -283,7 +331,37 @@
         "totalWickets": "24",
         "bowlingAverage": "28.33",
         "bowlingEconomy": "7.13",
-        "bowlingStrikeRate": "23.83"
+        "bowlingStrikeRate": "23.83",
+        "bestBowlingFigure": "3(18)",
+        "catchesTaken": "17"
+    },
+    {
+        "id": "77713",
+        "fullName": "Riyan Parag",
+        "shortName": "R Parag",
+        "nationality": "Indian",
+        "dateOfBirth": "2001-11-10",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "8",
+        "totalNotOuts": "5",
+        "totalRuns": "112",
+        "highestScore": "43",
+        "battingAverage": "37",
+        "totalBallsFaced": "113",
+        "battingStrikeRate": "99",
+        "totalFours": "13",
+        "totalSixes": "2",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "6"
     },
     {
         "id": "77714",
@@ -309,7 +387,9 @@
         "totalWickets": "",
         "bowlingAverage": "",
         "bowlingEconomy": "",
-        "bowlingStrikeRate": ""
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "52"
     },
     {
         "id": "77715",
@@ -335,7 +415,37 @@
         "totalWickets": "48",
         "bowlingAverage": "24.25",
         "bowlingEconomy": "7.85",
-        "bowlingStrikeRate": "18.52"
+        "bowlingStrikeRate": "18.52",
+        "bestBowlingFigure": "4(16)",
+        "catchesTaken": "11"
+    },
+    {
+        "id": "77716",
+        "fullName": "Yashasvi Jaiswal",
+        "shortName": "Y Jaiswal",
+        "nationality": "Indian",
+        "dateOfBirth": "2001-12-28",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "False",
+        "role": "batsman",
+        "totalMatches": "",
+        "totalNotOuts": "",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "1"
     },
     {
         "id": "77717",
@@ -361,7 +471,9 @@
         "totalWickets": "4",
         "bowlingAverage": "20.25",
         "bowlingEconomy": "7.59",
-        "bowlingStrikeRate": "16"
+        "bowlingStrikeRate": "16",
+        "bestBowlingFigure": "2(15)",
+        "catchesTaken": "3"
     },
     {
         "id": "77718",
@@ -387,7 +499,9 @@
         "totalWickets": "80",
         "bowlingAverage": "23.98",
         "bowlingEconomy": "7.81",
-        "bowlingStrikeRate": "18.42"
+        "bowlingStrikeRate": "18.42",
+        "bestBowlingFigure": "4(23)",
+        "catchesTaken": "34"
     },
     {
         "id": "77719",
@@ -413,6 +527,148 @@
         "totalWickets": "24",
         "bowlingAverage": "28.54",
         "bowlingEconomy": "7.51",
-        "bowlingStrikeRate": "22.79"
+        "bowlingStrikeRate": "22.79",
+        "bestBowlingFigure": "3(16)",
+        "catchesTaken": "4"
+    },
+    {
+        "id": "77720",
+        "fullName": "Chetan Sakariya",
+        "shortName": "C Sakariya",
+        "nationality": "Indian",
+        "dateOfBirth": "1998-02-28",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "False",
+        "role": "bowler",
+        "totalMatches": "8",
+        "totalNotOuts": "2",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "172",
+        "totalRunsConceded": "281",
+        "totalWickets": "4",
+        "bowlingAverage": "70",
+        "bowlingEconomy": "9",
+        "bowlingStrikeRate": "43",
+        "bestBowlingFigure": "2(42)",
+        "catchesTaken": "0"
+    },
+    {
+        "id": "77721",
+        "fullName": "KC Cariappa",
+        "shortName": "KC Cariappa",
+        "nationality": "Indian",
+        "dateOfBirth": "1994-04-13",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "14",
+        "totalNotOuts": "",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "264",
+        "totalRunsConceded": "289",
+        "totalWickets": "6",
+        "bowlingAverage": "48.16",
+        "bowlingEconomy": "6.56",
+        "bowlingStrikeRate": "44",
+        "bestBowlingFigure": "1(8)",
+        "catchesTaken": "4"
+    },
+    {
+        "id": "77722",
+        "fullName": "Liam Livingstone",
+        "shortName": "L Livingstone",
+        "nationality": "English",
+        "dateOfBirth": "1993-08-04",
+        "rightArmedBowl": "True",
+        "rightHandedBat": "True",
+        "role": "batsman",
+        "totalMatches": "5",
+        "totalNotOuts": "1",
+        "totalRuns": "33",
+        "highestScore": "33",
+        "battingAverage": "16.50",
+        "totalBallsFaced": "29",
+        "battingStrikeRate": "113.79",
+        "totalFours": "4",
+        "totalSixes": "1",
+        "totalFifties": "0",
+        "totalBallsBowled": "",
+        "totalRunsConceded": "",
+        "totalWickets": "",
+        "bowlingAverage": "",
+        "bowlingEconomy": "",
+        "bowlingStrikeRate": "",
+        "bestBowlingFigure": "",
+        "catchesTaken": "4"
+    },
+    {
+        "id": "77723",
+        "fullName": "Kuldip Yadav",
+        "shortName": "K Yadav",
+        "nationality": "Indian",
+        "dateOfBirth": "1996-10-15",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "5",
+        "totalNotOuts": "",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "108",
+        "totalRunsConceded": "177",
+        "totalWickets": "4",
+        "bowlingAverage": "44.25",
+        "bowlingEconomy": "9.83",
+        "bowlingStrikeRate": "27",
+        "bestBowlingFigure": "2(27)",
+        "catchesTaken": "5"
+    },
+    {
+        "id": "77724",
+        "fullName": "Akash Singh",
+        "shortName": "A Singh",
+        "nationality": "Indian",
+        "dateOfBirth": "2002-04-26",
+        "rightArmedBowl": "False",
+        "rightHandedBat": "True",
+        "role": "bowler",
+        "totalMatches": "3",
+        "totalNotOuts": "",
+        "totalRuns": "",
+        "highestScore": "",
+        "battingAverage": "",
+        "totalBallsFaced": "",
+        "battingStrikeRate": "",
+        "totalFours": "",
+        "totalSixes": "",
+        "totalFifties": "",
+        "totalBallsBowled": "60",
+        "totalRunsConceded": "64",
+        "totalWickets": "1",
+        "bowlingAverage": "64",
+        "bowlingEconomy": "6.40",
+        "bowlingStrikeRate": "60",
+        "bestBowlingFigure": "1(19)",
+        "catchesTaken": "1"
     }
 ]
