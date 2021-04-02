@@ -39,7 +39,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    GlobalKey<FlipCardState> flipState = new GlobalKey();
+    // GlobalKey<FlipCardState> flipState = new GlobalKey();
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
             child: Container(

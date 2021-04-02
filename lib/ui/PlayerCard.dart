@@ -31,14 +31,15 @@ class PlayerCard extends StatelessWidget {
     return FadeTransition(
         opacity: animation,
         child: new Transform(
-            transform: new Matrix4.translationValues(0, 0.0, 0.0),
+            transform: new Matrix4.translationValues(
+                100 * (1.0 - animation.value), 0.0, 0.0),
             child: child));
   }
 
   Widget _add3DButton(String attribute, String value) {
     String attributeName = Player.DISPLAY_MAP[attribute];
     double parsedValue = 0; // Variable name should start with small letter
-    bool isNumberVal = false;
+    bool isNumberVal = true;
     try {
       parsedValue = double.parse(value);
     } catch (e) {
@@ -108,7 +109,6 @@ class PlayerCard extends StatelessWidget {
   void handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
     model.refreshBotAndScore(key, value);
-    debugPrint('It worked');
     Timer(
         Duration(seconds: 3),
         () => {
@@ -138,7 +138,6 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
     final Map<String, dynamic> playerJson = player.toJson();
     final List<String> attributes = player.role == "bowler"
         ? Player.BOWLING_ATTRIBUTES
@@ -150,7 +149,8 @@ class PlayerCard extends StatelessWidget {
         return FadeTransition(
           opacity: animation,
           child: new Transform(
-            transform: new Matrix4.translationValues(0.0, 0.0, 0.0),
+            transform: new Matrix4.translationValues(
+                0.0, 30 * (1.0 - animation.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 16, bottom: 18),
