@@ -31,8 +31,7 @@ class PlayerCard extends StatelessWidget {
     return FadeTransition(
         opacity: animation,
         child: new Transform(
-            transform: new Matrix4.translationValues(
-                100 * (1.0 - animation.value), 0.0, 0.0),
+            transform: new Matrix4.translationValues(0, 0.0, 0.0),
             child: child));
   }
 
@@ -151,8 +150,7 @@ class PlayerCard extends StatelessWidget {
         return FadeTransition(
           opacity: animation,
           child: new Transform(
-            transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
+            transform: new Matrix4.translationValues(0.0, 0.0, 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
                   left: 24, right: 24, top: 16, bottom: 18),
