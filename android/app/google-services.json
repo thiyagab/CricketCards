@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "122297026833",
+    "project_id": "ipl-trump-cards",
+    "storage_bucket": "ipl-trump-cards.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122297026833:android:e3be38a1d28280cfdfe4b0",
+        "android_client_info": {
+          "package_name": "com.droidapps.cricketcards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122297026833-oe17sje5nhi9ui0qb8ffpf1fm5ceqqjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCat8HYRTXSEft7dipcMXmcVVWUFQthyjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122297026833-oe17sje5nhi9ui0qb8ffpf1fm5ceqqjm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
