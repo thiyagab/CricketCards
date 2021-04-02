@@ -4,15 +4,15 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "886333a7b939d45e559d79174b30064e",
-"index.html": "c0e75fa27c295e5b1b908a3eb7463fcf",
-"/": "c0e75fa27c295e5b1b908a3eb7463fcf",
-"main.dart.js": "88dc433ba8247265aad22d5ac1741472",
+"index.html": "2695d65fb4e4b926e630255503427726",
+"/": "2695d65fb4e4b926e630255503427726",
+"main.dart.js": "4482caac047ed385629c4d2b48283b70",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "manifest.json": "cc19f3f0e5156c0ccaa0e5f0ead3685d",
-"assets/AssetManifest.json": "248d6ee6fee0cf64ad06a379707c9b11",
-"assets/NOTICES": "7860ae3af32fcf657de8a5971129083d",
+"assets/AssetManifest.json": "a236918317964df9716079d49306799a",
+"assets/NOTICES": "79c961a8566477d6d74b53e7afb71b3b",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
@@ -20,6 +20,7 @@ const RESOURCES = {
 "assets/assets/images/csk-logo.png": "ab1f205ecc2c6c7bad4b6b5d22d2ccb7",
 "assets/assets/images/batsman.png": "300c2d0ba311d7f06d2c28972cdc25d1",
 "assets/assets/images/pant.png": "60085131cde12cd6c04c7bfbf4594094",
+"assets/assets/images/batsman_Icon.svg": "85c7c0941a3fc9d6ebc989e5f96e7e40",
 "assets/assets/images/dhoni.jpg": "41fdd5ddecce8c03c1a295112360b167",
 "assets/assets/images/AUS.png": "dff87541c31b85adea545328c20e7fe8",
 "assets/assets/images/all-rounder.png": "b0d0b6fbc0fbdb3645d14ac7b85f9968",
@@ -30,7 +31,7 @@ const RESOURCES = {
 "assets/assets/teams/delhi.json": "3d727b6a931f7c494638bc9f650f6485",
 "assets/assets/teams/hyderabad.json": "b12c549df7a20028bc0ef53b2a6f2374",
 "assets/assets/teams/punjab.json": "1b445d207cbb417c5aff25eb244b02e5",
-"assets/assets/teams/kolkata.json": "994352ffff6cb64a2fdf35500458bf3f",
+"assets/assets/teams/kolkata.json": "ac7283909efa9dc44b41b8e930c8b659",
 "assets/assets/teams/rajasthan.json": "73ea88bbe9d785815abe5b02a86b6c90"
 };
 

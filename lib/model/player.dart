@@ -63,13 +63,13 @@ class Player {
   ];
   static final List<String> BOWLING_ATTRIBUTES = [
     "totalMatches",
-    "totalNotOuts",
-    "totalRunsConceded",
     "totalBallsBowled",
     "totalWickets",
     "bowlingAverage",
     "bowlingEconomy",
     "bowlingStrikeRate",
+    "totalNotOuts",
+    "totalRunsConceded",
   ];
   Player() {}
 
