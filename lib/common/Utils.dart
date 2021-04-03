@@ -30,7 +30,8 @@ class Utils {
   }
 
   static teamName(Teams team) {
-    return team.toString().substring(6).toLowerCase();
+    String name = team.toString().substring(6).toLowerCase();
+    return name.characters.first.toUpperCase() + name.substring(1);
   }
 
   static List<Player> buildBotTeam(Teams playerTeam) {

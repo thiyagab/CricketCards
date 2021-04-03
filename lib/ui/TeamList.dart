@@ -41,7 +41,7 @@ class TeamList extends StatelessWidget {
     widgets.add(Padding(
         padding: EdgeInsets.only(top: 30),
         child: DefaultTextStyle(
-            style: TextStyle(), child: Text("Version: 0.27"))));
+            style: TextStyle(), child: Text("Version: 0.28"))));
     return widgets;
   }
 
@@ -88,7 +88,7 @@ class TeamList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        team.name.toString().substring(6),
+                        Utils.teamName(team.name),
                         textAlign: TextAlign.start,
                       ),
                       Padding(

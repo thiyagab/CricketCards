@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
+import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:ipltrumpcards/ui/GradientCard.dart';
@@ -14,18 +16,21 @@ import 'animatedPressButton.dart';
 class PlayerCard extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final Color startColor;
-  final Color endColor;
+  Color startColor;
+  Color endColor;
   final Player player;
+  final int parentHeight;
 
-  const PlayerCard(
+  PlayerCard(
       {Key key,
       this.animationController,
       this.animation,
-      this.startColor,
-      this.endColor,
-      this.player})
-      : super(key: key);
+      this.player,
+      this.parentHeight})
+      : super(key: key) {
+    this.startColor = player.team.color1;
+    this.endColor = player.team.color2;
+  }
 
   Widget _addFadeAnim(Widget child) {
     return FadeTransition(
@@ -52,7 +57,7 @@ class PlayerCard extends StatelessWidget {
       builder: (BuildContext context, Widget child) => Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: _addFadeAnim(AnimatedButton(
-            height: 80.0,
+            height: parentHeight > 640 ? 80.0 : 60,
             width: 80.0,
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -62,7 +67,7 @@ class PlayerCard extends StatelessWidget {
                   Text(
                     player.open ? '$attributeName' : '',
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.none),
@@ -106,16 +111,23 @@ class PlayerCard extends StatelessWidget {
     );
   }
 
+  static bool waitForNext = false;
+
   void handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-    model.refreshBotAndScore(key, value);
-    Timer(
-        Duration(seconds: 3),
-        () => {
-              model.moveCard(),
-              if (model.selectedIndex >= model.playerCards.length)
-                {showScoreDialog(context, model)}
-            });
+    if(!waitForNext) {
+      waitForNext = true;
+      model.refreshBotAndScore(key, value);
+      Timer(
+          Duration(seconds: 3),
+              () =>
+          {
+            waitForNext=false,
+            model.moveCard(),
+            if (model.selectedIndex >= model.playerCards.length)
+              {showScoreDialog(context, model)}
+          });
+    }
   }
 
   void showScoreDialog(BuildContext context, final TrumpModel model) {
@@ -188,7 +200,7 @@ class PlayerCard extends StatelessWidget {
                                 const EdgeInsets.only(left: 8.0, right: 16),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   player.open ? player.shortName : '',
