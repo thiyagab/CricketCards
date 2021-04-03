@@ -139,128 +139,122 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _buildCard(context);
+    // return AnimatedBuilder(
+    //   animation: animationController,
+    //   builder: (BuildContext context, Widget child) {
+    //     return FadeTransition(
+    //       opacity: animation,
+    //       child: new Transform(
+    //         transform: new Matrix4.translationValues(
+    //             0.0, 30 * (1.0 - animation.value), 0.0),
+    //         child: _buildCard(context),
+    //       ),
+    //     );
+    //   },
+    // );
+  }
+
+  Widget _buildCard(BuildContext context) {
     final Map<String, dynamic> playerJson = player.toJson();
     final isBowler = player.role == "bowler";
     final List<String> attributes =
         isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
     final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler_Icon.svg';
-
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: animation,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
-              child: GradientCard(
-                  startColor: this.startColor,
-                  endColor: this.endColor,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 8, bottom: 16),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                child: _addFadeAnim(
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/images/$playerIcon',
-                                    height: 50.0,
-                                    width: 50.0,
-                                    allowDrawingOutsideViewBox: true,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 16),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          player.open ? player.shortName : '',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily:
-                                                CricketCardsAppTheme.fontName,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            letterSpacing: 0.2,
-                                            decoration: TextDecoration.none,
-                                          ),
-                                        ),
-                                        SizedBox(height: 6),
-                                        Text(
-                                          'Team : ' +
-                                              Utils.teamName(player.team),
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontFamily:
-                                                CricketCardsAppTheme.fontName,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                            decoration: TextDecoration.none,
-                                            color: CricketCardsAppTheme
-                                                .nearlyWhite
-                                                .withOpacity(0.8),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 24, right: 24, top: 0, bottom: 8),
-                        child: Container(
-                          height: 2,
-                          decoration: BoxDecoration(
-                            color: CricketCardsAppTheme.background,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.0)),
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
+      child: GradientCard(
+          startColor: this.startColor,
+          endColor: this.endColor,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 24, right: 24, top: 8, bottom: 16),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: _addFadeAnim(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/$playerIcon',
+                            height: 50.0,
+                            width: 50.0,
+                            allowDrawingOutsideViewBox: true,
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                child: Column(
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 16),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                _addAttributesRow(
-                                    playerJson, attributes.sublist(0, 3)),
-                                _addAttributesRow(
-                                    playerJson, attributes.sublist(3, 6)),
-                                // _addAttributesRow(
-                                //     playerJson, attributes.sublist(6, 8))
+                                Text(
+                                  player.open ? player.shortName : '',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: CricketCardsAppTheme.fontName,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    letterSpacing: 0.2,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                SizedBox(height: 6),
+                                Text(
+                                  'Team : ' + Utils.teamName(player.team),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: CricketCardsAppTheme.fontName,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.none,
+                                    color: CricketCardsAppTheme.nearlyWhite
+                                        .withOpacity(0.8),
+                                  ),
+                                ),
                               ],
-                            )),
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  )),
-            ),
-          ),
-        );
-      },
+                    )),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 24, right: 24, top: 0, bottom: 8),
+                child: Container(
+                  height: 2,
+                  decoration: BoxDecoration(
+                    color: CricketCardsAppTheme.background,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Column(
+                      children: [
+                        _addAttributesRow(playerJson, attributes.sublist(0, 3)),
+                        _addAttributesRow(playerJson, attributes.sublist(3, 6)),
+                        // _addAttributesRow(
+                        //     playerJson, attributes.sublist(6, 8))
+                      ],
+                    )),
+                  ],
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
