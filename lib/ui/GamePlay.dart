@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
-import 'package:ipltrumpcards/ui/PlayerCardbt.dart';
 import 'package:provider/provider.dart';
 
+import 'PlayerCard.dart';
 import 'TrumpCard.dart';
 
 class GamePlay extends StatefulWidget {
@@ -46,27 +46,28 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // PlayerCard(
-                      //   animation: Tween(begin: 0.0, end: 1.0).animate(
-                      //       CurvedAnimation(
-                      //           parent: animationController,
-                      //           curve: Interval(0.1, 1.0,
-                      //               curve: Curves.fastOutSlowIn))),
-                      //   animationController: animationController,
-                      //   startColor: model.botCard.team.color1,
-                      //   endColor: model.botCard.team.color2,
-                      //   player: model.botCard,
-                      // ),
-                      PlayerCardbt(
+                      PlayerCard(
+                        animation: Tween(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval(0.1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController,
                         startColor: model.botCard.team.color1,
                         endColor: model.botCard.team.color2,
                         player: model.botCard,
                       ),
                       // _cards(context, model.botCards, model, false),
                       _scorePanel(context, model),
-                      PlayerCardbt(
-                        startColor: model.playerTeam.color1,
-                        endColor: model.playerTeam.color2,
+                      PlayerCard(
+                        animation: Tween(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                                parent: animationController,
+                                curve: Interval(0.1, 1.0,
+                                    curve: Curves.fastOutSlowIn))),
+                        animationController: animationController,
+                        startColor: model.playerCard.team.color1,
+                        endColor: model.playerCard.team.color2,
                         player: model.playerCard,
                       ),
                     ]))));
