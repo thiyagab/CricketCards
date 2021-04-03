@@ -11,35 +11,45 @@ import 'package:provider/provider.dart';
 import 'CricketCardsTheme.dart';
 import 'animatedPressButton.dart';
 
-class PlayerCard extends StatelessWidget {
-  final AnimationController animationController;
-  final Animation animation;
+class PlayerCardbt extends StatelessWidget {
+  // final Animation animation;
   final Color startColor;
   final Color endColor;
   final Player player;
 
-  const PlayerCard(
+  const PlayerCardbt(
       {Key key,
-      this.animationController,
-      this.animation,
+      // this.animationController,
+      // this.animation,
       this.startColor,
       this.endColor,
       this.player})
       : super(key: key);
 
   Widget _addFadeAnim(Widget child) {
-    return FadeTransition(
-        opacity: animation,
-        child: new Transform(
-            transform: new Matrix4.translationValues(
-                100 * (1.0 - animation.value), 0.0, 0.0),
-            child: child));
+    return child;
+    // FadeTransition(
+    //   opacity: animation,
+    //   child: new Transform(
+    //       transform: new Matrix4.translationValues(
+    //           100 * (1.0 - animation.value), 0.0, 0.0),
+    //       child: child));
   }
 
-  Widget _add3DButton(String attribute, String value) {
+  // Widget _add3DButton(String attribute, String value) {
+  //   return AnimatedBuilder(
+  //     animation: animationController,
+  //     builder: (BuildContext context, Widget child) => Padding(
+  //       padding: const EdgeInsets.only(right: 12.0),
+  //       child: _addFadeAnim(_buildButton(context, attribute, value)),
+  //     ),
+  //   );
+  // }
+
+  Widget _buildButton(BuildContext context, String attribute, String value) {
     String attributeName = Player.DISPLAY_MAP[attribute];
     double parsedValue = 0; // Variable name should start with small letter
-    bool isNumberVal = true;
+    bool isNumberVal = false;
     try {
       parsedValue = double.parse(value);
     } catch (e) {
@@ -47,15 +57,13 @@ class PlayerCard extends StatelessWidget {
       debugPrint(
           'Couldn\'t parse double for $attributeName with $value, error $e');
     }
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) => Padding(
+    return Padding(
         padding: const EdgeInsets.only(right: 12.0),
-        child: _addFadeAnim(AnimatedButton(
+        child: AnimatedButton(
             height: 80.0,
             width: 80.0,
             child: Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -71,9 +79,10 @@ class PlayerCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
                       player.open
-                          ? (isNumberVal
-                              ? '${(parsedValue * animation.value).toInt()}'
-                              : '$value')
+                          ? '$value'
+                          // (isNumberVal
+                          //       ? '${(parsedValue * animation.value).toInt()}'
+                          //       : '$value')
                           : '',
                       style: TextStyle(
                           fontSize: 20,
@@ -89,19 +98,18 @@ class PlayerCard extends StatelessWidget {
               this.handleOnTapEvent(attribute, value, context);
             },
             shadowDegree: ShadowDegree.dark,
-            color: endColor)),
-      ),
-    );
+            color: endColor));
   }
 
-  Widget _addAttributesRow(
+  Widget _addAttributesRow(BuildContext context,
       Map<String, dynamic> playerData, List<String> playerAttributes) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: playerAttributes.map((attribute) {
-            return _add3DButton(attribute, playerData[attribute]);
+            return _buildButton(context, attribute, playerData[attribute]);
+            // return _add3DButton(attribute, playerData[attribute]);
           }).toList()),
     );
   }
@@ -138,19 +146,20 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: animation,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
-            child: _buildCard(context),
-          ),
-        );
-      },
-    );
+    return _buildCard(context);
+    // return AnimatedBuilder(
+    //   animation: animationController,
+    //   builder: (BuildContext context, Widget child) {
+    //     return FadeTransition(
+    //       opacity: animation,
+    //       child: new Transform(
+    //         transform: new Matrix4.translationValues(
+    //             0.0, 30 * (1.0 - animation.value), 0.0),
+    //         child: _buildCard(context),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _buildCard(BuildContext context) {
@@ -188,7 +197,7 @@ class PlayerCard extends StatelessWidget {
                                 const EdgeInsets.only(left: 8.0, right: 16),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   player.open ? player.shortName : '',
@@ -242,8 +251,10 @@ class PlayerCard extends StatelessWidget {
                     Expanded(
                         child: Column(
                       children: [
-                        _addAttributesRow(playerJson, attributes.sublist(0, 3)),
-                        _addAttributesRow(playerJson, attributes.sublist(3, 6)),
+                        _addAttributesRow(
+                            context, playerJson, attributes.sublist(0, 3)),
+                        _addAttributesRow(
+                            context, playerJson, attributes.sublist(3, 6)),
                         // _addAttributesRow(
                         //     playerJson, attributes.sublist(6, 8))
                       ],
