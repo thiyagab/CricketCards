@@ -139,9 +139,11 @@ class PlayerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> playerJson = player.toJson();
-    final List<String> attributes = player.role == "bowler"
+    final isBowler = player.role == "bowler";
+    final List<String> attributes = isBowler
         ? Player.BOWLING_ATTRIBUTES
         : Player.BATTING_ATTRIBUTES;
+    final playerIcon = !isBowler?'batsman_Icon.svg':'bowler_Icon.svg';
 
     return AnimatedBuilder(
       animation: animationController,
@@ -156,7 +158,7 @@ class PlayerCard extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: GradientCard(
                   startColor: this.startColor,
-                  endColor: this.endColor,
+                  endColor: this.endColor, 
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -171,7 +173,7 @@ class PlayerCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    'assets/images/batsman_Icon.svg',
+                                    'assets/images/$playerIcon',
                                     height: 50.0,
                                     width: 50.0,
                                     allowDrawingOutsideViewBox: true,
