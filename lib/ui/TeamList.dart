@@ -41,7 +41,7 @@ class TeamList extends StatelessWidget {
     widgets.add(Padding(
         padding: EdgeInsets.only(top: 30),
         child: DefaultTextStyle(
-            style: TextStyle(), child: Text("Version: 0.22"))));
+            style: TextStyle(), child: Text("Version: 0.23"))));
     return widgets;
   }
 
