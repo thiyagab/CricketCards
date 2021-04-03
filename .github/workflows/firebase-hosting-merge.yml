@@ -14,11 +14,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1.4.0
-        with:
-          channel: 'stable'
-      - run: flutter build web
-      - run: cp -R build/web/* public
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
