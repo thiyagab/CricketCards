@@ -1,4 +1,3 @@
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/model/Team.dart';
@@ -23,8 +22,8 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    animationController =
-        AnimationController(duration: Duration(milliseconds: 600), vsync: this);
+    animationController = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
     super.initState();
     animationController.forward();
   }

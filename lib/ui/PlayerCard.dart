@@ -28,12 +28,13 @@ class PlayerCard extends StatelessWidget {
       : super(key: key);
 
   Widget _addFadeAnim(Widget child) {
-    return FadeTransition(
-        opacity: animation,
-        child: new Transform(
-            transform: new Matrix4.translationValues(
-                100 * (1.0 - animation.value), 0.0, 0.0),
-            child: child));
+    return child;
+    // return FadeTransition(
+    //     opacity: animation,
+    //     child: new Transform(
+    //         transform: new Matrix4.translationValues(
+    //             100 * (1.0 - animation.value), 0.0, 0.0),
+    //         child: child));
   }
 
   Widget _add3DButton(String attribute, String value) {
@@ -140,10 +141,9 @@ class PlayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> playerJson = player.toJson();
     final isBowler = player.role == "bowler";
-    final List<String> attributes = isBowler
-        ? Player.BOWLING_ATTRIBUTES
-        : Player.BATTING_ATTRIBUTES;
-    final playerIcon = !isBowler?'batsman_Icon.svg':'bowler_Icon.svg';
+    final List<String> attributes =
+        isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
+    final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler_Icon.svg';
 
     return AnimatedBuilder(
       animation: animationController,
@@ -158,7 +158,7 @@ class PlayerCard extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: GradientCard(
                   startColor: this.startColor,
-                  endColor: this.endColor, 
+                  endColor: this.endColor,
                   child: Column(
                     children: <Widget>[
                       Padding(
