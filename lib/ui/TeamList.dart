@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
@@ -22,7 +23,7 @@ class TeamList extends StatelessWidget {
         }
 
         return Container(
-            padding: EdgeInsets.fromLTRB(50, 50, 50, 50),
+            padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
             color: Colors.white70,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,8 +41,8 @@ class TeamList extends StatelessWidget {
     }).toList();
     widgets.add(Padding(
         padding: EdgeInsets.only(top: 30),
-        child: DefaultTextStyle(
-            style: TextStyle(), child: Text("Version: 0.28"))));
+        child:
+            DefaultTextStyle(style: TextStyle(), child: Text("Version: 0.3"))));
     return widgets;
   }
 
@@ -58,11 +59,11 @@ class TeamList extends StatelessWidget {
                 gradient: Gradients.buildGradient(
                     Alignment.topLeft,
                     Alignment.bottomRight,
-                    [team.name.color1, team.name.color1]),
+                    [team.name.color2, team.name.color1]),
                 // shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
                 elevation: 4,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(2)),
                 child: buildTeamWidget(team, position))));
   }
 
@@ -79,10 +80,16 @@ class TeamList extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
+        Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Text(
+              '${(position + 1)}',
+              style: TextStyle(fontSize: 24),
+            )),
         Expanded(
             flex: 2,
             child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,16 +100,36 @@ class TeamList extends StatelessWidget {
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                            team.score.toString() + " points",
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                color: Utils.textColor.withOpacity(0.5)),
-                          ))
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/images/cup.svg',
+                                    width: 10,
+                                    height: 10,
+                                    color: Colors.orangeAccent),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      team.score.toString() + " points",
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                          color:
+                                              Utils.textColor.withOpacity(0.5)),
+                                    ))
+                              ]))
                     ]))),
+        SvgPicture.asset(
+          'assets/images/lb-${position + 1}.svg',
+          width: 80.0,
+          allowDrawingOutsideViewBox: true,
+          color: Colors.white60,
+        ),
         Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-            child: Text("#" + (position + 1).toString() + "   >"))
+            child: Text(
+              "   >",
+              style: TextStyle(fontSize: 20),
+            ))
       ],
     );
   }
