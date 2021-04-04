@@ -24,7 +24,7 @@ class TeamList extends StatelessWidget {
 
         return Container(
             padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
-            color: Colors.white70,
+            color: Colors.white,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,8 +41,9 @@ class TeamList extends StatelessWidget {
     }).toList();
     widgets.add(Padding(
         padding: EdgeInsets.only(top: 30),
-        child:
-            DefaultTextStyle(style: TextStyle(), child: Text("Version: 0.3"))));
+        child: DefaultTextStyle(
+            style: TextStyle(color: Colors.black),
+            child: Text("Version: 0.31"))));
     return widgets;
   }
 
@@ -63,7 +64,7 @@ class TeamList extends StatelessWidget {
                 // shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
                 elevation: 4,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2)),
+                    borderRadius: BorderRadius.circular(5)),
                 child: buildTeamWidget(team, position))));
   }
 
@@ -97,6 +98,8 @@ class TeamList extends StatelessWidget {
                       Text(
                         Utils.teamName(team.name),
                         textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10),
@@ -104,23 +107,21 @@ class TeamList extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset('assets/images/cup.svg',
-                                    width: 10,
-                                    height: 10,
+                                    width: 12,
+                                    height: 12,
                                     color: Colors.orangeAccent),
                                 Padding(
                                     padding: EdgeInsets.only(left: 5),
                                     child: Text(
                                       team.score.toString() + " points",
                                       textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                          color:
-                                              Utils.textColor.withOpacity(0.5)),
+                                      style: TextStyle(color: Utils.textColor),
                                     ))
                               ]))
                     ]))),
         SvgPicture.asset(
           'assets/images/lb-${position + 1}.svg',
-          width: 80.0,
+          width: 50.0,
           allowDrawingOutsideViewBox: true,
           color: Colors.white60,
         ),

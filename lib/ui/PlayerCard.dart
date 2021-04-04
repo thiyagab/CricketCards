@@ -19,7 +19,7 @@ class PlayerCard extends StatelessWidget {
   Color startColor;
   Color endColor;
   final Player player;
-  final int parentHeight;
+  final double parentHeight;
 
   PlayerCard(
       {Key key,
@@ -36,15 +36,15 @@ class PlayerCard extends StatelessWidget {
     return FadeTransition(
         opacity: animation,
         child: new Transform(
-            transform: new Matrix4.translationValues(
-                100 * (1.0 - animation.value), 0.0, 0.0),
+            transform: new Matrix4.translationValues(0.0,
+                (player.open ? 1500 : -1500) * (1.0 - animation.value), 0.0),
             child: child));
   }
 
   Widget _add3DButton(String attribute, String value) {
     String attributeName = Player.DISPLAY_MAP[attribute];
-    double parsedValue = 0; // Variable name should start with small letter
-    bool isNumberVal = true;
+    double parsedValue = 0;
+    bool isNumberVal = false;
     try {
       parsedValue = double.parse(value);
     } catch (e) {
@@ -57,7 +57,8 @@ class PlayerCard extends StatelessWidget {
       builder: (BuildContext context, Widget child) => Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: _addFadeAnim(AnimatedButton(
-            height: parentHeight > 640 ? 80.0 : 60,
+            height:
+                parentHeight > 640 ? 80.0 : 50, // This is for vasanth SE phone
             width: 80.0,
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -81,9 +82,9 @@ class PlayerCard extends StatelessWidget {
                               : '$value')
                           : '',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none),
                     ),
                   ),
@@ -115,18 +116,17 @@ class PlayerCard extends StatelessWidget {
 
   void handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-    if(!waitForNext) {
+    if (!waitForNext) {
       waitForNext = true;
       model.refreshBotAndScore(key, value);
       Timer(
           Duration(seconds: 3),
-              () =>
-          {
-            waitForNext=false,
-            model.moveCard(),
-            if (model.selectedIndex >= model.playerCards.length)
-              {showScoreDialog(context, model)}
-          });
+          () => {
+                waitForNext = false,
+                model.moveCard(),
+                if (model.selectedIndex >= model.playerCards.length)
+                  {showScoreDialog(context, model)}
+              });
     }
   }
 
@@ -157,7 +157,7 @@ class PlayerCard extends StatelessWidget {
           opacity: animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - animation.value), 0.0),
+                0, (player.open ? 1000 : -1000) * (1.0 - animation.value), 0.0),
             child: _buildCard(context),
           ),
         );
@@ -170,7 +170,7 @@ class PlayerCard extends StatelessWidget {
     final isBowler = player.role == "bowler";
     final List<String> attributes =
         isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
-    final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler_Icon.svg';
+    final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler.svg';
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
       child: GradientCard(
@@ -193,6 +193,7 @@ class PlayerCard extends StatelessWidget {
                             'assets/images/$playerIcon',
                             height: 50.0,
                             width: 50.0,
+                            color: Colors.white,
                             allowDrawingOutsideViewBox: true,
                           ),
                           Padding(
@@ -221,7 +222,7 @@ class PlayerCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontFamily: CricketCardsAppTheme.fontName,
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     decoration: TextDecoration.none,
                                     color: CricketCardsAppTheme.nearlyWhite
                                         .withOpacity(0.8),

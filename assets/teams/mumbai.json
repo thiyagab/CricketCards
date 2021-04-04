@@ -52,7 +52,7 @@
         "bowlingAverage": "11",
         "bowlingEconomy": "5.50",
         "bowlingStrikeRate": "12",
-        "bestBowlingFigure": "1(11)",
+        "bestBowlingFigure": "1/11",
         "catchesTaken": "1"
     },
     {
@@ -136,7 +136,7 @@
         "bowlingAverage": "28.20",
         "bowlingEconomy": "8.25",
         "bowlingStrikeRate": "20.50",
-        "bestBowlingFigure": "4(14)",
+        "bestBowlingFigure": "4/14",
         "catchesTaken": "22"
     },
     {
@@ -164,7 +164,7 @@
         "bowlingAverage": "31.26",
         "bowlingEconomy": "9.06",
         "bowlingStrikeRate": "20.69",
-        "bestBowlingFigure": "3(20)",
+        "bestBowlingFigure": "3/20",
         "catchesTaken": "49"
     },
     {
@@ -220,7 +220,7 @@
         "bowlingAverage": "23.71",
         "bowlingEconomy": "7.41",
         "bowlingStrikeRate": "19.19",
-        "bestBowlingFigure": "4(14)",
+        "bestBowlingFigure": "4/14",
         "catchesTaken": "9"
     },
     {
@@ -248,7 +248,7 @@
         "bowlingAverage": "48.16",
         "bowlingEconomy": "6.56",
         "bowlingStrikeRate": "44",
-        "bestBowlingFigure": "1(8)",
+        "bestBowlingFigure": "1/8",
         "catchesTaken": "4"
     },
     {
@@ -276,7 +276,7 @@
         "bowlingAverage": "32.66",
         "bowlingEconomy": "8.87",
         "bowlingStrikeRate": "22.08",
-        "bestBowlingFigure": "4(44)",
+        "bestBowlingFigure": "4/44",
         "catchesTaken": "90"
     },
     {
@@ -304,7 +304,7 @@
         "bowlingAverage": "32.78",
         "bowlingEconomy": "7.26",
         "bowlingStrikeRate": "27.06",
-        "bestBowlingFigure": "3(14)",
+        "bestBowlingFigure": "3/14",
         "catchesTaken": "22"
     },
     {
@@ -332,7 +332,7 @@
         "bowlingAverage": "46",
         "bowlingEconomy": "8.43",
         "bowlingStrikeRate": "32.71",
-        "bestBowlingFigure": "2(16)",
+        "bestBowlingFigure": "2/16",
         "catchesTaken": "2"
     },
     {
@@ -388,7 +388,7 @@
         "bowlingAverage": "26.63",
         "bowlingEconomy": "7.46",
         "bowlingStrikeRate": "21.40",
-        "bestBowlingFigure": "3(19)",
+        "bestBowlingFigure": "3/19",
         "catchesTaken": "8"
     },
     {
@@ -500,7 +500,7 @@
         "bowlingAverage": "25.03",
         "bowlingEconomy": "8.53",
         "bowlingStrikeRate": "17.60",
-        "bestBowlingFigure": "4(18)",
+        "bestBowlingFigure": "4/18",
         "catchesTaken": "18"
     },
     {
@@ -528,7 +528,7 @@
         "bowlingAverage": "44.25",
         "bowlingEconomy": "9.83",
         "bowlingStrikeRate": "27",
-        "bestBowlingFigure": "2(27)",
+        "bestBowlingFigure": "2/27",
         "catchesTaken": "5"
     },
     {
@@ -556,7 +556,7 @@
         "bowlingAverage": "22.56",
         "bowlingEconomy": "7.71",
         "bowlingStrikeRate": "17.53",
-        "bestBowlingFigure": "4(20)",
+        "bestBowlingFigure": "4/20",
         "catchesTaken": "10"
     },
     {
@@ -584,7 +584,7 @@
         "bowlingAverage": "27.32",
         "bowlingEconomy": "7.87",
         "bowlingStrikeRate": "20.83",
-        "bestBowlingFigure": "4(17)",
+        "bestBowlingFigure": "4/17",
         "catchesTaken": "40"
     },
     {
@@ -612,7 +612,7 @@
         "bowlingAverage": "79.66",
         "bowlingEconomy": "9.95",
         "bowlingStrikeRate": "48",
-        "bestBowlingFigure": "1(17)",
+        "bestBowlingFigure": "1/17",
         "catchesTaken": "1"
     },
     {
@@ -696,7 +696,7 @@
         "bowlingAverage": "33",
         "bowlingEconomy": "9.57",
         "bowlingStrikeRate": "21",
-        "bestBowlingFigure": "1(33)",
+        "bestBowlingFigure": "1/33",
         "catchesTaken": "1"
     }
 ]

@@ -52,14 +52,30 @@ class TrumpModel extends ChangeNotifier {
   void updateScore(String key, String value) {
     bool playerWins = false;
     String botValuestr = botCard.toJson()[key];
-    double botvalue = (botValuestr == null || botValuestr.isEmpty)
-        ? 0
-        : double.parse(botValuestr);
-    double playervalue =
-        (value == null || value.isEmpty) ? 0 : double.parse(value);
-    playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
-        ? botvalue > playervalue
-        : playervalue > botvalue;
+
+    if (key == 'bestBowlingFigure') {
+      if (botValuestr == '') playerWins = true;
+      List<String> botValues = botValuestr.split("/");
+      List<String> playerValues = value.split("/");
+
+      double botwickets = double.parse(botValues[0]);
+      double playerwickets = double.parse(playerValues[0]);
+
+      if (botwickets == playerwickets) {
+        playerWins = double.parse(playerValues[1]) < double.parse(botValues[1]);
+      } else {
+        playerWins = playerwickets > botwickets;
+      }
+    } else {
+      double botvalue = (botValuestr == null || botValuestr.isEmpty)
+          ? 0
+          : double.parse(botValuestr);
+      double playervalue =
+          (value == null || value.isEmpty) ? 0 : double.parse(value);
+      playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
+          ? botvalue > playervalue
+          : playervalue > botvalue;
+    }
 
     if (playerWins) {
       playerCard.score = POINTS_PER_WIN;

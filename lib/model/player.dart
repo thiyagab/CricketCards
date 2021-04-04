@@ -24,6 +24,8 @@ class Player {
   String bowlingAverage;
   String bowlingEconomy;
   String bowlingStrikeRate;
+  String bestBowlingFigure;
+  String catchesTaken;
 
   Teams team;
 
@@ -39,37 +41,40 @@ class Player {
     "highestScore": "H/S",
     "battingAverage": "Bat Avg",
     "totalBallsFaced": "Balls Faced",
-    "battingStrikeRate": "Bt Str Rate",
+    "battingStrikeRate": "Bt SR",
     "totalFours": "4s",
     "totalSixes": "6s",
     "totalFifties": "50s",
     "totalBallsBowled": "Balls Bwld",
     "totalRunsConceded": "Runs Given",
     "totalWickets": "Wickets",
-    "bowlingAverage": "Bwl Avg",
+    "bowlingAverage": "Bw Avg",
     "bowlingEconomy": "Economy",
-    "bowlingStrikeRate": "Bw Str Rate"
+    "bowlingStrikeRate": "Bw SR",
+    "bestBowlingFigure": "BBF",
+    "catchesTaken": "Catches"
   };
 
   static final List<String> BATTING_ATTRIBUTES = [
     "totalMatches",
-    "totalRuns",
-    "highestScore",
     "battingAverage",
-    "battingStrikeRate",
     "totalFours",
+    "highestScore",
+    "battingStrikeRate",
     "totalSixes",
-    "totalFifties"
+    "totalFifties",
+    "totalRuns"
   ];
   static final List<String> BOWLING_ATTRIBUTES = [
     "totalMatches",
-    "totalBallsBowled",
     "totalWickets",
     "bowlingAverage",
     "bowlingEconomy",
     "bowlingStrikeRate",
+    "bestBowlingFigure",
     "totalNotOuts",
     "totalRunsConceded",
+    "totalBallsBowled",
   ];
   Player() {}
 
