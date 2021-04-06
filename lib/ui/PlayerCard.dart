@@ -18,6 +18,7 @@ class PlayerCard extends StatelessWidget {
   final Animation animation;
   Color startColor;
   Color endColor;
+  final bool bot;
   final Player player;
   final double parentHeight;
 
@@ -26,7 +27,8 @@ class PlayerCard extends StatelessWidget {
       this.animationController,
       this.animation,
       this.player,
-      this.parentHeight})
+      this.parentHeight,
+      this.bot = false})
       : super(key: key) {
     this.startColor = player.team.color1;
     this.endColor = player.team.color2;
@@ -100,6 +102,62 @@ class PlayerCard extends StatelessWidget {
     );
   }
 
+  Widget _addPlayerAttribute(String attribute, String value) {
+    String attributeName = Player.DISPLAY_MAP[attribute];
+    double parsedValue = 0;
+    bool isNumberVal = false;
+    try {
+      parsedValue = double.parse(value);
+    } catch (e) {
+      isNumberVal = false;
+      debugPrint(
+          'Couldn\'t parse double for $attributeName with $value, error $e');
+    }
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget child) => Padding(
+        padding: const EdgeInsets.only(right: 12.0),
+        child: _addFadeAnim(Container(
+            decoration:
+                BoxDecoration(border: Border.all(color: Colors.white10)),
+            height:
+                parentHeight > 640 ? 80.0 : 50, // This is for vasanth SE phone
+            width: 80.0,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    player.open ? '$attributeName' : '',
+                    style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.none),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                      player.open
+                          ? (isNumberVal
+                              ? '${(parsedValue * animation.value).toInt()}'
+                              : '$value')
+                          : '',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none),
+                    ),
+                  ),
+                ],
+              ),
+            ))),
+      ),
+    );
+  }
+
   Widget _addAttributesRow(
       Map<String, dynamic> playerData, List<String> playerAttributes) {
     return Padding(
@@ -107,7 +165,9 @@ class PlayerCard extends StatelessWidget {
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: playerAttributes.map((attribute) {
-            return _add3DButton(attribute, playerData[attribute]);
+            return !bot
+                ? _add3DButton(attribute, playerData[attribute])
+                : _addPlayerAttribute(attribute, playerData[attribute]);
           }).toList()),
     );
   }

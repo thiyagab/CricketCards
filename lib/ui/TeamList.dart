@@ -22,14 +22,20 @@ class TeamList extends StatelessWidget {
           return Text("Loading");
         }
 
-        return Container(
-            padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
-            color: Colors.white,
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: teamList(context, snapshot.data.docs),
-            ));
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/stadium2.jpg"),
+                fit: BoxFit.cover),
+          ),
+          child: Container(
+              padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: teamList(context, snapshot.data.docs),
+              )),
+        );
       },
     );
   }

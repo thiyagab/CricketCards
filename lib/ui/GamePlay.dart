@@ -4,7 +4,9 @@ import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
 
+import 'CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
+import 'TapToPlay.dart';
 import 'TrumpCard.dart';
 
 class GamePlay extends StatefulWidget {
@@ -17,6 +19,7 @@ class GamePlay extends StatefulWidget {
 
 class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   AnimationController animationController;
+
   var width, height;
 
   @override
@@ -37,39 +40,148 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+    Animation tweenInterval = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: animationController,
+            curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn)));
     // GlobalKey<FlipCardState> flipState = new GlobalKey();
-    return Consumer<TrumpModel>(
-        builder: (context, model, child) => SafeArea(
-            child: Container(
-                color: Colors.white70,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PlayerCard(
-                          animation: Tween(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Interval(0.1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
+    return DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/images/stadium2.jpg"),
+              fit: BoxFit.cover),
+        ),
+        child: Consumer<TrumpModel>(
+            builder: (context, model, child) => SafeArea(
+                    child: Container(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                      if (!model.botCard.open && !model.isGameOver())
+                        TapToPlay(
+                          animation: tweenInterval,
+                          animationController: animationController,
+                        )
+                      else
+                        PlayerCard(
+                          animation: tweenInterval,
                           animationController: animationController,
                           player: model.botCard,
-                          parentHeight: this.height),
+                          parentHeight: this.height,
+                          bot: true,
+                        ),
                       _scorePanel(context, model),
                       PlayerCard(
-                        animation: Tween(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController,
-                                curve: Interval(0.1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
+                        animation: tweenInterval,
                         animationController: animationController,
                         player: model.playerCard,
                         parentHeight: this.height,
                       ),
-                    ]))));
+                    ])))));
   }
 
   Widget _scorePanel(BuildContext context, TrumpModel model) {
-    return Container(
+    final progress =
+        (model.selectedIndex == 10 ? 9.5 : model.selectedIndex) * 0.1;
+    final percentage = progress > 1.0 ? 1.0 : progress;
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20),
+          child: Row(children: [
+            Container(
+                width: (width / 2) - 24,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(22.0),
+                      bottomLeft: Radius.circular(22.0),
+                      bottomRight: Radius.circular(22.0),
+                      topRight:
+                          Radius.circular(22.0)), //68.0 for right side curvy
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.blue,
+                        offset: Offset(1.1, 4.0),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 22, 32, 22),
+                  child: Text(
+                    'Player : ${model.playerScore.toString()} ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.none,
+                        fontSize: 16),
+                  ),
+                )),
+            Container(
+              width: (width / 2) - 24,
+              decoration: BoxDecoration(
+                color: Colors.redAccent,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(22.0),
+                    bottomLeft: Radius.circular(22.0),
+                    bottomRight: Radius.circular(22.0),
+                    topRight:
+                        Radius.circular(22.0)), //68.0 for right side curvy
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.red,
+                      offset: Offset(1.1, 4.0),
+                      blurRadius: 10.0),
+                ],
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(46.0, 22, 10, 22),
+                  child: Text(
+                    'IPL11 : ${model.botScore.toString()}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.none,
+                        fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        ),
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: CircularPercentIndicator(
+              animateFromLastPercent: true,
+              radius: 100.0,
+              backgroundColor: Colors.white,
+              lineWidth: 10.0,
+              animation: true,
+              percent: (percentage),
+              center: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints.expand(),
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    "${model.selectedIndex}/11",
+                    textAlign: TextAlign.center,
+                    style: new TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20.0),
+                  ),
+                ),
+              ),
+              circularStrokeCap: CircularStrokeCap.round,
+              progressColor: Colors.greenAccent,
+            ))
+      ],
+    );
+    /* Container(
         child: RichText(
             text: TextSpan(children: <TextSpan>[
       TextSpan(
@@ -79,7 +191,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       TextSpan(
           text: model.botScore.toString(),
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32)),
-    ])));
+    ]))); */
   }
 
   //TODO this _cards method is not used yet,
