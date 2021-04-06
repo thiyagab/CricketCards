@@ -28,8 +28,8 @@ class PlayerCard extends StatelessWidget {
       this.player,
       this.parentHeight})
       : super(key: key) {
-    this.startColor = player.team.color1;
-    this.endColor = player.team.color2;
+    this.startColor = player.team.color2;
+    this.endColor = player.team.color1;
   }
 
   Widget _addFadeAnim(Widget child) {
@@ -120,13 +120,20 @@ class PlayerCard extends StatelessWidget {
       waitForNext = true;
       model.refreshBotAndScore(key, value);
       Timer(
-          Duration(seconds: 2),
+          Duration(seconds: 1),
+          () => {
+                animationController.duration = Duration(milliseconds: 1000),
+                animationController.reverse(),
+              });
+      Timer(
+          Duration(milliseconds: 2100),
           () => {
                 waitForNext = false,
+                // animationController.reverse(from: 0.6),
                 model.moveCard(),
 
                 animationController.reset(),
-                animationController.duration = Duration(milliseconds: 1500),
+                animationController.duration = Duration(milliseconds: 1000),
                 animationController.forward(from: 0.6),
                 if (model.selectedIndex >= model.playerCards.length)
                   {showScoreDialog(context, model)}
@@ -204,7 +211,7 @@ class PlayerCard extends StatelessWidget {
         isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
     final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler.svg';
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 10),
       child: GradientCard(
           startColor: this.startColor,
           endColor: this.endColor,
@@ -212,7 +219,7 @@ class PlayerCard extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 8, bottom: 16),
+                    left: 24, right: 24, top: 8, bottom: 10),
                 child: _addFadeAnim(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -220,8 +227,8 @@ class PlayerCard extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/images/$playerIcon',
-                        height: 50.0,
-                        width: 50.0,
+                        height: 40.0,
+                        width: 40.0,
                         color: Colors.white,
                         allowDrawingOutsideViewBox: true,
                       ),
@@ -265,7 +272,7 @@ class PlayerCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 0, bottom: 8),
+                    left: 24, right: 24, top: 0, bottom: 0),
                 child: Container(
                   height: 2,
                   decoration: BoxDecoration(
