@@ -22,7 +22,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   @override
   void initState() {
     animationController = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
+        duration: Duration(milliseconds: 1500), vsync: this);
     super.initState();
     animationController.forward();
   }
@@ -41,7 +41,12 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
             child: Container(
-                color: Colors.white70,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/background.jpeg"),
+                        colorFilter: new ColorFilter.mode(
+                            Colors.grey.withOpacity(0.4), BlendMode.srcATop),
+                        fit: BoxFit.fill)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

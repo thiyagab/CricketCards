@@ -43,13 +43,13 @@ extension TeamColors on Teams {
   Color get color1 {
     return [
       Color.fromARGB(255, 236, 182, 49), //Chennai
-      Color.fromARGB(255, 52, 93, 154), //Mumbai
-      Color.fromARGB(255, 70, 70, 70),
-      Color.fromARGB(255, 146, 69, 69),
-      Color.fromARGB(255, 218, 98, 66),
-      Color.fromARGB(255, 100, 69, 137),
-      Color.fromARGB(255, 50, 88, 162),
-      Color.fromARGB(255, 58, 77, 151),
+      Color.fromARGB(255, 99, 152, 231), //Mumbai
+      Color.fromARGB(255, 120, 120, 120),
+      Color.fromARGB(255, 227, 107, 107),
+      Color.fromARGB(255, 247, 142, 114),
+      Color.fromARGB(255, 150, 105, 225),
+      Color.fromARGB(255, 100, 149, 235),
+      Color.fromARGB(255, 89, 117, 225),
     ][this.index];
   }
 

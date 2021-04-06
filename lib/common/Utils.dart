@@ -29,7 +29,7 @@ class Utils {
     return trumpModel;
   }
 
-  static teamName(Teams team) {
+  static String teamName(Teams team) {
     String name = team.toString().substring(6).toLowerCase();
     return name.characters.first.toUpperCase() + name.substring(1);
   }

@@ -19,12 +19,18 @@ class TeamList extends StatelessWidget {
           return Text('Something went wrong');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return DefaultTextStyle(
+              style: TextStyle(fontSize: 32), child: Text("Loading"));
         }
 
         return Container(
-            padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
-            color: Colors.white,
+            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/background.jpeg"),
+                    colorFilter: new ColorFilter.mode(
+                        Colors.grey.withOpacity(0.4), BlendMode.srcATop),
+                    fit: BoxFit.fill)),
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,10 +46,22 @@ class TeamList extends StatelessWidget {
       return row(context, fromDocument(docs[index]), index);
     }).toList();
     widgets.add(Padding(
-        padding: EdgeInsets.only(top: 30),
+        padding: EdgeInsets.only(top: 20),
         child: DefaultTextStyle(
             style: TextStyle(color: Colors.black),
-            child: Text("Version: 0.31"))));
+            child: Text("Version: 0.32"))));
+    // widgets.insert(
+    //     0,
+    //     Padding(
+    //         padding: EdgeInsets.only(bottom: 5),
+    //         child: DefaultTextStyle(
+    //             style: TextStyle(fontSize: 20, color: Utils.textColor),
+    //             child: Text(
+    //               "Play & Win",
+    //               softWrap: true,
+    //               maxLines: 2,
+    //               textAlign: TextAlign.center,
+    //             ))));
     return widgets;
   }
 
@@ -120,10 +138,10 @@ class TeamList extends StatelessWidget {
                               ]))
                     ]))),
         SvgPicture.asset(
-          'assets/images/lb-${position + 1}.svg',
+          'assets/images/lb-${Utils.teamName(team.name).toLowerCase()}.svg',
           width: 50.0,
           allowDrawingOutsideViewBox: true,
-          color: Colors.white60,
+          // color: Colors.white60,
         ),
         Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),

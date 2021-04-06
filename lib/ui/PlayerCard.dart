@@ -120,14 +120,45 @@ class PlayerCard extends StatelessWidget {
       waitForNext = true;
       model.refreshBotAndScore(key, value);
       Timer(
-          Duration(seconds: 3),
+          Duration(seconds: 2),
           () => {
                 waitForNext = false,
                 model.moveCard(),
+
+                animationController.reset(),
+                animationController.duration = Duration(milliseconds: 1500),
+                animationController.forward(from: 0.6),
                 if (model.selectedIndex >= model.playerCards.length)
                   {showScoreDialog(context, model)}
+                // else
+                //   {turnWon(context, model)}
               });
     }
+  }
+
+  void turnWon(BuildContext context, final TrumpModel model) {
+    bool playerWins = model.playerCard.score > model.botCard.score;
+    String displayText = playerWins ? "Won this round" : "Lost this round";
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              title: Text(displayText),
+              titleTextStyle: TextStyle(color: Utils.textColor),
+              backgroundColor: playerWins
+                  ? model.playerTeam.color1
+                  : model.botCard.team.color1,
+
+              // backgroundColor: model.playerTeam.color1,
+              actions: [
+                TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Utils.textColor)),
+                    onPressed: () => {Navigator.pop(context)},
+                    child: Text("Next"))
+              ]);
+        }).then((value) => model.moveCard());
   }
 
   void showScoreDialog(BuildContext context, final TrumpModel model) {
@@ -150,6 +181,7 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Name: ${player.shortName}');
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -181,60 +213,54 @@ class PlayerCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 24, right: 24, top: 8, bottom: 16),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: _addFadeAnim(
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/images/$playerIcon',
-                            height: 50.0,
-                            width: 50.0,
-                            color: Colors.white,
-                            allowDrawingOutsideViewBox: true,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, right: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  player.open ? player.shortName : '',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: CricketCardsAppTheme.fontName,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    letterSpacing: 0.2,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                                SizedBox(height: 6),
-                                Text(
-                                  'Team : ' + Utils.teamName(player.team),
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: CricketCardsAppTheme.fontName,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    decoration: TextDecoration.none,
-                                    color: CricketCardsAppTheme.nearlyWhite
-                                        .withOpacity(0.8),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                child: _addFadeAnim(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/$playerIcon',
+                        height: 50.0,
+                        width: 50.0,
+                        color: Colors.white,
+                        allowDrawingOutsideViewBox: true,
                       ),
-                    )),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              player.open ? player.shortName : '',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: CricketCardsAppTheme.fontName,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                letterSpacing: 0.2,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              'Team : ' + Utils.teamName(player.team),
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: CricketCardsAppTheme.fontName,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                                decoration: TextDecoration.none,
+                                color: CricketCardsAppTheme.nearlyWhite
+                                    .withOpacity(0.8),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Padding(
