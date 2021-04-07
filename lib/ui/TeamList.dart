@@ -49,7 +49,7 @@ class TeamList extends StatelessWidget {
         padding: EdgeInsets.only(top: 20),
         child: DefaultTextStyle(
             style: TextStyle(color: Colors.black),
-            child: Text("Version: 0.4"))));
+            child: Text("Version: 0.41"))));
     // widgets.insert(
     //     0,
     //     Padding(

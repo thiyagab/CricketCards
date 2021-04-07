@@ -21,6 +21,10 @@ class TrumpModel extends ChangeNotifier {
     return selectedIndex >= playerCards.length;
   }
 
+  bool isBot(Player player) {
+    return player != null && player.team != playerTeam;
+  }
+
   void moveCard() {
     if (++selectedIndex < playerCards.length) {
       this.playerCard = playerCards[selectedIndex];
@@ -47,8 +51,6 @@ class TrumpModel extends ChangeNotifier {
     'bowlingStrikeRate',
   ];
 
-  //TODO @vasanth now just comparing number of matches, need to build logic to compare the selected attribute
-  // also score 0 is set explicitly to make the player already played, -1 is considered as unplayed
   void updateScore(String key, String value) {
     bool playerWins = false;
     String botValuestr = botCard.toJson()[key];

@@ -14,20 +14,25 @@ import 'CricketCardsTheme.dart';
 import 'animatedPressButton.dart';
 
 class PlayerCard extends StatelessWidget {
-  final AnimationController animationController;
-  final Animation animation;
+  AnimationController animationController;
+  Animation animation;
   Color startColor;
   Color endColor;
   final Player player;
-  final double parentHeight;
+  double parentHeight;
+  TrumpModel model;
 
   PlayerCard(
       {Key key,
       this.animationController,
       this.animation,
       this.player,
-      this.parentHeight})
+      this.parentHeight,
+      this.model})
       : super(key: key) {
+    this.animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: animationController,
+        curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn)));
     this.startColor = player.team.color2;
     this.endColor = player.team.color1;
   }
@@ -49,9 +54,10 @@ class PlayerCard extends StatelessWidget {
       parsedValue = double.parse(value);
     } catch (e) {
       isNumberVal = false;
-      debugPrint(
-          'Couldn\'t parse double for $attributeName with $value, error $e');
+      // debugPrint(
+      //     'Couldn\'t parse double for $attributeName with $value, error $e');
     }
+
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) => Padding(
@@ -59,7 +65,7 @@ class PlayerCard extends StatelessWidget {
         child: _addFadeAnim(AnimatedButton(
             height:
                 parentHeight > 640 ? 80.0 : 50, // This is for vasanth SE phone
-            width: 80.0,
+            width: 85.0,
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
@@ -69,7 +75,11 @@ class PlayerCard extends StatelessWidget {
                     player.open ? '$attributeName' : '',
                     style: TextStyle(
                         fontSize: 10,
-                        color: Colors.white,
+                        color: (player.score >= 0 &&
+                                model.lastSelectedLabel != null &&
+                                model.lastSelectedLabel != attribute)
+                            ? Colors.white54
+                            : Colors.white,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.none),
                   ),
@@ -82,8 +92,12 @@ class PlayerCard extends StatelessWidget {
                               : '$value')
                           : '',
                       style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
+                          fontSize: 20,
+                          color: (player.score >= 0 &&
+                                  model.lastSelectedLabel != null &&
+                                  model.lastSelectedLabel != attribute)
+                              ? Colors.white54
+                              : Colors.white,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none),
                     ),
@@ -120,52 +134,28 @@ class PlayerCard extends StatelessWidget {
       waitForNext = true;
       model.refreshBotAndScore(key, value);
       Timer(
-          Duration(seconds: 1),
+          Duration(seconds: 2),
           () => {
                 animationController.duration = Duration(milliseconds: 1000),
                 animationController.reverse(),
               });
       Timer(
-          Duration(milliseconds: 2100),
+          Duration(milliseconds: 3100),
           () => {
                 waitForNext = false,
                 // animationController.reverse(from: 0.6),
                 model.moveCard(),
 
-                animationController.reset(),
-                animationController.duration = Duration(milliseconds: 1000),
-                animationController.forward(from: 0.6),
-                if (model.selectedIndex >= model.playerCards.length)
-                  {showScoreDialog(context, model)}
-                // else
-                //   {turnWon(context, model)}
+                if (!model.isGameOver())
+                  // {showScoreDialog(context, model)}
+                  // else
+                  {
+                    animationController.reset(),
+                    animationController.duration = Duration(milliseconds: 1000),
+                    animationController.forward(from: 0.6),
+                  }
               });
     }
-  }
-
-  void turnWon(BuildContext context, final TrumpModel model) {
-    bool playerWins = model.playerCard.score > model.botCard.score;
-    String displayText = playerWins ? "Won this round" : "Lost this round";
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-              title: Text(displayText),
-              titleTextStyle: TextStyle(color: Utils.textColor),
-              backgroundColor: playerWins
-                  ? model.playerTeam.color1
-                  : model.botCard.team.color1,
-
-              // backgroundColor: model.playerTeam.color1,
-              actions: [
-                TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Utils.textColor)),
-                    onPressed: () => {Navigator.pop(context)},
-                    child: Text("Next"))
-              ]);
-        }).then((value) => model.moveCard());
   }
 
   void showScoreDialog(BuildContext context, final TrumpModel model) {
@@ -188,7 +178,7 @@ class PlayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Name: ${player.shortName}');
+    // debugPrint('Name: ${player.shortName}');
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {

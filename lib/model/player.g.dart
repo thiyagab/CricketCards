@@ -28,8 +28,7 @@ Player _$PlayerFromJson(Map<String, dynamic> json) {
     ..bowlingStrikeRate = json['bowlingStrikeRate'] as String
     ..bestBowlingFigure = json['bestBowlingFigure'] as String
     ..catchesTaken = json['catchesTaken'] as String
-    ..team = _$enumDecodeNullable(_$TeamsEnumMap, json['team'])
-    ..score = json['score'] as int;
+    ..team = _$enumDecodeNullable(_$TeamsEnumMap, json['team']);
 }
 
 Map<String, dynamic> _$PlayerToJson(Player instance) => <String, dynamic>{

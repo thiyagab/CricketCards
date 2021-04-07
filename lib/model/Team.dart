@@ -46,9 +46,9 @@ extension TeamColors on Teams {
       Color.fromARGB(255, 99, 152, 231), //Mumbai
       Color.fromARGB(255, 244, 112, 116), //Bengaluru
       Color.fromARGB(255, 227, 107, 107), // Punjab
-      Color.fromARGB(255, 255, 135, 44), //Hyderabad
+      Color.fromARGB(255, 255, 190, 44), //Hyderabad
       Color.fromARGB(255, 150, 105, 225),
-      Color.fromARGB(255, 89, 117, 225),
+      Color.fromARGB(255, 89, 157, 225),
       Color.fromARGB(255, 235, 119, 184),
     ][this.index];
   }

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
-import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
 
 import 'CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
-import 'TrumpCard.dart';
 
 class GamePlay extends StatefulWidget {
   GamePlay({Key key, this.title}) : super(key: key);
@@ -26,6 +25,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
         duration: Duration(milliseconds: 1500), vsync: this);
     super.initState();
     animationController.forward();
+    Utils.testfirebase();
   }
 
   @override
@@ -51,27 +51,86 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PlayerCard(
-                          animation: Tween(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Interval(0.1, 1.0,
-                                      curve: Curves.fastOutSlowIn))),
-                          animationController: animationController,
-                          player: model.botCard,
-                          parentHeight: this.height),
+                      !model.isGameOver()
+                          ? PlayerCard(
+                              animationController: animationController,
+                              player: model.botCard,
+                              parentHeight: this.height,
+                              model: model)
+                          : _winOrLose(model, context),
                       _scorePanel(context, model),
-                      PlayerCard(
-                        animation: Tween(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController,
-                                curve: Interval(0.1, 1.0,
-                                    curve: Curves.fastOutSlowIn))),
-                        animationController: animationController,
-                        player: model.playerCard,
-                        parentHeight: this.height,
-                      ),
+                      !model.isGameOver()
+                          ? PlayerCard(
+                              animationController: animationController,
+                              player: model.playerCard,
+                              parentHeight: this.height,
+                              model: model)
+                          : _controls(context),
                     ]))));
+  }
+
+  Widget _controls(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.all(30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed))
+                      return Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.5);
+                    return null; // Use the component's default.
+                  },
+                ),
+              ),
+              child: Text(
+                "Invite",
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () => {},
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed))
+                      return Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.5);
+                    return null; // Use the component's default.
+                  },
+                ),
+              ),
+              child: Text(
+                "Play again",
+                style: TextStyle(fontSize: 20),
+              ),
+              onPressed: () => {Navigator.pop(context)},
+            )
+          ],
+        ));
+  }
+
+  Widget _winOrLose(TrumpModel model, BuildContext context) {
+    String displayText = "";
+    if (model.playerScore > model.botScore) {
+      displayText =
+          'You Won\n ${Utils.teamName(model.playerTeam)} got ${model.playerScore - model.botScore} points';
+    } else {
+      displayText = 'You lost';
+    }
+    return Padding(
+        padding: EdgeInsets.all(30),
+        child: Center(
+            child: DefaultTextStyle(
+                style: new TextStyle(fontSize: 32),
+                child: new Text(displayText))));
   }
 
   Widget _scorePanel(BuildContext context, TrumpModel model) {
@@ -103,7 +162,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 22, 32, 22),
                   child: Text(
-                    'Player : ${model.playerScore.toString()} ',
+                    'You : ${model.playerScore.toString()} ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -159,11 +218,11 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                   alignment: Alignment.center,
                   // constraints: BoxConstraints.(),
                   decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
+                    color: Colors.black,
                     shape: BoxShape.circle,
                   ),
                   child: Text(
-                    "${model.selectedIndex}/11",
+                    getScorePanelText(model),
                     textAlign: TextAlign.center,
                     style: new TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 16.0),
@@ -177,57 +236,15 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     );
   }
 
-  //TODO this _cards method is not used yet,
-  // should be implemented to show the cards in stack and add animations for change and removal
-  Widget _cards(context, List<Player> cards, TrumpModel model, bool isPlayer) {
-    Tween<Offset> _offset =
-        Tween(begin: Offset(-1, isPlayer ? -1 : 1), end: Offset(0, 0));
-
-    final GlobalKey<AnimatedListState> _listKey =
-        GlobalKey<AnimatedListState>();
-    List<Widget> miniCardList = [];
-
-    if (model.playerScore == 0 && model.botScore == 0) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Future ft = Future(() {});
-        cards.asMap().forEach((index, elements) {
-          ft = ft.then((value) {
-            return Future.delayed(const Duration(milliseconds: 100), () {
-              miniCardList.add(this.miniCard(context, cards[index], isPlayer));
-              _listKey.currentState.insertItem(miniCardList.length - 1);
-            });
-          });
-        });
-      });
-    } else {
-      cards.asMap().forEach((index, elements) {
-        return miniCardList.add(this.miniCard(context, cards[index], isPlayer));
-      });
+  String getScorePanelText(TrumpModel model) {
+    if (model.isGameOver()) {
+      return model.playerScore > model.botScore ? 'Won' : 'Lost';
     }
-
-    return Container(
-        // card height
-        height: 50,
-        child: AnimatedList(
-            key: _listKey,
-            reverse: true,
-            scrollDirection: Axis.vertical,
-            initialItemCount: miniCardList.length,
-            itemBuilder: (context, index, animation) {
-              return SlideTransition(
-                position: animation.drive(_offset),
-                child: miniCardList[index],
-              );
-            })
-        // ])
-        );
-  }
-
-  Widget miniCard(BuildContext context, Player player, bool isPlayer) {
-    return Align(
-      // alignment: Alignment.topRight,
-      heightFactor: 0.01,
-      child: TrumpCard(player, isPlayer),
-    );
+    if (model.playerCard.score > model.botCard.score) {
+      return 'Won';
+    } else if (model.playerCard.score < model.botCard.score) {
+      return 'Lost';
+    }
+    return "${model.selectedIndex}/11";
   }
 }

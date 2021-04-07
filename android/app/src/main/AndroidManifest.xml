@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.droidapps.cricketcards">
    <application
-        android:label="Cricket Cards"
+        android:label="IPL Trump Cards"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -74,6 +74,21 @@ class Utils {
     return Firebase.initializeApp();
   }
 
+  static testfirebase() {
+    int points = 10;
+
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('teams').doc('mumbai');
+    //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
+    teamReference.get().then((value) => {
+          teamReference.update({
+            "score": value.data()['score'] + points,
+            "plays": value.data()['plays'] + 1,
+            "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
+          }),
+        });
+  }
+
   static updateScore(TrumpModel model) {
     int points = 0;
 

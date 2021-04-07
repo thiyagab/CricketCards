@@ -29,6 +29,7 @@ class Player {
 
   Teams team;
 
+  //TODO to find out, how to stop this from deserializing from json, its manually edited now
   int score = -1;
 
   //Couldnt find a better place to have the open/close state of player cards, can be moved if we found one
