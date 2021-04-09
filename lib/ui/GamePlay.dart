@@ -54,7 +54,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      model.isGameOver()
+                      !model.isGameOver()
                           ? PlayerCard(
                               animationController: animationController,
                               player: model.botCard,
@@ -62,7 +62,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                               model: model)
                           : _winOrLose(model, context),
                       _scorePanel(context, model),
-                      model.isGameOver()
+                      !model.isGameOver()
                           ? PlayerCard(
                               animationController: animationController,
                               player: model.playerCard,
