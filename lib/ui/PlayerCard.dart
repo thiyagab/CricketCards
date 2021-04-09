@@ -220,7 +220,7 @@ class PlayerCard extends StatelessWidget {
                         'assets/images/$playerIcon',
                         height: 40.0,
                         width: 40.0,
-                        color: Colors.white,
+                        // color: Colors.white,
                         allowDrawingOutsideViewBox: true,
                       ),
                       Padding(

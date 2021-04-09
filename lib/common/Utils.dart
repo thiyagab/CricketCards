@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipltrumpcards/model/Team.dart';
@@ -107,5 +109,17 @@ class Utils {
             "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
           }),
         });
+  }
+
+  static share() {
+    if (!kIsWeb) {
+      throw UnimplementedError('Share is only implemented on Web');
+    }
+    var shareData = {
+      "title": 'IPL Trump Cards',
+      "text": 'Play and score for your favorite team to top the points table',
+      "url": 'https://ipl-trump-cards.web.app',
+    };
+    window.navigator.share(shareData);
   }
 }

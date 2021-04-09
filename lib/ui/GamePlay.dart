@@ -6,7 +6,6 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:social_share/social_share.dart';
 
 import 'CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
@@ -55,7 +54,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      !model.isGameOver()
+                      model.isGameOver()
                           ? PlayerCard(
                               animationController: animationController,
                               player: model.botCard,
@@ -63,7 +62,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                               model: model)
                           : _winOrLose(model, context),
                       _scorePanel(context, model),
-                      !model.isGameOver()
+                      model.isGameOver()
                           ? PlayerCard(
                               animationController: animationController,
                               player: model.playerCard,
@@ -103,8 +102,9 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                   onPressed: () => {
                     if (kIsWeb)
                       {
-                        SocialShare.shareOptions(
-                            "Hi friends, play for our favorite team to top the points table.  https://ipl-trump-cards.web.app/")
+                        // SocialShare.shareOptions(
+                        //     "Hi friends, play for our favorite team to top the points table.  https://ipl-trump-cards.web.app/")
+                        Utils.share()
                       }
                     else
                       Share.share(
