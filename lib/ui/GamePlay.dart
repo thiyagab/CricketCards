@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:social_share/social_share.dart';
 
 import 'CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
@@ -99,8 +101,14 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () => {
-                    Share.share(
-                        "Hi friends, play for our favorite team to get to the top of points table.  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards")
+                    if (kIsWeb)
+                      {
+                        SocialShare.shareOptions(
+                            "Hi friends, play for our favorite team to top the points table.  https://ipl-trump-cards.web.app/")
+                      }
+                    else
+                      Share.share(
+                          "Hi friends, play for our favorite team to get to the top of points table.  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards")
                   },
                 )),
             Container(width: 50, height: 20),

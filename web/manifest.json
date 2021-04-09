@@ -1,11 +1,11 @@
 {
-    "name": "ipltrumpcards",
+    "name": "IPL Trump cards",
     "short_name": "ipltrumpcards",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "IPL Trump Cards",
+    "description": "Play and Score for your favorite team to top the points table",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

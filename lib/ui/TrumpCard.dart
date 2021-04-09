@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 class TrumpCard extends StatelessWidget {
   final Player player;
   final bool isPlayer;
-  GlobalKey<FlipCardState> flipState;
   var width;
 
   TrumpCard(this.player, this.isPlayer);
@@ -142,7 +140,6 @@ class TrumpCard extends StatelessWidget {
 
   handleOnTapEvent(String key, String value, BuildContext context) {
     TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-    if (flipState != null) flipState.currentState.toggleCard();
     model.refreshBotAndScore(key, value);
 
     Timer(
