@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    precacheImage(AssetImage('assets/images/background.jpeg'), context);
+    precacheImage(AssetImage('assets/images/background.png'), context);
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Utils.initialize(),

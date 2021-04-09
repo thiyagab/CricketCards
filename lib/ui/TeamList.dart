@@ -27,7 +27,7 @@ class TeamList extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/images/background.jpeg"),
+                    image: AssetImage("assets/images/background.png"),
                     colorFilter: new ColorFilter.mode(
                         Colors.grey.withOpacity(0.4), BlendMode.srcATop),
                     fit: BoxFit.fill)),
