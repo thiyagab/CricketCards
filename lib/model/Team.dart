@@ -42,11 +42,11 @@ enum Teams {
 extension TeamColors on Teams {
   Color get color1 {
     return [
-      Color.fromARGB(255, 236, 182, 49), //Chennai
-      Color.fromARGB(255, 99, 152, 231), //Mumbai
+      Color.fromARGB(255, 245, 176, 65), //Chennai
+      Color.fromARGB(255, 52, 152, 219), //Mumbai
       Color.fromARGB(255, 244, 112, 116), //Bengaluru
       Color.fromARGB(255, 227, 107, 107), // Punjab
-      Color.fromARGB(255, 255, 190, 44), //Hyderabad
+      Color.fromARGB(255, 220, 118, 51), //Hyderabad
       Color.fromARGB(255, 150, 105, 225),
       Color.fromARGB(255, 89, 157, 225),
       Color.fromARGB(255, 235, 119, 184),
@@ -55,11 +55,11 @@ extension TeamColors on Teams {
 
   Color get color2 {
     return [
-      Color.fromARGB(255, 217, 94, 19), //Chennai
-      Color.fromARGB(255, 35, 62, 100), //Mumbai
+      Color.fromARGB(255, 230, 120, 16), //Chennai
+      Color.fromARGB(255, 33, 97, 140), //Mumbai
       Color.fromARGB(255, 173, 14, 16), //Bengaluru
       Color.fromARGB(255, 102, 24, 16), //Punjab
-      Color.fromARGB(255, 237, 90, 8), //Hyderabad
+      Color.fromARGB(255, 160, 64, 0), //Hyderabad
       Color.fromARGB(255, 60, 40, 90), //Kolkata
       Color.fromARGB(255, 38, 51, 96), //Delhi
       Color.fromARGB(255, 235, 24, 133), //rajasthan

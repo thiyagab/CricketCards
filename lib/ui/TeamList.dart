@@ -48,20 +48,21 @@ class TeamList extends StatelessWidget {
     widgets.add(Padding(
         padding: EdgeInsets.only(top: 20),
         child: DefaultTextStyle(
-            style: TextStyle(color: Colors.black),
-            child: Text("Version: 0.41"))));
-    // widgets.insert(
-    //     0,
-    //     Padding(
-    //         padding: EdgeInsets.only(bottom: 5),
-    //         child: DefaultTextStyle(
-    //             style: TextStyle(fontSize: 20, color: Utils.textColor),
-    //             child: Text(
-    //               "Play & Win",
-    //               softWrap: true,
-    //               maxLines: 2,
-    //               textAlign: TextAlign.center,
-    //             ))));
+            style: TextStyle(color: Colors.white54),
+            child: Text("Play and Score for your Team"))));
+    widgets.insert(
+        0,
+        Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: DefaultTextStyle(
+                style: TextStyle(
+                    fontSize: 24,
+                    color: Utils.textColor,
+                    fontWeight: FontWeight.bold),
+                child: Text(
+                  "Points Table",
+                  textAlign: TextAlign.center,
+                ))));
     return widgets;
   }
 
@@ -80,7 +81,7 @@ class TeamList extends StatelessWidget {
                     Alignment.bottomRight,
                     [team.name.color2, team.name.color1]),
                 // shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
-                elevation: 4,
+                elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
                 child: buildTeamWidget(team, position))));

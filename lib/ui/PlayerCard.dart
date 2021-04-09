@@ -57,12 +57,15 @@ class PlayerCard extends StatelessWidget {
       // debugPrint(
       //     'Couldn\'t parse double for $attributeName with $value, error $e');
     }
-
+    bool isUnSelectedAttribute = (player.score >= 0 &&
+        model.lastSelectedLabel != null &&
+        model.lastSelectedLabel != attribute);
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) => Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: _addFadeAnim(AnimatedButton(
+            enabled: !isUnSelectedAttribute,
             height:
                 parentHeight > 640 ? 80.0 : 50, // This is for vasanth SE phone
             width: 85.0,
@@ -75,9 +78,7 @@ class PlayerCard extends StatelessWidget {
                     player.open ? '$attributeName' : '',
                     style: TextStyle(
                         fontSize: 10,
-                        color: (player.score >= 0 &&
-                                model.lastSelectedLabel != null &&
-                                model.lastSelectedLabel != attribute)
+                        color: isUnSelectedAttribute
                             ? Colors.white54
                             : Colors.white,
                         fontWeight: FontWeight.w500,
@@ -92,10 +93,8 @@ class PlayerCard extends StatelessWidget {
                               : '$value')
                           : '',
                       style: TextStyle(
-                          fontSize: 20,
-                          color: (player.score >= 0 &&
-                                  model.lastSelectedLabel != null &&
-                                  model.lastSelectedLabel != attribute)
+                          fontSize: 18,
+                          color: isUnSelectedAttribute
                               ? Colors.white54
                               : Colors.white,
                           fontWeight: FontWeight.bold,
@@ -154,6 +153,8 @@ class PlayerCard extends StatelessWidget {
                     animationController.duration = Duration(milliseconds: 1000),
                     animationController.forward(from: 0.6),
                   }
+                else
+                  {Utils.updateScore(model)}
               });
     }
   }

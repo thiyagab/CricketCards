@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
+    precacheImage(AssetImage('assets/images/background.jpeg'), context);
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Utils.initialize(),
@@ -42,11 +43,12 @@ class MyApp extends StatelessWidget {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Center(
+        return DefaultTextStyle(
+            style: TextStyle(fontSize: 30),
             child: Text(
-          "Loading...",
-          textDirection: TextDirection.ltr,
-        ));
+              "Loading...",
+              textDirection: TextDirection.ltr,
+            ));
       },
     );
   }

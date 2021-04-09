@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 import 'CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
@@ -25,7 +27,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
         duration: Duration(milliseconds: 1500), vsync: this);
     super.initState();
     animationController.forward();
-    Utils.testfirebase();
+    // Utils.testfirebase();
   }
 
   @override
@@ -71,66 +73,87 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
 
   Widget _controls(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(30),
-        child: Row(
+        padding: EdgeInsets.all(40),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.5);
-                    return null; // Use the component's default.
+            Container(
+                width: 120,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed))
+                          return Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.5);
+                        return null; // Use the component's default.
+                      },
+                    ),
+                  ),
+                  child: Text(
+                    "Invite Friends",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () => {
+                    Share.share(
+                        "Hi friends, play for our favorite team to get to the top of points table.  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards")
                   },
-                ),
-              ),
-              child: Text(
-                "Invite",
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () => {},
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.5);
-                    return null; // Use the component's default.
-                  },
-                ),
-              ),
-              child: Text(
-                "Play again",
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () => {Navigator.pop(context)},
-            )
+                )),
+            Container(width: 50, height: 20),
+            Container(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed))
+                          return Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.5);
+                        return null; // Use the component's default.
+                      },
+                    ),
+                  ),
+                  child: Text(
+                    "Play again",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () => {Navigator.pop(context)},
+                ))
           ],
         ));
   }
 
   Widget _winOrLose(TrumpModel model, BuildContext context) {
     String displayText = "";
-    if (model.playerScore > model.botScore) {
+    bool playerWins = model.playerScore > model.botScore;
+    if (playerWins) {
       displayText =
-          'You Won\n ${Utils.teamName(model.playerTeam)} got ${model.playerScore - model.botScore} points';
+          'You Scored ${model.playerScore - model.botScore} point(s) for ${Utils.teamName(model.playerTeam)}';
     } else {
-      displayText = 'You lost';
+      displayText = 'You Lost';
     }
-    return Padding(
-        padding: EdgeInsets.all(30),
-        child: Center(
-            child: DefaultTextStyle(
-                style: new TextStyle(fontSize: 32),
-                child: new Text(displayText))));
+    return Column(children: [
+      Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+          child: Center(
+              child: DefaultTextStyle(
+                  style: new TextStyle(fontSize: 24, color: Utils.textColor),
+                  child: new Text(displayText)))),
+      SvgPicture.asset(
+          playerWins ? 'assets/images/won.svg' : 'assets/images/lost.svg',
+          width: 50,
+          height: 50),
+      Container(
+        height: 40,
+      )
+    ]);
   }
 
   Widget _scorePanel(BuildContext context, TrumpModel model) {
@@ -238,7 +261,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
 
   String getScorePanelText(TrumpModel model) {
     if (model.isGameOver()) {
-      return model.playerScore > model.botScore ? 'Won' : 'Lost';
+      return model.playerScore > model.botScore ? 'WON' : 'LOST';
     }
     if (model.playerCard.score > model.botCard.score) {
       return 'Won';

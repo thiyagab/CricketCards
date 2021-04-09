@@ -25,6 +25,7 @@ class Utils {
     trumpModel.selectedIndex = 0;
     trumpModel.playerCard = trumpModel.playerCards[0];
     trumpModel.botCard = trumpModel.botCards[0];
+    trumpModel.playerCard.score = trumpModel.botCard.score = 0;
     trumpModel.botCard.open = false;
     return trumpModel;
   }
