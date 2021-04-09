@@ -49,8 +49,8 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/images/background.png"),
-                        colorFilter: new ColorFilter.mode(
-                            Colors.grey.withOpacity(0.4), BlendMode.srcATop),
+                        // colorFilter: new ColorFilter.mode(
+                        //     Colors.grey.withOpacity(0.4), BlendMode.srcATop),
                         fit: BoxFit.fill)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
