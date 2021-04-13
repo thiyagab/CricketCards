@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +15,18 @@ void main() {
 class MyApp extends StatelessWidget {
   // Create the initialization Future outside of `build`:
 
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+  MyApp() {
+    analytics.logAppOpen();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     precacheImage(AssetImage('assets/images/background.png'), context);
+
     return FutureBuilder(
       // Initialize FlutterFire:
       future: Utils.initialize(),
@@ -38,6 +48,7 @@ class MyApp extends StatelessWidget {
                             bodyColor: Colors.white,
                             displayColor: Colors.white)),
             home: TeamList(),
+            navigatorObservers: <NavigatorObserver>[observer],
             // GamePlay(title: 'Cricket Cards'),
           );
         }

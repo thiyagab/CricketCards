@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
+import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -51,34 +53,50 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                         // colorFilter: new ColorFilter.mode(
                         //     Colors.grey.withOpacity(0.4), BlendMode.srcATop),
                         fit: BoxFit.fill)),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      !model.isGameOver()
-                          ? PlayerCard(
-                              animationController: animationController,
-                              player: model.botCard,
-                              parentHeight: this.height,
-                              model: model)
-                          : _winOrLose(model, context),
-                      _scorePanel(context, model),
-                      !model.isGameOver()
-                          ? PlayerCard(
-                              animationController: animationController,
-                              player: model.playerCard,
-                              parentHeight: this.height,
-                              model: model)
-                          : _controls(context),
-                    ]))));
+                child: model.isGameOver()
+                    ? _gameOverScreen(model, context)
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            PlayerCard(
+                                animationController: animationController,
+                                player: model.botCard,
+                                parentHeight: this.height,
+                                model: model),
+                            _scorePanel(context, model),
+                            PlayerCard(
+                                animationController: animationController,
+                                player: model.playerCard,
+                                parentHeight: this.height,
+                                model: model)
+                          ]))));
   }
 
-  Widget _controls(BuildContext context) {
+  _gameOverScreen(TrumpModel model, BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(color: new Color.fromRGBO(0, 0, 0, 150)),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Expanded(
+            child: _winOrLose(model, context),
+            flex: 1,
+          ),
+          _scorePanel(context, model),
+          _controls(model, context),
+        ]));
+  }
+
+  Widget _controls(TrumpModel model, BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(40),
+        padding: EdgeInsets.fromLTRB(40, 80, 40, 40),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            _instructionText(model, context),
+            Container(
+              height: 20,
+            ),
             Container(
                 width: 120,
                 height: 50,
@@ -133,7 +151,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () => {Navigator.pop(context)},
-                ))
+                )),
           ],
         ));
   }
@@ -143,11 +161,11 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     bool playerWins = model.playerScore > model.botScore;
     if (playerWins) {
       displayText =
-          'You Scored ${model.playerScore - model.botScore} point(s) for ${Utils.teamName(model.playerTeam)}';
+          'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}';
     } else {
       displayText = 'You Lost';
     }
-    return Column(children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: Center(
@@ -277,5 +295,55 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       return 'Lost';
     }
     return "${model.selectedIndex}/11";
+  }
+
+  _instructionText(TrumpModel model, BuildContext context) {
+    CollectionReference teams = FirebaseFirestore.instance.collection('teams');
+    return StreamBuilder<QuerySnapshot>(
+      stream: teams.orderBy('score', descending: true).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return DefaultTextStyle(
+              style: TextStyle(fontSize: 14), child: Text(""));
+        }
+
+        return DefaultTextStyle(
+            style: TextStyle(fontSize: 16, color: Utils.textColor),
+            textAlign: TextAlign.center,
+            child: Text(
+              constructInstructionText(model, snapshot.data.docs),
+            ));
+      },
+    );
+  }
+
+  String constructInstructionText(
+      TrumpModel model, List<QueryDocumentSnapshot> docs) {
+    // return 'Chennai is ahead of Mumbai by 10 points.\nPlay more or invite friends to beat to the top';
+    Team previousTeam;
+    Team currentTeam;
+    int playerPosition = 0;
+    docs.asMap().forEach((index, doc) {
+      Team team = fromDocument(doc);
+      if (team.name == model.playerTeam) {
+        playerPosition = index;
+        currentTeam = team;
+      }
+    });
+    String instructionText = '';
+    if (playerPosition > 0 && currentTeam != null) {
+      previousTeam = fromDocument(docs[playerPosition - 1]);
+      instructionText =
+          '${Utils.teamName(previousTeam.name)} is ahead of ${Utils.teamName(currentTeam.name)} by ${previousTeam.score - currentTeam.score} point(s). Play more or Invite friends to beat to the top';
+    }
+    return instructionText;
+  }
+
+  Team fromDocument(DocumentSnapshot document) {
+    Map<String, dynamic> data = document.data();
+    return Team(data['name'], data['plays'], data['wins'], data['score']);
   }
 }

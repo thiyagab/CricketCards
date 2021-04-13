@@ -13,7 +13,7 @@ class Team {
   }
 
   team(String team) {
-    this.name = teamsMap[team];
+    this.name = teamsMap[team.toLowerCase()];
   }
 
   Map<String, Teams> teamsMap = {

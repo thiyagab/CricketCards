@@ -96,7 +96,8 @@ class Utils {
     int points = 0;
 
     if (model.playerScore > model.botScore) {
-      points = model.playerScore - model.botScore;
+      points = model.playerScore;
+      // - model.botScore;
     }
     String team = model.playerTeam.toString().substring(6).toLowerCase();
     DocumentReference teamReference =

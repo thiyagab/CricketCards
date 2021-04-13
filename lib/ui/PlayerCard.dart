@@ -41,8 +41,10 @@ class PlayerCard extends StatelessWidget {
     return FadeTransition(
         opacity: animation,
         child: new Transform(
-            transform: new Matrix4.translationValues(0.0,
-                (player.open ? 1500 : -1500) * (1.0 - animation.value), 0.0),
+            transform: new Matrix4.translationValues(
+                0.0,
+                (model.isBot(player) ? -1500 : 1500) * (1.0 - animation.value),
+                0.0),
             child: child));
   }
 
@@ -139,7 +141,7 @@ class PlayerCard extends StatelessWidget {
                 animationController.reverse(),
               });
       Timer(
-          Duration(milliseconds: 3100),
+          Duration(milliseconds: 2500),
           () => {
                 waitForNext = false,
                 // animationController.reverse(from: 0.6),
@@ -151,7 +153,7 @@ class PlayerCard extends StatelessWidget {
                   {
                     animationController.reset(),
                     animationController.duration = Duration(milliseconds: 1000),
-                    animationController.forward(from: 0.6),
+                    animationController.forward(from: 0.0),
                   }
                 else
                   {Utils.updateScore(model)}
@@ -187,7 +189,9 @@ class PlayerCard extends StatelessWidget {
           opacity: animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0, (player.open ? 1000 : -1000) * (1.0 - animation.value), 0.0),
+                0,
+                (model.isBot(player) ? -1000 : 1000) * (1.0 - animation.value),
+                0.0),
             child: _buildCard(context),
           ),
         );
