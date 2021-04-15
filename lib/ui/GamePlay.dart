@@ -262,7 +262,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
               animation: true,
               percent: (percentage),
               center: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
                   alignment: Alignment.center,
                   // constraints: BoxConstraints.(),
