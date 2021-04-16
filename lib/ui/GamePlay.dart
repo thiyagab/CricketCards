@@ -55,35 +55,37 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                         fit: BoxFit.fill)),
                 child: model.isGameOver()
                     ? _gameOverScreen(model, context)
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                            PlayerCard(
-                                animationController: animationController,
-                                player: model.botCard,
-                                parentHeight: this.height,
-                                model: model),
-                            _scorePanel(context, model),
-                            PlayerCard(
-                                animationController: animationController,
-                                player: model.playerCard,
-                                parentHeight: this.height,
-                                model: model)
-                          ]))));
+                    : _gameScreen(model, context))));
+  }
+
+  _gameScreen(TrumpModel model, BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      PlayerCard(
+          animationController: animationController,
+          player: model.botCard,
+          parentHeight: this.height,
+          model: model),
+      _scorePanel(context, model),
+      PlayerCard(
+          animationController: animationController,
+          player: model.playerCard,
+          parentHeight: this.height,
+          model: model)
+    ]);
   }
 
   _gameOverScreen(TrumpModel model, BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(color: new Color.fromRGBO(0, 0, 0, 150)),
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Expanded(
-            child: _winOrLose(model, context),
-            flex: 1,
-          ),
-          _scorePanel(context, model),
-          _controls(model, context),
-        ]));
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      _winOrLose(model, context),
+      Align(alignment: Alignment.center, child: _scorePanel(context, model)),
+      _controls(model, context),
+      Container(
+        height: 20,
+      ),
+      Align(
+          alignment: Alignment.bottomCenter,
+          child: _instructionText(model, context))
+    ]);
   }
 
   Widget _controls(TrumpModel model, BuildContext context) {
@@ -93,10 +95,29 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _instructionText(model, context),
             Container(
-              height: 20,
-            ),
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.pressed))
+                          return Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.5);
+                        return null; // Use the component's default.
+                      },
+                    ),
+                  ),
+                  child: Text(
+                    "Play again",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () => {Navigator.pop(context)},
+                )),
+            Container(height: 20),
             Container(
                 width: 120,
                 height: 50,
@@ -128,29 +149,6 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                       Share.share(
                           "Hi friends, play for our favorite team to get to the top of points table.  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards")
                   },
-                )),
-            Container(width: 50, height: 20),
-            Container(
-                width: 150,
-                height: 50,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed))
-                          return Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.5);
-                        return null; // Use the component's default.
-                      },
-                    ),
-                  ),
-                  child: Text(
-                    "Play again",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () => {Navigator.pop(context)},
                 )),
           ],
         ));
@@ -256,13 +254,13 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
             alignment: Alignment.bottomCenter,
             child: CircularPercentIndicator(
               animateFromLastPercent: true,
-              radius: 90.0,
+              radius: 100.0,
               backgroundColor: Colors.white,
               lineWidth: 9.5,
               animation: true,
               percent: (percentage),
               center: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
                   alignment: Alignment.center,
                   // constraints: BoxConstraints.(),
@@ -337,7 +335,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     if (playerPosition > 0 && currentTeam != null) {
       previousTeam = fromDocument(docs[playerPosition - 1]);
       instructionText =
-          '${Utils.teamName(previousTeam.name)} is ahead of ${Utils.teamName(currentTeam.name)} by ${previousTeam.score - currentTeam.score} point(s). Play more or Invite friends to beat to the top';
+          '${Utils.teamName(previousTeam.name)} is ahead of your team ${Utils.teamName(currentTeam.name)} by ${previousTeam.score - currentTeam.score} point(s).\nPlay again or Invite friends to beat to the top';
     }
     return instructionText;
   }

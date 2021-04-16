@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -116,11 +115,12 @@ class Utils {
     if (!kIsWeb) {
       throw UnimplementedError('Share is only implemented on Web');
     }
-    var shareData = {
-      "title": 'IPL Trump Cards',
-      "text": 'Play and score for your favorite team to top the points table',
-      "url": 'https://ipl-trump-cards.web.app',
-    };
-    window.navigator.share(shareData);
+    //TODO uncomment this for web deployment
+    // var shareData = {
+    //   "title": 'IPL Trump Cards',
+    //   "text": 'Play and score for your favorite team to top the points table',
+    //   "url": 'https://ipl-trump-cards.web.app',
+    // };
+    // window.navigator.share(shareData);
   }
 }
