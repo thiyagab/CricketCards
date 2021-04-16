@@ -220,16 +220,19 @@ class PlayerCard extends StatelessWidget {
                 FadeTransition(
                   opacity: animation,
                   child: Center(
-                      child: Text(
-                    'Waiting for player\'s move',
-                    style: TextStyle(
-                      fontFamily: CricketCardsAppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      decoration: TextDecoration.none,
-                      color: CricketCardsAppTheme.nearlyWhite.withOpacity(0.8),
-                    ),
-                  )),
+                      child: Padding(
+                          padding: EdgeInsets.only(bottom: 50),
+                          child: Text(
+                            'Waiting for player\'s move',
+                            style: TextStyle(
+                              fontFamily: CricketCardsAppTheme.fontName,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                              decoration: TextDecoration.none,
+                              color: CricketCardsAppTheme.nearlyWhite
+                                  .withOpacity(0.8),
+                            ),
+                          ))),
                 ),
                 Opacity(
                     opacity: 0, child: Column(children: playerAttributeRows))
