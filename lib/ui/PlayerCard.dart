@@ -205,6 +205,37 @@ class PlayerCard extends StatelessWidget {
     final List<String> attributes =
         isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
     final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler.svg';
+    final playerAttributeRows = [
+      _addAttributesRow(playerJson, attributes.sublist(0, 3)),
+      _addAttributesRow(playerJson, attributes.sublist(3, 6)),
+      // _addAttributesRow(
+      //     playerJson, attributes.sublist(6, 8))
+    ];
+    final List<Widget> CardContent = player.open
+        ? playerAttributeRows
+        : [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                FadeTransition(
+                  opacity: animation,
+                  child: Center(
+                      child: Text(
+                    'Waiting for player\'s move',
+                    style: TextStyle(
+                      fontFamily: CricketCardsAppTheme.fontName,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      decoration: TextDecoration.none,
+                      color: CricketCardsAppTheme.nearlyWhite.withOpacity(0.8),
+                    ),
+                  )),
+                ),
+                Opacity(
+                    opacity: 0, child: Column(children: playerAttributeRows))
+              ],
+            )
+          ];
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 10),
       child: GradientCard(
@@ -282,12 +313,7 @@ class PlayerCard extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                         child: Column(
-                      children: [
-                        _addAttributesRow(playerJson, attributes.sublist(0, 3)),
-                        _addAttributesRow(playerJson, attributes.sublist(3, 6)),
-                        // _addAttributesRow(
-                        //     playerJson, attributes.sublist(6, 8))
-                      ],
+                      children: CardContent,
                     )),
                   ],
                 ),
