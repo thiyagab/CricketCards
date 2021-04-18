@@ -9,7 +9,7 @@ import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
-import 'CircleProgressIndicator.dart';
+import '../components/CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
 
 class GamePlay extends StatefulWidget {
@@ -30,7 +30,6 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
         duration: Duration(milliseconds: 1500), vsync: this);
     super.initState();
     animationController.forward();
-    // Utils.testfirebase();
   }
 
   @override
@@ -63,13 +62,11 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       PlayerCard(
           animationController: animationController,
           player: model.botCard,
-          parentHeight: this.height,
           model: model),
       _scorePanel(context, model),
       PlayerCard(
           animationController: animationController,
           player: model.playerCard,
-          parentHeight: this.height,
           model: model)
     ]);
   }

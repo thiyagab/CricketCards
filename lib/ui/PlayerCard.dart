@@ -7,11 +7,11 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
-import 'package:ipltrumpcards/ui/GradientCard.dart';
 import 'package:provider/provider.dart';
 
+import '../components/AnimatedButton.dart';
+import '../components/GradientCard.dart';
 import 'CricketCardsTheme.dart';
-import 'animatedPressButton.dart';
 
 class PlayerCard extends StatelessWidget {
   AnimationController animationController;
@@ -19,7 +19,6 @@ class PlayerCard extends StatelessWidget {
   Color startColor;
   Color endColor;
   final Player player;
-  double parentHeight;
   TrumpModel model;
 
   PlayerCard(
@@ -27,7 +26,6 @@ class PlayerCard extends StatelessWidget {
       this.animationController,
       this.animation,
       this.player,
-      this.parentHeight,
       this.model})
       : super(key: key) {
     this.animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -35,6 +33,41 @@ class PlayerCard extends StatelessWidget {
         curve: Interval(0.1, 1.0, curve: Curves.fastOutSlowIn)));
     this.startColor = player.team.color2;
     this.endColor = player.team.color1;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget child) {
+        return FadeTransition(
+          opacity: animation,
+          child: new Transform(
+            transform: new Matrix4.translationValues(
+                0,
+                (model.isBot(player) ? -1000 : 1000) * (1.0 - animation.value),
+                0.0),
+            child: card(context),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget card(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 10),
+      child: GradientCard(
+          startColor: this.startColor,
+          endColor: this.endColor,
+          child: Column(
+            children: <Widget>[
+              header(),
+              separator(),
+              content(context),
+            ],
+          )),
+    );
   }
 
   Widget _addFadeAnim(Widget child) {
@@ -48,7 +81,8 @@ class PlayerCard extends StatelessWidget {
             child: child));
   }
 
-  Widget _add3DButton(String attribute, String value) {
+  Widget _add3DButton(
+      String attribute, String value, double buttonHeight, double buttonWidth) {
     String attributeName = Player.DISPLAY_MAP[attribute];
     double parsedValue = 0;
     bool isNumberVal = false;
@@ -56,10 +90,9 @@ class PlayerCard extends StatelessWidget {
       parsedValue = double.parse(value);
     } catch (e) {
       isNumberVal = false;
-      // debugPrint(
-      //     'Couldn\'t parse double for $attributeName with $value, error $e');
     }
-    bool isUnSelectedAttribute = (player.score >= 0 &&
+    //dont change this expression, unless u know what you are doing
+    bool isSelectedAttribute = !(player.score >= 0 &&
         model.lastSelectedLabel != null &&
         model.lastSelectedLabel != attribute);
     return AnimatedBuilder(
@@ -67,10 +100,9 @@ class PlayerCard extends StatelessWidget {
       builder: (BuildContext context, Widget child) => Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: _addFadeAnim(AnimatedButton(
-            enabled: !isUnSelectedAttribute,
-            height:
-                parentHeight > 640 ? 80.0 : 50, // This is for vasanth SE phone
-            width: 85.0,
+            enabled: isSelectedAttribute,
+            height: buttonHeight, // This is for vasanth SE phone
+            width: buttonWidth,
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Column(
@@ -80,9 +112,8 @@ class PlayerCard extends StatelessWidget {
                     player.open ? '$attributeName' : '',
                     style: TextStyle(
                         fontSize: 10,
-                        color: isUnSelectedAttribute
-                            ? Colors.white54
-                            : Colors.white,
+                        color:
+                            isSelectedAttribute ? Colors.white : Colors.white54,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.none),
                   ),
@@ -96,9 +127,9 @@ class PlayerCard extends StatelessWidget {
                           : '',
                       style: TextStyle(
                           fontSize: 18,
-                          color: isUnSelectedAttribute
-                              ? Colors.white54
-                              : Colors.white,
+                          color: isSelectedAttribute
+                              ? Colors.white
+                              : Colors.white54,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none),
                     ),
@@ -115,14 +146,15 @@ class PlayerCard extends StatelessWidget {
     );
   }
 
-  Widget _addAttributesRow(
-      Map<String, dynamic> playerData, List<String> playerAttributes) {
+  Widget _addAttributesRow(Map<String, dynamic> playerData,
+      List<String> playerAttributes, double buttonHeight, double buttonWidth) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: playerAttributes.map((attribute) {
-            return _add3DButton(attribute, playerData[attribute]);
+            return _add3DButton(
+                attribute, playerData[attribute], buttonHeight, buttonWidth);
           }).toList()),
     );
   }
@@ -161,168 +193,122 @@ class PlayerCard extends StatelessWidget {
     }
   }
 
-  void showScoreDialog(BuildContext context, final TrumpModel model) {
-    Utils.updateScore(model);
-    String displayText = Utils.teamName(model.playerTeam) +
-        (model.playerScore > model.botScore ? " Won" : " Lost");
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(title: Text(displayText),
-
-              // backgroundColor: model.playerTeam.color1,
-              actions: [
-                TextButton(
-                    onPressed: () => {Navigator.pop(context)},
-                    child: Text("Ok"))
-              ]);
-        }).then((value) => Navigator.pop(context));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // debugPrint('Name: ${player.shortName}');
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: animation,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
-                0,
-                (model.isBot(player) ? -1000 : 1000) * (1.0 - animation.value),
-                0.0),
-            child: _buildCard(context),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCard(BuildContext context) {
-    final Map<String, dynamic> playerJson = player.toJson();
-    final isBowler = player.role == "bowler";
-    final List<String> attributes =
-        isBowler ? Player.BOWLING_ATTRIBUTES : Player.BATTING_ATTRIBUTES;
-    final playerIcon = !isBowler ? 'batsman_Icon.svg' : 'bowler.svg';
-    final playerAttributeRows = [
-      _addAttributesRow(playerJson, attributes.sublist(0, 3)),
-      _addAttributesRow(playerJson, attributes.sublist(3, 6)),
-      // _addAttributesRow(
-      //     playerJson, attributes.sublist(6, 8))
-    ];
-    final List<Widget> CardContent = player.open
-        ? playerAttributeRows
-        : [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                FadeTransition(
-                  opacity: animation,
-                  child: Center(
-                      child: Padding(
-                          padding: EdgeInsets.only(bottom: 50),
-                          child: Text(
-                            'Waiting for player\'s move',
-                            style: TextStyle(
-                              fontFamily: CricketCardsAppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                              decoration: TextDecoration.none,
-                              color: CricketCardsAppTheme.nearlyWhite
-                                  .withOpacity(0.8),
-                            ),
-                          ))),
-                ),
-                Opacity(
-                    opacity: 0, child: Column(children: playerAttributeRows))
-              ],
-            )
-          ];
+  Widget header() {
+    final playerIcon =
+        player.role != "bowler" ? 'batsman_Icon.svg' : 'bowler.svg';
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 10),
-      child: GradientCard(
-          startColor: this.startColor,
-          endColor: this.endColor,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 8, bottom: 10),
-                child: _addFadeAnim(
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/$playerIcon',
-                        height: 40.0,
-                        width: 40.0,
-                        // color: Colors.white,
-                        allowDrawingOutsideViewBox: true,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              player.open ? player.shortName : '',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: CricketCardsAppTheme.fontName,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                letterSpacing: 0.2,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            SizedBox(height: 6),
-                            Text(
-                              'Team : ' + Utils.teamName(player.team),
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: CricketCardsAppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                                decoration: TextDecoration.none,
-                                color: CricketCardsAppTheme.nearlyWhite
-                                    .withOpacity(0.8),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 10),
+      child: _addFadeAnim(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/$playerIcon',
+              height: 40.0,
+              width: 40.0,
+              // color: Colors.white,
+              allowDrawingOutsideViewBox: true,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    player.open ? player.shortName : '',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: CricketCardsAppTheme.fontName,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      letterSpacing: 0.2,
+                      decoration: TextDecoration.none,
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 24, right: 24, top: 0, bottom: 0),
-                child: Container(
-                  height: 2,
-                  decoration: BoxDecoration(
-                    color: CricketCardsAppTheme.background,
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  SizedBox(height: 6),
+                  Text(
+                    'Team : ' + Utils.teamName(player.team),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: CricketCardsAppTheme.fontName,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                      decoration: TextDecoration.none,
+                      color: CricketCardsAppTheme.nearlyWhite.withOpacity(0.8),
+                    ),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: Column(
-                      children: CardContent,
-                    )),
-                  ],
-                ),
-              ),
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
+  }
+
+  Widget separator() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 0, bottom: 0),
+      child: Container(
+        height: 2,
+        decoration: BoxDecoration(
+          color: CricketCardsAppTheme.background,
+          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        ),
+      ),
+    );
+  }
+
+  Widget content(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double contentHeight = 180;
+    if (height < 640) {
+      contentHeight = 120;
+    }
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(children: <Widget>[
+        Expanded(
+            child: Container(
+                height: contentHeight,
+                child: Center(
+                    child: player.open
+                        ? playerAttributes((contentHeight / 2) - 10, 85)
+                        : waitForPlayer())))
+      ]),
+    );
+  }
+
+  Widget playerAttributes(double buttonHeight, double buttonWidth) {
+    final Map<String, dynamic> playerJson = player.toJson();
+
+    final List<String> attributes = player.role == "bowler"
+        ? Player.BOWLING_ATTRIBUTES
+        : Player.BATTING_ATTRIBUTES;
+
+    return Column(children: [
+      _addAttributesRow(
+          playerJson, attributes.sublist(0, 3), buttonHeight, buttonWidth),
+      _addAttributesRow(
+          playerJson, attributes.sublist(3, 6), buttonHeight, buttonWidth),
+    ]);
+  }
+
+  Widget waitForPlayer() {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 50),
+        child: Text(
+          'Waiting for player\'s move',
+          style: TextStyle(
+            fontFamily: CricketCardsAppTheme.fontName,
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            decoration: TextDecoration.none,
+            color: CricketCardsAppTheme.nearlyWhite.withOpacity(0.8),
+          ),
+        ));
   }
 }

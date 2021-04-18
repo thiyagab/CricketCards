@@ -5,8 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
-import 'package:ipltrumpcards/ui/GamePlay.dart';
 import 'package:provider/provider.dart';
+
+import 'GamePlay.dart';
 
 class TeamList extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -19,8 +20,9 @@ class TeamList extends StatelessWidget {
           return Text('Something went wrong');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return DefaultTextStyle(
-              style: TextStyle(fontSize: 32), child: Text("Loading"));
+          return Center(
+              child: DefaultTextStyle(
+                  style: TextStyle(fontSize: 32), child: Text("Loading")));
         }
 
         return Container(
@@ -28,8 +30,6 @@ class TeamList extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/background.png"),
-                    // colorFilter: new ColorFilter.mode(
-                    //     Colors.grey.withOpacity(0.4), BlendMode.srcATop),
                     fit: BoxFit.fill)),
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +80,6 @@ class TeamList extends StatelessWidget {
                     Alignment.topLeft,
                     Alignment.bottomRight,
                     [team.name.color2, team.name.color1]),
-                // shadowColor: Gradients.tameer.colors.last.withOpacity(0.25),
                 elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
@@ -142,7 +141,6 @@ class TeamList extends StatelessWidget {
           'assets/images/lb-${Utils.teamName(team.name).toLowerCase()}.svg',
           width: 50.0,
           allowDrawingOutsideViewBox: true,
-          // color: Colors.white60,
         ),
         Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
