@@ -6,6 +6,7 @@ part 'player.g.dart';
 
 @JsonSerializable()
 class Player {
+  String id;
   String shortName;
   String role;
   String totalMatches;

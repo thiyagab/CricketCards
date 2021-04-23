@@ -1,0 +1,19 @@
+Two players
+Host
+joiner
+
+Upstream
+1.  Host Prepares game, host create 11+11 players and update the playerids and gamestate to 0 in firebase, and move to wait
+3.  Joiner updates the 'gamestate' field to 1
+6.  Host/Joiner selects the attribute, update 'selectedAttribute' to firebase, and locally proceed with updatescore and movecard
+
+
+Downstream/listeners:
+2.  Joiner Listen to the updates, Join game, get all the 22 playerids, and move to game
+4.  Host listens to 'gamestate' to 1, and move to game
+8.  Host/Joiner listens to 'selectedAttribute', and then locally set and proceed with updatescore and movecard
+
+
+
+5.  Once moved to the game, Host and Joiner both shows the cards, and for each of them the other card is shown in the top and will be in waiting state
+7.  TODO: Host always starts, and We need to do this turn based, based on winner, and the controls should be disabled until other player selects attribute

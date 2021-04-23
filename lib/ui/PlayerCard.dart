@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,7 +5,6 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
-import 'package:provider/provider.dart';
 
 import '../components/AnimatedButton.dart';
 import '../components/GradientCard.dart';
@@ -20,13 +17,15 @@ class PlayerCard extends StatelessWidget {
   Color endColor;
   final Player player;
   TrumpModel model;
+  Function attributeSelected;
 
   PlayerCard(
       {Key key,
       this.animationController,
       this.animation,
       this.player,
-      this.model})
+      this.model,
+      this.attributeSelected})
       : super(key: key) {
     this.animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController,
@@ -138,12 +137,16 @@ class PlayerCard extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              this.handleOnTapEvent(attribute, value, context);
+              this.handleOnTapEvent(attribute);
             },
             shadowDegree: ShadowDegree.dark,
             color: endColor)),
       ),
     );
+  }
+
+  void handleOnTapEvent(String key) {
+    this.attributeSelected(key, model);
   }
 
   Widget _addAttributesRow(Map<String, dynamic> playerData,
@@ -157,40 +160,6 @@ class PlayerCard extends StatelessWidget {
                 attribute, playerData[attribute], buttonHeight, buttonWidth);
           }).toList()),
     );
-  }
-
-  static bool waitForNext = false;
-
-  void handleOnTapEvent(String key, String value, BuildContext context) {
-    TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-    if (!waitForNext) {
-      waitForNext = true;
-      model.refreshBotAndScore(key, value);
-      Timer(
-          Duration(seconds: 2),
-          () => {
-                animationController.duration = Duration(milliseconds: 1000),
-                animationController.reverse(),
-              });
-      Timer(
-          Duration(milliseconds: 2500),
-          () => {
-                waitForNext = false,
-                // animationController.reverse(from: 0.6),
-                model.moveCard(),
-
-                if (!model.isGameOver())
-                  // {showScoreDialog(context, model)}
-                  // else
-                  {
-                    animationController.reset(),
-                    animationController.duration = Duration(milliseconds: 1000),
-                    animationController.forward(from: 0.0),
-                  }
-                else
-                  {Utils.updateScore(model)}
-              });
-    }
   }
 
   Widget header() {

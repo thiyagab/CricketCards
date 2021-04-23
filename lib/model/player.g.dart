@@ -8,6 +8,7 @@ part of 'player.dart';
 
 Player _$PlayerFromJson(Map<String, dynamic> json) {
   return Player()
+    ..id = json['id'] as String
     ..shortName = json['shortName'] as String
     ..role = json['role'] as String
     ..totalMatches = json['totalMatches'] as String
@@ -32,6 +33,7 @@ Player _$PlayerFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PlayerToJson(Player instance) => <String, dynamic>{
+      'id': instance.id,
       'shortName': instance.shortName,
       'role': instance.role,
       'totalMatches': instance.totalMatches,
@@ -53,7 +55,8 @@ Map<String, dynamic> _$PlayerToJson(Player instance) => <String, dynamic>{
       'bestBowlingFigure': instance.bestBowlingFigure,
       'catchesTaken': instance.catchesTaken,
       'team': _$TeamsEnumMap[instance.team],
-      'score': instance.score
+      'score': instance.score,
+      'open': instance.open,
     };
 
 T _$enumDecode<T>(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
+import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerCard.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
@@ -43,6 +46,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     // GlobalKey<FlipCardState> flipState = new GlobalKey();
+    Utils.listen2Players(context, attributeSelected);
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
             child: Container(
@@ -58,16 +62,50 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   }
 
   _gameScreen(TrumpModel model, BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      PlayerCard(
+    return model.gameState == TrumpModel.SINGLE
+        ? _singlePlayer(model, context)
+        : _twoPlayer(model, context);
+  }
+
+  _twoPlayer(TrumpModel model, BuildContext context) {
+    debugPrint('Building two player: ' + model.gameState.toString());
+    if (model.gameState == TrumpModel.WAIT) {
+      return Center(
+          child: DefaultTextStyle(
+              style: TextStyle(), child: Text('Waiting to join')));
+    } else if (model.gameState == TrumpModel.TWO) {
+      return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        TwoPlayerCard(
           animationController: animationController,
           player: model.botCard,
-          model: model),
+          model: model,
+          attributeSelected: attributeSelected,
+        ),
+        _scorePanel(context, model),
+        TwoPlayerCard(
+          animationController: animationController,
+          player: model.playerCard,
+          model: model,
+          attributeSelected: attributeSelected,
+        )
+      ]);
+    }
+  }
+
+  _singlePlayer(TrumpModel model, BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      PlayerCard(
+        animationController: animationController,
+        player: model.botCard,
+        model: model,
+        attributeSelected: attributeSelected,
+      ),
       _scorePanel(context, model),
       PlayerCard(
           animationController: animationController,
           player: model.playerCard,
-          model: model)
+          model: model,
+          attributeSelected: attributeSelected)
     ]);
   }
 
@@ -340,5 +378,37 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   Team fromDocument(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data();
     return Team(data['name'], data['plays'], data['wins'], data['score']);
+  }
+
+  static bool waitForNext = false;
+  attributeSelected(String attribute, TrumpModel model) {
+    if (!waitForNext) {
+      waitForNext = true;
+      model.refreshBotAndScore(attribute);
+      Timer(
+          Duration(seconds: 2),
+          () => {
+                animationController.duration = Duration(milliseconds: 1000),
+                animationController.reverse(),
+              });
+      Timer(
+          Duration(milliseconds: 2500),
+          () => {
+                waitForNext = false,
+                // animationController.reverse(from: 0.6),
+                model.moveCard(),
+
+                if (!model.isGameOver())
+                  // {showScoreDialog(context, model)}
+                  // else
+                  {
+                    animationController.reset(),
+                    animationController.duration = Duration(milliseconds: 1000),
+                    animationController.forward(from: 0.0),
+                  }
+                else if (model.gameState == 1)
+                  {Utils.updateScore(model)}
+              });
+    }
   }
 }

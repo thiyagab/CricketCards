@@ -15,7 +15,12 @@ class TrumpModel extends ChangeNotifier {
 
   String lastSelectedLabel;
 
-  final int POINTS_PER_WIN = 1;
+  int gameState = WAIT;
+
+  static final int POINTS_PER_WIN = 1;
+  static final int WAIT = 0;
+  static final int SINGLE = 1;
+  static final int TWO = 2;
 
   bool isGameOver() {
     return selectedIndex >= playerCards.length;
@@ -36,10 +41,26 @@ class TrumpModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void refreshBotAndScore(String key, String value) {
+  void initMeta() {
+    this.selectedIndex = 0;
+    this.playerCard = this.playerCards[0];
+    this.botCard = this.botCards[0];
+    this.playerCard.score = this.botCard.score = 0;
+    this.botCard.open = false;
+  }
+
+  void checkAndStartTwoPlayerGame() {
+    if (gameState == 0) {
+      debugPrint('Started.');
+      gameState = 2;
+      notifyListeners();
+    }
+  }
+
+  void refreshBotAndScore(String key) {
     if (selectedIndex >= 0) {
       this.botCard.open = true;
-      updateScore(key, value);
+      updateScore(key);
       lastSelectedLabel = key;
       notifyListeners();
     }
@@ -51,14 +72,15 @@ class TrumpModel extends ChangeNotifier {
     'bowlingStrikeRate',
   ];
 
-  void updateScore(String key, String value) {
+  void updateScore(String key) {
     bool playerWins = false;
     String botValuestr = botCard.toJson()[key];
+    String playerValuestr = playerCard.toJson()[key];
 
     if (key == 'bestBowlingFigure') {
       if (botValuestr == '') playerWins = true;
       List<String> botValues = botValuestr.split("/");
-      List<String> playerValues = value.split("/");
+      List<String> playerValues = playerValuestr.split("/");
 
       double botwickets = double.parse(botValues[0]);
       double playerwickets = double.parse(playerValues[0]);
@@ -72,8 +94,9 @@ class TrumpModel extends ChangeNotifier {
       double botvalue = (botValuestr == null || botValuestr.isEmpty)
           ? 0
           : double.parse(botValuestr);
-      double playervalue =
-          (value == null || value.isEmpty) ? 0 : double.parse(value);
+      double playervalue = (playerValuestr == null || playerValuestr.isEmpty)
+          ? 0
+          : double.parse(playerValuestr);
       playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
           ? botvalue > playervalue
           : playervalue > botvalue;
@@ -89,4 +112,6 @@ class TrumpModel extends ChangeNotifier {
       this.botScore += POINTS_PER_WIN;
     }
   }
+
+  void checkAndUpdateScore(String selectedAttribute, int selectedIndex) {}
 }

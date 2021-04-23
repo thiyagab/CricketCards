@@ -39,7 +39,7 @@ class CricketCardsAppTheme {
     color: lightText, // was lightText
   );
 
-  static const List<Color> teamLightColors=[
+  static const List<Color> teamLightColors = [
     Color.fromARGB(255, 245, 176, 65), //Chennai
     Color.fromARGB(255, 52, 152, 219), //Mumbai
     Color.fromARGB(255, 244, 112, 116), //Bengaluru
@@ -50,7 +50,7 @@ class CricketCardsAppTheme {
     Color.fromARGB(255, 235, 119, 184),
   ];
 
-  static const List<Color> teamDarkColors=[
+  static const List<Color> teamDarkColors = [
     Color.fromARGB(255, 230, 120, 16), //Chennai
     Color.fromARGB(255, 33, 97, 140), //Mumbai
     Color.fromARGB(255, 173, 14, 16), //Bengaluru
