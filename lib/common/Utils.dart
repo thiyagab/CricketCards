@@ -30,8 +30,9 @@ class Utils {
     return trumpModel;
   }
 
-  static TrumpModel prepareTwoPlayerGame() {
+  static Future<TrumpModel> hostTwoPlayers() async {
     debugPrint('Preparing two player');
+    await cancelSubscription();
     TrumpModel trumpModel = TrumpModel();
     List<Player> playersList = [];
     teamPlayersMap.forEach((key, value) {
@@ -42,9 +43,8 @@ class Utils {
     splitAndBuildTwoPlayers(trumpModel, playersList);
     trumpModel.initMeta();
     trumpModel.gameState = TrumpModel.WAIT;
-
-    cancelSubscription();
-    update2Players(
+    trumpModel.itsMyTurn = true;
+    await updateTwoPlayers(
         playerIds: playersList.map<String>((player) => player.id).toList(),
         gameState: 0,
         selectedAttribute: null);
@@ -154,12 +154,12 @@ class Utils {
         });
   }
 
-  static update2Players(
+  static updateTwoPlayers(
       {List<String> playerIds,
       int gameState: -1,
       String selectedAttribute,
       int selectedIndex: -1,
-      String id}) {
+      String id}) async {
     //TODO once we implement id generation, we can remove this
     if (id == null) {
       id = '1';
@@ -167,19 +167,26 @@ class Utils {
     debugPrint('updating to firebase');
     DocumentReference teamReference =
         FirebaseFirestore.instance.collection('2players').doc(id);
-    //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
     Map<String, dynamic> valuejson = {};
-    teamReference.get().then((value) => {
-          if (playerIds != null) {valuejson["playerIds"] = playerIds},
-          if (gameState >= 0) {valuejson["gameState"] = gameState},
-          // if (selectedAttribute != null)
-          {valuejson["selectedAttribute"] = selectedAttribute},
-          if (selectedIndex >= 0) {valuejson["selectedIndex"] = selectedIndex},
-          teamReference.update(valuejson),
-        });
+    // DocumentSnapshot value = await teamReference.get();
+    if (playerIds != null) {
+      valuejson["playerIds"] = playerIds;
+    }
+    if (gameState >= 0) {
+      valuejson["gameState"] = gameState;
+    }
+    // if (selectedAttribute != null)
+    {
+      valuejson["selectedAttribute"] = selectedAttribute;
+    }
+    if (selectedIndex >= 0) {
+      valuejson["selectedIndex"] = selectedIndex;
+    }
+    return teamReference.update(valuejson);
   }
 
-  static Future<TrumpModel> joinAndPrepareGame({String id: '1'}) async {
+  static Future<TrumpModel> joinTwoPlayers({String id: '1'}) async {
+    await cancelSubscription();
     DocumentReference teamReference =
         FirebaseFirestore.instance.collection('2players').doc(id);
     DocumentSnapshot snapshot = await teamReference.get();
@@ -195,41 +202,54 @@ class Utils {
     splitAndBuildTwoPlayers(model, playersList, reverse: true);
     model.initMeta();
     model.gameState = TrumpModel.WAIT;
-    update2Players(gameState: TrumpModel.TWO);
+    model.itsMyTurn = false;
+    await updateTwoPlayers(gameState: TrumpModel.TWO);
 
     return model;
   }
 
   static StreamSubscription subscription;
 
-  static cancelSubscription() {
+  static cancelSubscription() async {
     if (subscription != null) {
-      subscription.cancel();
+      await subscription.cancel();
+      subscription = null;
     }
   }
 
-  static listen2Players(BuildContext context, Function attributeSelected,
-      {String id: '1'}) {
+  static int lastReceivedTs = 0;
+  static listenTwoPlayers(BuildContext context, Function attributeSelected,
+      {String id: '1'}) async {
     debugPrint('Listen...');
-    cancelSubscription();
+    await cancelSubscription();
     DocumentReference teamReference =
         FirebaseFirestore.instance.collection('2players').doc(id);
+
     subscription = teamReference.snapshots().listen((event) {
-      debugPrint(event.metadata.hasPendingWrites.toString() +
-          ' ' +
-          event.metadata.isFromCache.toString());
-      debugPrint(event.data().toString());
+      debugPrint('Event');
       if (event.exists) {
+        debugPrint(event.metadata.hasPendingWrites.toString() +
+            ' ' +
+            event.metadata.isFromCache.toString());
+        debugPrint('Diff: ' +
+            (DateTime.now().millisecondsSinceEpoch - lastReceivedTs)
+                .toString());
         Map data = event.data();
         int gameState = data['gameState'];
         debugPrint('GameState: ' + gameState.toString());
-        if (gameState > 0) {
+        if (gameState == 2) {
           TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-          model.checkAndStartTwoPlayerGame();
-          if (data['selectedAttribute'] != null)
-            attributeSelected(data['selectedAttribute'], model);
+          if (!model.isSinglePlayer()) {
+            model.checkAndStartTwoPlayerGame();
+            if (data['selectedAttribute'] != null)
+              attributeSelected(data['selectedAttribute'], model);
+          }
         }
+        lastReceivedTs = DateTime.now().millisecondsSinceEpoch;
       }
+    });
+    subscription.onDone(() {
+      debugPrint('Done');
     });
   }
 

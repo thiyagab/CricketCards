@@ -12,6 +12,7 @@ class TrumpModel extends ChangeNotifier {
   Player playerCard;
   int selectedIndex = -1;
   Teams playerTeam;
+  bool itsMyTurn = true;
 
   String lastSelectedLabel;
 
@@ -28,6 +29,10 @@ class TrumpModel extends ChangeNotifier {
 
   bool isBot(Player player) {
     return player != null && player.team != playerTeam;
+  }
+
+  bool isSinglePlayer() {
+    return gameState == SINGLE;
   }
 
   void moveCard() {
@@ -111,6 +116,7 @@ class TrumpModel extends ChangeNotifier {
       playerCard.score = 0;
       this.botScore += POINTS_PER_WIN;
     }
+    if (!isSinglePlayer()) itsMyTurn = playerWins;
   }
 
   void checkAndUpdateScore(String selectedAttribute, int selectedIndex) {}

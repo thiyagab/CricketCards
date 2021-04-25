@@ -18,6 +18,7 @@ class PlayerCard extends StatelessWidget {
   final Player player;
   TrumpModel model;
   Function attributeSelected;
+  final bool itsme;
 
   PlayerCard(
       {Key key,
@@ -25,6 +26,7 @@ class PlayerCard extends StatelessWidget {
       this.animation,
       this.player,
       this.model,
+      this.itsme,
       this.attributeSelected})
       : super(key: key) {
     this.animation = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -43,9 +45,7 @@ class PlayerCard extends StatelessWidget {
           opacity: animation,
           child: new Transform(
             transform: new Matrix4.translationValues(
-                0,
-                (model.isBot(player) ? -1000 : 1000) * (1.0 - animation.value),
-                0.0),
+                0, (itsme ? 1000 : -1000) * (1.0 - animation.value), 0.0),
             child: card(context),
           ),
         );
@@ -74,9 +74,7 @@ class PlayerCard extends StatelessWidget {
         opacity: animation,
         child: new Transform(
             transform: new Matrix4.translationValues(
-                0.0,
-                (model.isBot(player) ? -1500 : 1500) * (1.0 - animation.value),
-                0.0),
+                0.0, (itsme ? 1500 : -1500) * (1.0 - animation.value), 0.0),
             child: child));
   }
 
@@ -90,16 +88,15 @@ class PlayerCard extends StatelessWidget {
     } catch (e) {
       isNumberVal = false;
     }
-    //dont change this expression, unless u know what you are doing
-    bool isSelectedAttribute = !(player.score >= 0 &&
-        model.lastSelectedLabel != null &&
-        model.lastSelectedLabel != attribute);
+
+    bool enableAttribute = isEnableAttribute(attribute);
+
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) => Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: _addFadeAnim(AnimatedButton(
-            enabled: isSelectedAttribute,
+            enabled: enableAttribute,
             height: buttonHeight, // This is for vasanth SE phone
             width: buttonWidth,
             child: Padding(
@@ -108,27 +105,23 @@ class PlayerCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    player.open ? '$attributeName' : '',
+                    '$attributeName',
                     style: TextStyle(
                         fontSize: 10,
-                        color:
-                            isSelectedAttribute ? Colors.white : Colors.white54,
+                        color: enableAttribute ? Colors.white : Colors.white54,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.none),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
-                      player.open
-                          ? (isNumberVal
-                              ? '${(parsedValue * animation.value).toInt()}'
-                              : '$value')
-                          : '',
+                      (isNumberVal
+                          ? '${(parsedValue * animation.value).toInt()}'
+                          : '$value'),
                       style: TextStyle(
                           fontSize: 18,
-                          color: isSelectedAttribute
-                              ? Colors.white
-                              : Colors.white54,
+                          color:
+                              enableAttribute ? Colors.white : Colors.white54,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.none),
                     ),
@@ -143,6 +136,17 @@ class PlayerCard extends StatelessWidget {
             color: endColor)),
       ),
     );
+  }
+
+  bool isEnableAttribute(String attribute) {
+    if (model.isSinglePlayer()) {
+      return model.lastSelectedLabel == null ||
+          model.lastSelectedLabel == attribute;
+    } else {
+      return model.lastSelectedLabel == null
+          ? model.itsMyTurn
+          : model.lastSelectedLabel == attribute;
+    }
   }
 
   void handleOnTapEvent(String key) {
@@ -176,7 +180,6 @@ class PlayerCard extends StatelessWidget {
               'assets/images/$playerIcon',
               height: 40.0,
               width: 40.0,
-              // color: Colors.white,
               allowDrawingOutsideViewBox: true,
             ),
             Padding(

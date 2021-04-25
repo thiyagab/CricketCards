@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
-import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
 
 import 'GamePlay.dart';
@@ -199,7 +198,7 @@ class TeamList extends StatelessWidget {
 
   //TODO show loading
   _joinTwoPlayer(BuildContext context) {
-    Utils.joinAndPrepareGame().then((model) => Navigator.push(
+    Utils.joinTwoPlayers().then((model) => Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
@@ -207,11 +206,10 @@ class TeamList extends StatelessWidget {
   }
 
   _hostTwoPlayer(BuildContext context) {
-    TrumpModel model = Utils.prepareTwoPlayerGame();
-    Navigator.push(
+    Utils.hostTwoPlayers().then((model) => Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-                create: (context) => model, child: GamePlay())));
+                create: (context) => model, child: GamePlay()))));
   }
 }

@@ -45,8 +45,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    // GlobalKey<FlipCardState> flipState = new GlobalKey();
-    Utils.listen2Players(context, attributeSelected);
+    Utils.listenTwoPlayers(context, attributeSelected);
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
             child: Container(
@@ -62,7 +61,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   }
 
   _gameScreen(TrumpModel model, BuildContext context) {
-    return model.gameState == TrumpModel.SINGLE
+    return model.isSinglePlayer()
         ? _singlePlayer(model, context)
         : _twoPlayer(model, context);
   }
@@ -79,6 +78,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           animationController: animationController,
           player: model.botCard,
           model: model,
+          itsme: false,
           attributeSelected: attributeSelected,
         ),
         _scorePanel(context, model),
@@ -86,6 +86,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           animationController: animationController,
           player: model.playerCard,
           model: model,
+          itsme: true,
           attributeSelected: attributeSelected,
         )
       ]);
@@ -98,6 +99,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
         animationController: animationController,
         player: model.botCard,
         model: model,
+        itsme: false,
         attributeSelected: attributeSelected,
       ),
       _scorePanel(context, model),
@@ -105,6 +107,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           animationController: animationController,
           player: model.playerCard,
           model: model,
+          itsme: true,
           attributeSelected: attributeSelected)
     ]);
   }
@@ -117,9 +120,10 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       Container(
         height: 20,
       ),
-      Align(
-          alignment: Alignment.bottomCenter,
-          child: _instructionText(model, context))
+      if (model.isSinglePlayer())
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: _instructionText(model, context))
     ]);
   }
 
@@ -193,8 +197,9 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     String displayText = "";
     bool playerWins = model.playerScore > model.botScore;
     if (playerWins) {
-      displayText =
-          'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}';
+      displayText = model.isSinglePlayer()
+          ? 'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}'
+          : 'You Won';
     } else {
       displayText = 'You Lost';
     }
@@ -273,7 +278,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(46.0, 22, 20, 22),
                   child: Text(
-                    'IPL11 : ${model.botScore.toString()}',
+                    '${model.isSinglePlayer() ? 'IPL11 :' : 'Friend: '}${model.botScore.toString()}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -406,7 +411,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                     animationController.duration = Duration(milliseconds: 1000),
                     animationController.forward(from: 0.0),
                   }
-                else if (model.gameState == 1)
+                else if (model.isSinglePlayer())
                   {Utils.updateScore(model)}
               });
     }
