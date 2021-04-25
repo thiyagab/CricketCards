@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
+import 'package:ipltrumpcards/ui/CricketCardsTheme.dart';
 import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerCard.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
@@ -208,7 +209,8 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: Center(
               child: DefaultTextStyle(
-                  style: new TextStyle(fontSize: 24, color: Utils.textColor),
+                  style: new TextStyle(
+                      fontSize: 24, color: CricketCardsAppTheme.textColor),
                   child: new Text(displayText)))),
       SvgPicture.asset(
           playerWins ? 'assets/images/won.svg' : 'assets/images/lost.svg',
@@ -349,7 +351,8 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
         }
 
         return DefaultTextStyle(
-            style: TextStyle(fontSize: 16, color: Utils.textColor),
+            style:
+                TextStyle(fontSize: 16, color: CricketCardsAppTheme.textColor),
             textAlign: TextAlign.center,
             child: Text(
               constructInstructionText(model, snapshot.data.docs),

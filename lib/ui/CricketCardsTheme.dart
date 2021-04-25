@@ -6,6 +6,7 @@ class CricketCardsAppTheme {
   static const Color background = Color(0xFFF2F3F8);
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
   static const Color lightText = Color(0xFF4A6572);
+  static const Color textColor = Colors.white;
 
   static const String fontName = 'Roboto';
 

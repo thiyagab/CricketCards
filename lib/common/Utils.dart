@@ -12,18 +12,11 @@ import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
 
 class Utils {
-  static Color color(hexCode) {
-    return Color(int.parse('0xff$hexCode'));
-  }
-
-  //TODO #2 move this to a defined classes
-  static Color textColor = Colors.white;
-
-  static TrumpModel prepareGame(Teams team) {
+  static TrumpModel singlePlayer(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
-    trumpModel.playerCards =
-        sortByRoleAndGet(teamPlayersMap[team.toString()], 6, 5);
+    trumpModel.playerCards = sortByRoleAndGet(
+        players: teamPlayersMap[team.toString()], numBatsmen: 6, numBowlers: 5);
     trumpModel.botCards = buildBotTeam(team);
     trumpModel.initMeta();
     trumpModel.gameState = TrumpModel.SINGLE;
@@ -38,7 +31,8 @@ class Utils {
     teamPlayersMap.forEach((key, value) {
       playersList.addAll(value);
     });
-    playersList = sortByRoleAndGet(playersList, 12, 10);
+    playersList =
+        sortByRoleAndGet(players: playersList, numBatsmen: 12, numBowlers: 10);
 
     splitAndBuildTwoPlayers(trumpModel, playersList);
     trumpModel.initMeta();
@@ -50,6 +44,85 @@ class Utils {
         selectedAttribute: null);
 
     return trumpModel;
+  }
+
+  static Future<TrumpModel> joinTwoPlayers({String id: '1'}) async {
+    await cancelSubscription();
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('2players').doc(id);
+    DocumentSnapshot snapshot = await teamReference.get();
+    Map data = snapshot.data();
+    List playerIds = data['playerIds'];
+    List<Player> playersList = [];
+    if (playerIds != null) {
+      playerIds.forEach((id) {
+        playersList.add(playersMap[id.toString()]);
+      });
+    }
+    TrumpModel model = new TrumpModel();
+    splitAndBuildTwoPlayers(model, playersList, reverse: true);
+    model.initMeta();
+    model.gameState = TrumpModel.WAIT;
+    model.itsMyTurn = false;
+    await updateTwoPlayers(gameState: TrumpModel.TWO);
+
+    return model;
+  }
+
+  static updateTwoPlayers(
+      {List<String> playerIds,
+      int gameState: -1,
+      String selectedAttribute,
+      int selectedIndex: -1,
+      String id}) async {
+    //TODO once we implement id generation, we can remove this
+    if (id == null) {
+      id = '1';
+    }
+    debugPrint('updating to firebase');
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('2players').doc(id);
+    Map<String, dynamic> valuejson = {};
+    // DocumentSnapshot value = await teamReference.get();
+    if (playerIds != null) {
+      valuejson["playerIds"] = playerIds;
+    }
+    if (gameState >= 0) {
+      valuejson["gameState"] = gameState;
+    }
+    // if (selectedAttribute != null)
+    {
+      valuejson["selectedAttribute"] = selectedAttribute;
+    }
+    if (selectedIndex >= 0) {
+      valuejson["selectedIndex"] = selectedIndex;
+    }
+    return teamReference.update(valuejson);
+  }
+
+  static listenTwoPlayers(BuildContext context, Function attributeSelected,
+      {String id: '1'}) async {
+    debugPrint('Listen...');
+    await cancelSubscription();
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('2players').doc(id);
+
+    subscription = teamReference.snapshots().listen((event) {
+      debugPrint('Event');
+      if (event.exists) {
+        Map data = event.data();
+        int gameState = data['gameState'];
+        debugPrint('GameState: ' + gameState.toString());
+        if (gameState == 2) {
+          TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
+          if (!model.isSinglePlayer()) {
+            model.checkAndStartTwoPlayerGame();
+            if (data['selectedAttribute'] != null)
+              attributeSelected(data['selectedAttribute'], model);
+          }
+        }
+      }
+    });
   }
 
   static splitAndBuildTwoPlayers(
@@ -83,11 +156,11 @@ class Utils {
       }
     });
 
-    return sortByRoleAndGet(botPlayers, 6, 5);
+    return sortByRoleAndGet(players: botPlayers, numBatsmen: 6, numBowlers: 5);
   }
 
   static List<Player> sortByRoleAndGet(
-      List<Player> players, int numBatsmen, int numBowlers) {
+      {List<Player> players, int numBatsmen, int numBowlers}) {
     players.shuffle();
     //Once sorted, batsman comes first and bowler next, so pick the top 6 and last 5.
     //For this logic to work, the list should have atleast 6 batsmand and 5 bowlers
@@ -154,60 +227,6 @@ class Utils {
         });
   }
 
-  static updateTwoPlayers(
-      {List<String> playerIds,
-      int gameState: -1,
-      String selectedAttribute,
-      int selectedIndex: -1,
-      String id}) async {
-    //TODO once we implement id generation, we can remove this
-    if (id == null) {
-      id = '1';
-    }
-    debugPrint('updating to firebase');
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('2players').doc(id);
-    Map<String, dynamic> valuejson = {};
-    // DocumentSnapshot value = await teamReference.get();
-    if (playerIds != null) {
-      valuejson["playerIds"] = playerIds;
-    }
-    if (gameState >= 0) {
-      valuejson["gameState"] = gameState;
-    }
-    // if (selectedAttribute != null)
-    {
-      valuejson["selectedAttribute"] = selectedAttribute;
-    }
-    if (selectedIndex >= 0) {
-      valuejson["selectedIndex"] = selectedIndex;
-    }
-    return teamReference.update(valuejson);
-  }
-
-  static Future<TrumpModel> joinTwoPlayers({String id: '1'}) async {
-    await cancelSubscription();
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('2players').doc(id);
-    DocumentSnapshot snapshot = await teamReference.get();
-    Map data = snapshot.data();
-    List playerIds = data['playerIds'];
-    List<Player> playersList = [];
-    if (playerIds != null) {
-      playerIds.forEach((id) {
-        playersList.add(playersMap[id.toString()]);
-      });
-    }
-    TrumpModel model = new TrumpModel();
-    splitAndBuildTwoPlayers(model, playersList, reverse: true);
-    model.initMeta();
-    model.gameState = TrumpModel.WAIT;
-    model.itsMyTurn = false;
-    await updateTwoPlayers(gameState: TrumpModel.TWO);
-
-    return model;
-  }
-
   static StreamSubscription subscription;
 
   static cancelSubscription() async {
@@ -217,45 +236,9 @@ class Utils {
     }
   }
 
-  static int lastReceivedTs = 0;
-  static listenTwoPlayers(BuildContext context, Function attributeSelected,
-      {String id: '1'}) async {
-    debugPrint('Listen...');
-    await cancelSubscription();
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('2players').doc(id);
-
-    subscription = teamReference.snapshots().listen((event) {
-      debugPrint('Event');
-      if (event.exists) {
-        debugPrint(event.metadata.hasPendingWrites.toString() +
-            ' ' +
-            event.metadata.isFromCache.toString());
-        debugPrint('Diff: ' +
-            (DateTime.now().millisecondsSinceEpoch - lastReceivedTs)
-                .toString());
-        Map data = event.data();
-        int gameState = data['gameState'];
-        debugPrint('GameState: ' + gameState.toString());
-        if (gameState == 2) {
-          TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
-          if (!model.isSinglePlayer()) {
-            model.checkAndStartTwoPlayerGame();
-            if (data['selectedAttribute'] != null)
-              attributeSelected(data['selectedAttribute'], model);
-          }
-        }
-        lastReceivedTs = DateTime.now().millisecondsSinceEpoch;
-      }
-    });
-    subscription.onDone(() {
-      debugPrint('Done');
-    });
-  }
-
   static share() {
-    if (!kIsWeb) {
-      throw UnimplementedError('Share is only implemented on Web');
+    if (kIsWeb) {
+      throw UnimplementedError('Share is only implemented on android');
     }
     //TODO uncomment this for web deployment
     // var shareData = {

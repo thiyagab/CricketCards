@@ -7,6 +7,7 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:provider/provider.dart';
 
+import 'CricketCardsTheme.dart';
 import 'GamePlay.dart';
 
 class TeamList extends StatelessWidget {
@@ -59,7 +60,7 @@ class TeamList extends StatelessWidget {
             child: DefaultTextStyle(
                 style: TextStyle(
                     fontSize: 24,
-                    color: Utils.textColor,
+                    color: CricketCardsAppTheme.textColor,
                     fontWeight: FontWeight.bold),
                 child: Text(
                   "Points Table",
@@ -93,7 +94,7 @@ class TeamList extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-                create: (context) => Utils.prepareGame(team.name),
+                create: (context) => Utils.singlePlayer(team.name),
                 child: GamePlay())));
   }
 
@@ -135,7 +136,9 @@ class TeamList extends StatelessWidget {
                                     child: Text(
                                       team.score.toString() + " points",
                                       textAlign: TextAlign.end,
-                                      style: TextStyle(color: Utils.textColor),
+                                      style: TextStyle(
+                                          color:
+                                              CricketCardsAppTheme.textColor),
                                     ))
                               ]))
                     ]))),
