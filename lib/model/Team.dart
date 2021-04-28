@@ -18,7 +18,7 @@ class Team {
     this.name = teamsMap[team.toLowerCase()];
   }
 
-  Map<String, Teams> teamsMap = {
+  static Map<String, Teams> teamsMap = {
     "chennai": Teams.CHENNAI,
     "mumbai": Teams.MUMBAI,
     "bengaluru": Teams.BENGALURU,

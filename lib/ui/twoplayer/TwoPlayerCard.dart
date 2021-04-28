@@ -26,8 +26,10 @@ class TwoPlayerCard extends PlayerCard {
 
   @override
   void handleOnTapEvent(String key) {
-    Utils.updateTwoPlayers(
-        selectedAttribute: key, selectedIndex: model.selectedIndex);
+    Utils.createOrupdateTwoPlayers(
+        selectedAttribute: key,
+        selectedIndex: model.selectedIndex,
+        id: model.hostid);
   }
 
   @override

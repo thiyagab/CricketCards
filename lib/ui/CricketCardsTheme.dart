@@ -8,6 +8,10 @@ class CricketCardsAppTheme {
   static const Color lightText = Color(0xFF4A6572);
   static const Color textColor = Colors.white;
 
+  static const Decoration background_img = BoxDecoration(
+      image: DecorationImage(
+          image: AssetImage("assets/images/background.png"), fit: BoxFit.fill));
+
   static const String fontName = 'Roboto';
 
   static const TextTheme textTheme = TextTheme(

@@ -10,8 +10,10 @@ import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
+  static final String IPL11 = 'IPL 11';
   static TrumpModel singlePlayer(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
@@ -23,50 +25,88 @@ class Utils {
     return trumpModel;
   }
 
-  static Future<TrumpModel> hostTwoPlayers() async {
-    debugPrint('Preparing two player');
+  static List<Player> randomPlayerList(Teams team) {
+    List<Player> playersList = [];
+    if (team == null)
+      teamPlayersMap.forEach((key, value) {
+        playersList.addAll(value);
+      });
+    else
+      playersList = teamPlayersMap[team.toString()];
+
+    playersList =
+        sortByRoleAndGet(players: playersList, numBatsmen: 6, numBowlers: 5);
+
+    return playersList;
+  }
+
+  static Future<TrumpModel> hostTwoPlayers1(Teams team, String id) async {
+    debugPrint('hosting two player');
     await cancelSubscription();
     TrumpModel trumpModel = TrumpModel();
-    List<Player> playersList = [];
-    teamPlayersMap.forEach((key, value) {
-      playersList.addAll(value);
-    });
-    playersList =
-        sortByRoleAndGet(players: playersList, numBatsmen: 12, numBowlers: 10);
 
-    splitAndBuildTwoPlayers(trumpModel, playersList);
-    trumpModel.initMeta();
+    List<Player> playersList = randomPlayerList(team);
+
+    trumpModel.playerCards = playersList;
+    trumpModel.playerTeam = team;
     trumpModel.gameState = TrumpModel.WAIT;
     trumpModel.itsMyTurn = true;
-    await updateTwoPlayers(
-        playerIds: playersList.map<String>((player) => player.id).toList(),
+    trumpModel.hostid = id;
+    await createOrupdateTwoPlayers(
+        id: id,
+        hostPlayerIds: playersList.map<String>((player) => player.id).toList(),
         gameState: 0,
+        hostTeam: team,
+        selectedIndex: -1,
         selectedAttribute: null);
 
     return trumpModel;
   }
 
-  static Future<TrumpModel> joinTwoPlayers({String id: '1'}) async {
+  static Future<QuerySnapshot> getGameSession(int code) async {
+    Query query = FirebaseFirestore.instance
+        .collection('2players')
+        .where('code', isEqualTo: code);
+    return await query.get();
+  }
+
+  static Future<TrumpModel> joinTwoPlayers1(Teams team, {int code}) async {
     await cancelSubscription();
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('2players').doc(id);
-    DocumentSnapshot snapshot = await teamReference.get();
-    Map data = snapshot.data();
-    List playerIds = data['playerIds'];
+
+    QuerySnapshot snapshot = await getGameSession(code);
+
+    Map data = snapshot.docs.first.data();
+
+    String id = snapshot.docs.first.id;
+
+    TrumpModel model = new TrumpModel();
+    model.botCards = playerList(data['hostPlayerIds']);
+    model.playerCards = randomPlayerList(team);
+    model.playerTeam = team;
+    model.botTeam = Team.teamsMap[data['joinedTeam'].toString().toLowerCase()];
+
+    model.initMeta();
+    model.gameState = TrumpModel.WAIT;
+    model.itsMyTurn = false;
+    model.hostid = id;
+    await createOrupdateTwoPlayers(
+        id: id,
+        gameState: TrumpModel.TWO,
+        joinedTeam: team,
+        selectedIndex: 0,
+        joinedPlayerIds: model.playerCards.map((e) => e.id).toList());
+
+    return model;
+  }
+
+  static List<Player> playerList(List playerIds) {
     List<Player> playersList = [];
     if (playerIds != null) {
       playerIds.forEach((id) {
         playersList.add(playersMap[id.toString()]);
       });
     }
-    TrumpModel model = new TrumpModel();
-    splitAndBuildTwoPlayers(model, playersList, reverse: true);
-    model.initMeta();
-    model.gameState = TrumpModel.WAIT;
-    model.itsMyTurn = false;
-    await updateTwoPlayers(gameState: TrumpModel.TWO);
-
-    return model;
+    return playersList;
   }
 
   static updateTwoPlayers(
@@ -100,8 +140,66 @@ class Utils {
     return teamReference.update(valuejson);
   }
 
-  static listenTwoPlayers(BuildContext context, Function attributeSelected,
-      {String id: '1'}) async {
+  static Future<dynamic> increaseAndCreateHost() async {
+    CollectionReference reference =
+        FirebaseFirestore.instance.collection('2players');
+
+    QuerySnapshot value =
+        await reference.orderBy('code', descending: true).limit(1).get();
+    return createNewGameSession(value.docs[0].data()['code']);
+  }
+
+  static Future<dynamic> clearGameSession(String id, int code) async {
+    DocumentReference reference =
+        FirebaseFirestore.instance.collection('2players').doc(id);
+
+    await reference.set({'code': code}, SetOptions(merge: false));
+  }
+
+  static Future<dynamic> createNewGameSession(int lastCode) async {
+    int newcode = lastCode + 1;
+    DocumentReference teamReference =
+        FirebaseFirestore.instance.collection('2players').doc();
+    await teamReference.set({'code': newcode});
+    return [newcode, teamReference.id];
+  }
+
+  static createOrupdateTwoPlayers(
+      {List<String> hostPlayerIds,
+      List<String> joinedPlayerIds,
+      int gameState: -1,
+      Teams hostTeam,
+      Teams joinedTeam,
+      String selectedAttribute,
+      int selectedIndex: -1,
+      String id}) async {
+    debugPrint('updating to firebase');
+    DocumentReference documentReference =
+        await FirebaseFirestore.instance.collection('2players').doc(id);
+
+    Map<String, dynamic> valuejson = {};
+    // DocumentSnapshot value = await teamReference.get();
+    if (hostPlayerIds != null) {
+      valuejson["hostPlayerIds"] = hostPlayerIds;
+    }
+    if (joinedPlayerIds != null) {
+      valuejson["joinedPlayerIds"] = joinedPlayerIds;
+    }
+    if (gameState >= 0) {
+      valuejson["gameState"] = gameState;
+    }
+    if (hostTeam != null) {
+      valuejson['hostTeam'] = Utils.teamName(hostTeam).toLowerCase();
+    }
+    if (joinedTeam != null) {
+      valuejson['joinedTeam'] = Utils.teamName(joinedTeam).toLowerCase();
+    }
+    valuejson["selectedAttribute"] = selectedAttribute;
+    valuejson["selectedIndex"] = selectedIndex;
+    return documentReference.set(valuejson, SetOptions(merge: true));
+  }
+
+  static listenTwoPlayers1(BuildContext context, bool host, {String id}) async {
     debugPrint('Listen...');
     await cancelSubscription();
     DocumentReference teamReference =
@@ -115,10 +213,18 @@ class Utils {
         debugPrint('GameState: ' + gameState.toString());
         if (gameState == 2) {
           TrumpModel model = Provider.of<TrumpModel>(context, listen: false);
+          if (host) {
+            model.botCards = playerList(data['joinedPlayerIds']);
+            if (data['joinedTeam'] != null) {
+              model.botTeam = Team.teamsMap[data['joinedTeam']];
+            }
+          }
+          if (data['selectedIndex'] != null && data['selectedIndex'] == 0)
+            model.initMeta();
           if (!model.isSinglePlayer()) {
             model.checkAndStartTwoPlayerGame();
             if (data['selectedAttribute'] != null)
-              attributeSelected(data['selectedAttribute'], model);
+              model.attributeSelected(data['selectedAttribute'], model);
           }
         }
       }
@@ -144,8 +250,13 @@ class Utils {
   }
 
   static String teamName(Teams team) {
+    if (team == null) return IPL11;
     String name = team.toString().substring(6).toLowerCase();
-    return name.characters.first.toUpperCase() + name.substring(1);
+    return camelCase(name);
+  }
+
+  static String camelCase(String text) {
+    return text.characters.first.toUpperCase() + text.substring(1);
   }
 
   static List<Player> buildBotTeam(Teams playerTeam) {
@@ -212,19 +323,35 @@ class Utils {
 
     if (model.playerScore > model.botScore) {
       points = model.playerScore;
-      // - model.botScore;
+      updatePointsLocal(points);
+      if (model.isPlayingForTeam()) {
+        String team = model.playerTeam.toString().substring(6).toLowerCase();
+        DocumentReference teamReference =
+            FirebaseFirestore.instance.collection('teams').doc(team);
+        //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
+        teamReference.get().then((value) => {
+              teamReference.update({
+                "score": value.data()['score'] + points,
+                "plays": value.data()['plays'] + 1,
+                "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
+              }),
+            });
+      }
     }
-    String team = model.playerTeam.toString().substring(6).toLowerCase();
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('teams').doc(team);
-    //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
-    teamReference.get().then((value) => {
-          teamReference.update({
-            "score": value.data()['score'] + points,
-            "plays": value.data()['plays'] + 1,
-            "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
-          }),
-        });
+  }
+
+  static updatePointsLocal(int scoredPoints) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int points = prefs.getInt('points');
+    if (points == null) points = 0;
+    points = points + scoredPoints;
+    prefs.setInt('points', points);
+  }
+
+  static getTotalPointsScored() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int points = prefs.getInt('points');
+    return points == null ? 0 : points;
   }
 
   static StreamSubscription subscription;

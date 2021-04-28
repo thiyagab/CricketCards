@@ -17,14 +17,14 @@ import '../components/CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
 
 class GamePlay extends StatefulWidget {
-  GamePlay({Key key, this.title}) : super(key: key);
-  final String title;
+  GamePlay({Key key}) : super(key: key);
 
   @override
-  _GamePlayState createState() => _GamePlayState();
+  GamePlayState createState() => GamePlayState();
 }
 
-class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
+//TODO figure out a way to extract twoplayergame extending this, now its all messy inside
+class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   AnimationController animationController;
   var width, height;
 
@@ -46,7 +46,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    Utils.listenTwoPlayers(context, attributeSelected);
+
     return Consumer<TrumpModel>(
         builder: (context, model, child) => SafeArea(
             child: Container(
@@ -62,6 +62,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   }
 
   _gameScreen(TrumpModel model, BuildContext context) {
+    model.attributeSelected = attributeSelected;
     return model.isSinglePlayer()
         ? _singlePlayer(model, context)
         : _twoPlayer(model, context);
@@ -121,7 +122,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       Container(
         height: 20,
       ),
-      if (model.isSinglePlayer())
+      if (model.isPlayingForTeam())
         Align(
             alignment: Alignment.bottomCenter,
             child: _instructionText(model, context))
@@ -198,7 +199,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     String displayText = "";
     bool playerWins = model.playerScore > model.botScore;
     if (playerWins) {
-      displayText = model.isSinglePlayer()
+      displayText = model.isPlayingForTeam()
           ? 'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}'
           : 'You Won';
     } else {
@@ -280,7 +281,7 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(46.0, 22, 20, 22),
                   child: Text(
-                    '${model.isSinglePlayer() ? 'IPL11 :' : 'Friend: '}${model.botScore.toString()}',
+                    '${model.isSinglePlayer() ? 'IPL11 : ' : 'Friend: '}${model.botScore.toString()}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -407,14 +408,12 @@ class _GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 model.moveCard(),
 
                 if (!model.isGameOver())
-                  // {showScoreDialog(context, model)}
-                  // else
                   {
                     animationController.reset(),
                     animationController.duration = Duration(milliseconds: 1000),
                     animationController.forward(from: 0.0),
                   }
-                else if (model.isSinglePlayer())
+                else
                   {Utils.updateScore(model)}
               });
     }

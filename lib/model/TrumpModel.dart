@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/player.dart';
 
 import 'Team.dart';
@@ -12,6 +13,7 @@ class TrumpModel extends ChangeNotifier {
   Player playerCard;
   int selectedIndex = -1;
   Teams playerTeam;
+  Teams botTeam;
   bool itsMyTurn = true;
 
   String lastSelectedLabel;
@@ -23,6 +25,9 @@ class TrumpModel extends ChangeNotifier {
   static final int SINGLE = 1;
   static final int TWO = 2;
 
+  Function attributeSelected;
+  String hostid;
+
   bool isGameOver() {
     return selectedIndex >= playerCards.length;
   }
@@ -33,6 +38,11 @@ class TrumpModel extends ChangeNotifier {
 
   bool isSinglePlayer() {
     return gameState == SINGLE;
+  }
+
+  bool isPlayingForTeam() {
+    return isSinglePlayer() ||
+        (playerTeam != null && playerTeam != Utils.IPL11);
   }
 
   void moveCard() {
@@ -49,9 +59,11 @@ class TrumpModel extends ChangeNotifier {
   void initMeta() {
     this.selectedIndex = 0;
     this.playerCard = this.playerCards[0];
-    this.botCard = this.botCards[0];
-    this.playerCard.score = this.botCard.score = 0;
-    this.botCard.open = false;
+    if (botCards != null && botCards.length > 0) {
+      this.botCard = this.botCards[0];
+      this.botCard.open = false;
+      this.playerCard.score = this.botCard.score = 0;
+    }
   }
 
   void checkAndStartTwoPlayerGame() {

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
+import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerStart.dart';
 import 'package:provider/provider.dart';
 
 import 'CricketCardsTheme.dart';
@@ -28,13 +29,10 @@ class TeamList extends StatelessWidget {
 
         return Container(
             padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/background.png"),
-                    fit: BoxFit.fill)),
+            decoration: CricketCardsAppTheme.background_img,
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: teamList(context, snapshot.data.docs),
             ));
       },
@@ -48,10 +46,11 @@ class TeamList extends StatelessWidget {
     }).toList();
 
     widgets.add(Padding(
-        padding: EdgeInsets.only(top: 20),
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         child: DefaultTextStyle(
-            style: TextStyle(color: Colors.white54),
-            child: Text("Play and Score for your Team"))));
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+            child: Column(children: [Text("Play for your Team\n(OR)")]))));
     _addTwoPlayerControls(widgets, context);
     widgets.insert(
         0,
@@ -120,7 +119,7 @@ class TeamList extends StatelessWidget {
                         Utils.teamName(team.name),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Padding(
                           padding: EdgeInsets.only(top: 10),
@@ -159,60 +158,60 @@ class TeamList extends StatelessWidget {
 
   _addTwoPlayerControls(List<Widget> widgets, BuildContext context) {
     widgets.add(Expanded(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed))
-                  return Theme.of(context).colorScheme.primary.withOpacity(0.5);
-                return null; // Use the component's default.
-              },
-            ),
-          ),
-          child: Text(
-            "Host",
-            style: TextStyle(fontSize: 20),
-          ),
-          onPressed: () => {_hostTwoPlayer(context)},
-        ),
-        Container(width: 20),
-        ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed))
-                  return Theme.of(context).colorScheme.primary.withOpacity(0.5);
-                return null; // Use the component's default.
-              },
-            ),
-          ),
-          child: Text(
-            "Join",
-            style: TextStyle(fontSize: 20),
-          ),
-          onPressed: () => {_joinTwoPlayer(context)},
-        )
-      ],
-    )));
+        child: GestureDetector(
+            onTap: () => _twoPlayer(context),
+            child: GradientCard(
+                gradient: Gradients.buildGradient(
+                    Alignment.topLeft, Alignment.bottomRight, [
+                  CricketCardsAppTheme.nearlyDarkBlue.withBlue(120),
+                  CricketCardsAppTheme.nearlyDarkBlue,
+                ]),
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Play with friends',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset('assets/images/cup.svg',
+                                        width: 12,
+                                        height: 12,
+                                        color: Colors.orangeAccent),
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: FutureBuilder(
+                                            future:
+                                                Utils.getTotalPointsScored(),
+                                            builder: (context, snapshot) {
+                                              return Text(
+                                                snapshot.data.toString() +
+                                                    " points",
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                    color: CricketCardsAppTheme
+                                                        .textColor),
+                                              );
+                                            }))
+                                  ]))
+                        ]))))));
   }
 
-  //TODO show loading
-  _joinTwoPlayer(BuildContext context) {
-    Utils.joinTwoPlayers().then((model) => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-                create: (context) => model, child: GamePlay()))));
-  }
-
-  _hostTwoPlayer(BuildContext context) {
-    Utils.hostTwoPlayers().then((model) => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-                create: (context) => model, child: GamePlay()))));
+  _twoPlayer(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TwoPlayerStart()));
   }
 }
