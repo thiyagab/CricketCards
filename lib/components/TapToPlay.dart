@@ -123,7 +123,7 @@ class _TapToPlayState extends State<TapToPlay> with TickerProviderStateMixin {
                           ]),
                       child: Center(
                           child: Text(
-                        'Waiting...',
+                        'Waiting..',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: fontSize,
