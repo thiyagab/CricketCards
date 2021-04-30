@@ -90,12 +90,12 @@ class TrumpModel extends ChangeNotifier {
   ];
 
   void updateScore(String key) {
-    bool playerWins = false;
+    int playerWins = 0;
     String botValuestr = botCard.toJson()[key];
     String playerValuestr = playerCard.toJson()[key];
 
     if (key == 'bestBowlingFigure') {
-      if (botValuestr == '') playerWins = true;
+      if (botValuestr == '') playerWins = 1;
       List<String> botValues = botValuestr.split("/");
       List<String> playerValues = playerValuestr.split("/");
 
@@ -103,9 +103,17 @@ class TrumpModel extends ChangeNotifier {
       double playerwickets = double.parse(playerValues[0]);
 
       if (botwickets == playerwickets) {
-        playerWins = double.parse(playerValues[1]) < double.parse(botValues[1]);
+        playerWins = double.parse(playerValues[1]) < double.parse(botValues[1])
+            ? 1
+            : double.parse(playerValues[1]) == double.parse(botValues[1])
+                ? 0
+                : -1;
       } else {
-        playerWins = playerwickets > botwickets;
+        playerWins = playerwickets > botwickets
+            ? 1
+            : playerwickets == botwickets
+                ? 0
+                : -1;
       }
     } else {
       double botvalue = (botValuestr == null || botValuestr.isEmpty)
@@ -115,20 +123,31 @@ class TrumpModel extends ChangeNotifier {
           ? 0
           : double.parse(playerValuestr);
       playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
-          ? botvalue > playervalue
-          : playervalue > botvalue;
+          ? (botvalue > playervalue
+              ? 1
+              : botvalue == playervalue
+                  ? 0
+                  : -1)
+          : (playervalue > botvalue
+              ? 1
+              : playervalue == botvalue
+                  ? 0
+                  : -1);
     }
 
-    if (playerWins) {
+    playerCard.score = 0;
+    botCard.score = 0;
+    if (playerWins > 0) {
       playerCard.score = POINTS_PER_WIN;
       botCard.score = 0;
       this.playerScore += POINTS_PER_WIN;
-    } else {
+    } else if (playerWins < 0) {
       botCard.score = POINTS_PER_WIN;
       playerCard.score = 0;
       this.botScore += POINTS_PER_WIN;
     }
-    itsMyTurn = playerWins;
+
+    itsMyTurn = playerWins == 0 ? !itsMyTurn : playerWins > 0;
   }
 
   void checkAndUpdateScore(String selectedAttribute, int selectedIndex) {}

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
+import 'package:ipltrumpcards/components/TapToPlay.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/ui/CricketCardsTheme.dart';
@@ -70,9 +71,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
 
   _twoPlayer(TrumpModel model, BuildContext context) {
     if (model.gameState == TrumpModel.WAIT) {
-      return Center(
-          child: DefaultTextStyle(
-              style: TextStyle(fontSize: 32), child: Text('Waiting to join')));
+      return Center(child: TapToPlay());
     } else if (model.gameState == TrumpModel.TWO) {
       return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TwoPlayerCard(
@@ -201,6 +200,8 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       displayText = model.isPlayingForTeam()
           ? 'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}'
           : 'You Won';
+    } else if (model.playerScore == model.botScore) {
+      displayText = "Match Drawn";
     } else {
       displayText = 'You Lost';
     }
@@ -327,12 +328,20 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
 
   String getScorePanelText(TrumpModel model) {
     if (model.isGameOver()) {
-      return model.playerScore > model.botScore ? 'WON' : 'LOST';
+      return model.playerScore > model.botScore
+          ? 'WON'
+          : model.playerScore == model.botScore
+              ? 'DRAW'
+              : 'LOST';
     }
-    if (model.playerCard.score > model.botCard.score) {
-      return 'Won';
-    } else if (model.playerCard.score < model.botCard.score) {
-      return 'Lost';
+    if (model.botCard.open) {
+      if (model.playerCard.score > model.botCard.score) {
+        return 'Won';
+      } else if (model.playerCard.score < model.botCard.score) {
+        return 'Lost';
+      } else if (model.playerCard.score == model.botCard.score) {
+        return 'Draw';
+      }
     }
     return "${model.selectedIndex}/11";
   }

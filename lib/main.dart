@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
-import 'package:ipltrumpcards/ui/TeamList.dart';
+import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerStart.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
                         .apply(
                             bodyColor: Colors.white,
                             displayColor: Colors.white)),
-            home: TeamList(),
+            home: TwoPlayerStart(),
             navigatorObservers: <NavigatorObserver>[observer],
             // GamePlay(title: 'Cricket Cards'),
           );

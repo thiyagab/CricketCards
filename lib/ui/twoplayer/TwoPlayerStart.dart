@@ -29,116 +29,140 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
   int hostcode;
   String hostid;
 
+  //TODO the whole UI should be revamped, now looks very amateruish, again will do after some traction
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
             decoration: CricketCardsAppTheme.background_img,
             child: Container(
-                color: Colors.black54.withAlpha(200),
+                // color: Colors.black54.withAlpha(200),
                 child: Padding(
                     padding: EdgeInsets.all(20),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
                             height: 10,
                           ),
-                          Expanded(
-                              child: Text(
-                                  '<This whole screen need to be revamped for UI>\n\nHost:\n'
-                                  '1. Select Host->Share code to friends->Select a team and host.  It moves to wait screen until your friend joins\n\nJoin:'
-                                  '\n2.If you have the code,\nselect join->Enter the code->Select a team and join\n'
-                                  '\n\nYou can select your favorite team and score points for Points Table or IPL11 (mix of all players)\n',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 18))),
-                          Row(children: [
-                            Text('Join ',
-                                style: TextStyle(fontSize: host ? 14 : 30)),
-                            Switch(
-                              value: host,
-                              onChanged: (value) {
-                                setState(() {
-                                  host = value;
-                                });
-                              },
-                            ),
-                            Text('Host',
-                                style: TextStyle(fontSize: host ? 30 : 14)),
-                          ]),
-                          SizedBox(height: 30),
-                          Container(
-                              height: 100,
-                              child: host
-                                  ? FutureBuilder(
-                                      future: checkHostId(),
-                                      builder: (context, snapshot) => snapshot
-                                                  .connectionState ==
-                                              ConnectionState.waiting
-                                          ? Text('Generating')
-                                          : Row(children: [
-                                              Text('Code:'),
-                                              Text(snapshot.data.toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 40)),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Share.share(
-                                                        "Play for your favourite team with me in IPL Trump cards  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards.  Use code: ${snapshot.data.toString()}");
-                                                  },
-                                                  child: Text(
-                                                    'Share',
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  ))
-                                            ]))
-                                  : TextField(
-                                      controller: textController,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 6,
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          hintText: 'code'),
-                                    )),
-                          DropdownButtonFormField(
-                              onChanged: (value) {
-                                selectedTeam = value;
-                              },
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                              dropdownColor: CricketCardsAppTheme.nearlyWhite,
-                              value: selectedTeam,
-                              items: teamList()
-                                  .map((team) => DropdownMenuItem<String>(
-                                      value: team,
-                                      child: Text(Utils.camelCase(team))))
-                                  .toList()),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Validate returns true if the form is valid, or false otherwise.
-                                validate(context).then((value) {
-                                  if (value) hostOrJoin(context);
-                                });
-                              },
-                              child: Container(
-                                  height: 40,
-                                  width: 150,
-                                  child: Center(
-                                      child: Text(
-                                    host ? 'Host' : 'Join',
-                                    style: TextStyle(fontSize: 18),
-                                  ))),
-                            ),
-                          ),
+                          hostOrJoinControls(context),
+                          instructionText(context),
                         ])))));
+  }
+
+  Widget instructionText(BuildContext context) {
+    return Text(
+        '\n\nNote: You can select your favorite team and score points for them or select IPL11 (mix of all players) for a casual play',
+        style: TextStyle(fontSize: 12, color: CricketCardsAppTheme.textColor));
+  }
+
+  Widget hostOrJoinControls(BuildContext context) {
+    return Container(
+        // color: CricketCardsAppTheme.lightText,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: CricketCardsAppTheme.lightText,
+            border: Border.all(color: CricketCardsAppTheme.lightText)),
+        // .withAlpha(220),
+        child: Padding(
+            padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+            child: Column(children: [
+              SwitchListTile(
+                title: Text(
+                  'Host or Join',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 25, color: CricketCardsAppTheme.textColor),
+                ),
+                subtitle: host
+                    ? Text('Share code and host. Toggle to join',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: CricketCardsAppTheme.textColor))
+                    : Text('Enter code and join. Toggle to host',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: CricketCardsAppTheme.textColor)),
+                value: host,
+                onChanged: (value) {
+                  setState(() {
+                    host = value;
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              Container(
+                  height: 100,
+                  child: host
+                      ? FutureBuilder(
+                          future: checkHostId(),
+                          builder: (context, snapshot) =>
+                              snapshot.connectionState ==
+                                      ConnectionState.waiting
+                                  ? Center(child: Text('Generating'))
+                                  : Row(children: [
+                                      Text('Code: '),
+                                      Text(snapshot.data.toString(),
+                                          style: TextStyle(fontSize: 40)),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      TextButton(
+                                          onPressed: () {
+                                            Share.share(
+                                                "Play for your favourite team against me in IPL Trump cards  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards.  Use code: ${snapshot.data.toString()}");
+                                          },
+                                          child: Text(
+                                            'Share',
+                                            style: TextStyle(fontSize: 20),
+                                          ))
+                                    ]))
+                      : TextField(
+                          controller: textController,
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Code'),
+                        )),
+              DropdownButtonFormField(
+                  onChanged: (value) {
+                    selectedTeam = value;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  dropdownColor: CricketCardsAppTheme.nearlyWhite,
+                  value: selectedTeam,
+                  items: teamList()
+                      .map((team) => DropdownMenuItem<String>(
+                          value: team, child: Text(Utils.camelCase(team))))
+                      .toList()),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Validate returns true if the form is valid, or false otherwise.
+                    validate(context).then((value) {
+                      if (value) hostOrJoin(context);
+                    });
+                  },
+                  child: Container(
+                      height: 40,
+                      width: 150,
+                      child: Center(
+                          child: Text(
+                        host ? 'Host' : 'Join',
+                        style: TextStyle(fontSize: 18),
+                      ))),
+                ),
+              ),
+            ])));
   }
 
   Future<bool> validate(BuildContext context) async {
