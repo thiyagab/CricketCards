@@ -128,7 +128,7 @@ class TrumpModel extends ChangeNotifier {
       playerCard.score = 0;
       this.botScore += POINTS_PER_WIN;
     }
-    if (!isSinglePlayer()) itsMyTurn = playerWins;
+    itsMyTurn = playerWins;
   }
 
   void checkAndUpdateScore(String selectedAttribute, int selectedIndex) {}

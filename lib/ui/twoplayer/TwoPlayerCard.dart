@@ -26,7 +26,7 @@ class TwoPlayerCard extends PlayerCard {
 
   @override
   void handleOnTapEvent(String key) {
-    Utils.createOrupdateTwoPlayers(
+    Utils.createOrupdateGameSession(
         selectedAttribute: key,
         selectedIndex: model.selectedIndex,
         id: model.hostid);

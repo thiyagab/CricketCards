@@ -40,7 +40,7 @@ class Utils {
     return playersList;
   }
 
-  static Future<TrumpModel> hostTwoPlayers1(Teams team, String id) async {
+  static Future<TrumpModel> hostTwoPlayers(Teams team, String id) async {
     debugPrint('hosting two player');
     await cancelSubscription();
     TrumpModel trumpModel = TrumpModel();
@@ -52,7 +52,7 @@ class Utils {
     trumpModel.gameState = TrumpModel.WAIT;
     trumpModel.itsMyTurn = true;
     trumpModel.hostid = id;
-    await createOrupdateTwoPlayers(
+    await createOrupdateGameSession(
         id: id,
         hostPlayerIds: playersList.map<String>((player) => player.id).toList(),
         gameState: 0,
@@ -70,7 +70,7 @@ class Utils {
     return await query.get();
   }
 
-  static Future<TrumpModel> joinTwoPlayers1(Teams team, {int code}) async {
+  static Future<TrumpModel> joinTwoPlayers(Teams team, {int code}) async {
     await cancelSubscription();
 
     QuerySnapshot snapshot = await getGameSession(code);
@@ -81,15 +81,17 @@ class Utils {
 
     TrumpModel model = new TrumpModel();
     model.botCards = playerList(data['hostPlayerIds']);
+    model.botTeam = Team.teamsMap[data['joinedTeam'].toString().toLowerCase()];
+    //TODO if host team is IPL 11, then we need to make sure the same players are not picked while picking random
+    //Ippodhaiku interest illa.. only if the game crosses 1000 downloads will fix this
     model.playerCards = randomPlayerList(team);
     model.playerTeam = team;
-    model.botTeam = Team.teamsMap[data['joinedTeam'].toString().toLowerCase()];
 
     model.initMeta();
     model.gameState = TrumpModel.WAIT;
     model.itsMyTurn = false;
     model.hostid = id;
-    await createOrupdateTwoPlayers(
+    await createOrupdateGameSession(
         id: id,
         gameState: TrumpModel.TWO,
         joinedTeam: team,
@@ -107,37 +109,6 @@ class Utils {
       });
     }
     return playersList;
-  }
-
-  static updateTwoPlayers(
-      {List<String> playerIds,
-      int gameState: -1,
-      String selectedAttribute,
-      int selectedIndex: -1,
-      String id}) async {
-    //TODO once we implement id generation, we can remove this
-    if (id == null) {
-      id = '1';
-    }
-    debugPrint('updating to firebase');
-    DocumentReference teamReference =
-        FirebaseFirestore.instance.collection('2players').doc(id);
-    Map<String, dynamic> valuejson = {};
-    // DocumentSnapshot value = await teamReference.get();
-    if (playerIds != null) {
-      valuejson["playerIds"] = playerIds;
-    }
-    if (gameState >= 0) {
-      valuejson["gameState"] = gameState;
-    }
-    // if (selectedAttribute != null)
-    {
-      valuejson["selectedAttribute"] = selectedAttribute;
-    }
-    if (selectedIndex >= 0) {
-      valuejson["selectedIndex"] = selectedIndex;
-    }
-    return teamReference.update(valuejson);
   }
 
   static Future<dynamic> increaseAndCreateHost() async {
@@ -164,7 +135,7 @@ class Utils {
     return [newcode, teamReference.id];
   }
 
-  static createOrupdateTwoPlayers(
+  static createOrupdateGameSession(
       {List<String> hostPlayerIds,
       List<String> joinedPlayerIds,
       int gameState: -1,
@@ -199,7 +170,7 @@ class Utils {
     return documentReference.set(valuejson, SetOptions(merge: true));
   }
 
-  static listenTwoPlayers1(BuildContext context, bool host, {String id}) async {
+  static listenTwoPlayers(BuildContext context, bool host, {String id}) async {
     debugPrint('Listen...');
     await cancelSubscription();
     DocumentReference teamReference =

@@ -6,6 +6,7 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../CricketCardsTheme.dart';
@@ -82,7 +83,10 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
                                                   style:
                                                       TextStyle(fontSize: 40)),
                                               TextButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Share.share(
+                                                        "Play for your favourite team with me in IPL Trump cards  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards.  Use code: ${snapshot.data.toString()}");
+                                                  },
                                                   child: Text(
                                                     'Share',
                                                     style:
@@ -222,12 +226,12 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
   }
 
   _joinTwoPlayer(BuildContext context, Teams team, int code) {
-    Utils.joinTwoPlayers1(team, code: code)
+    Utils.joinTwoPlayers(team, code: code)
         .then((model) => _moveToGamePlay(context, model, false, model.hostid));
   }
 
   _hostTwoPlayer(BuildContext context, Teams team, String id) {
-    Utils.hostTwoPlayers1(team, id)
+    Utils.hostTwoPlayers(team, id)
         .then((model) => _moveToGamePlay(context, model, true, id));
   }
 
@@ -246,7 +250,7 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
     return ChangeNotifierProvider(
         create: (_) => model,
         builder: (newcontext, child) {
-          Utils.listenTwoPlayers1(newcontext, host, id: id);
+          Utils.listenTwoPlayers(newcontext, host, id: id);
           return GamePlay();
         });
   }

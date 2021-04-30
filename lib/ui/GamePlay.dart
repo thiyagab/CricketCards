@@ -69,11 +69,10 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   }
 
   _twoPlayer(TrumpModel model, BuildContext context) {
-    debugPrint('Building two player: ' + model.gameState.toString());
     if (model.gameState == TrumpModel.WAIT) {
       return Center(
           child: DefaultTextStyle(
-              style: TextStyle(), child: Text('Waiting to join')));
+              style: TextStyle(fontSize: 32), child: Text('Waiting to join')));
     } else if (model.gameState == TrumpModel.TWO) {
       return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TwoPlayerCard(

@@ -247,7 +247,7 @@ class PlayerCard extends StatelessWidget {
             child: Container(
                 height: contentHeight,
                 child: Center(
-                    child: player.open
+                    child: (player.open || itsme)
                         ? playerAttributes((contentHeight / 2) - 10, 85)
                         : waitForPlayer())))
       ]),
