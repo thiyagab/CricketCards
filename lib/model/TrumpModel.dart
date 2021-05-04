@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/player.dart';
@@ -77,8 +78,8 @@ class TrumpModel extends ChangeNotifier {
   void refreshBotAndScore(String key) {
     if (selectedIndex >= 0) {
       this.botCard.open = true;
-      updateScore(key);
       lastSelectedLabel = key;
+      updateScore(key);
       notifyListeners();
     }
   }
@@ -90,7 +91,7 @@ class TrumpModel extends ChangeNotifier {
   ];
 
   void updateScore(String key) {
-    int playerWins = 0;
+    double playerWins = 0;
     String botValuestr = botCard.toJson()[key];
     String playerValuestr = playerCard.toJson()[key];
 
@@ -103,36 +104,20 @@ class TrumpModel extends ChangeNotifier {
       double playerwickets = double.parse(playerValues[0]);
 
       if (botwickets == playerwickets) {
-        playerWins = double.parse(playerValues[1]) < double.parse(botValues[1])
-            ? 1
-            : double.parse(playerValues[1]) == double.parse(botValues[1])
-                ? 0
-                : -1;
+        playerWins = double.parse(botValues[1]) - double.parse(playerValues[1]);
       } else {
-        playerWins = playerwickets > botwickets
-            ? 1
-            : playerwickets == botwickets
-                ? 0
-                : -1;
+        playerWins = playerwickets - botwickets;
       }
     } else {
-      double botvalue = (botValuestr == null || botValuestr.isEmpty)
-          ? 0
-          : double.parse(botValuestr);
-      double playervalue = (playerValuestr == null || playerValuestr.isEmpty)
-          ? 0
-          : double.parse(playerValuestr);
+      double botvalue = double.tryParse(botValuestr);
+      botvalue = botvalue == null ? 0 : botvalue;
+
+      double playervalue = double.tryParse(playerValuestr);
+      playervalue = playervalue == null ? 0 : playervalue;
+
       playerWins = (LOWER_FIRST_ATTRIBUTES.contains(key) && botvalue > 0)
-          ? (botvalue > playervalue
-              ? 1
-              : botvalue == playervalue
-                  ? 0
-                  : -1)
-          : (playervalue > botvalue
-              ? 1
-              : playervalue == botvalue
-                  ? 0
-                  : -1);
+          ? botvalue - playervalue
+          : playervalue - botvalue;
     }
 
     playerCard.score = 0;
