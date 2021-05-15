@@ -45,8 +45,8 @@ android {
         applicationId "com.droidapps.cricketcards"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 6
-        versionName "2.0"
+        versionCode 7
+        versionName "3.0"
         multiDexEnabled true
     }
 
@@ -75,4 +75,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.google.android.gms:play-services-games:20.0.1"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 }

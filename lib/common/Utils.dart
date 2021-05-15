@@ -9,11 +9,14 @@ import 'package:flutter/services.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/model/player.dart';
+import 'package:play_games/play_games.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
   static final String IPL11 = 'IPL 11';
+  static final String SHARE_TEXT =
+      "Hi friends, play for our favorite team to get to the top of points table. https://play.google.com/store/apps/details?id=com.droidapps.cricketcards";
   static TrumpModel singlePlayer(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
@@ -167,6 +170,7 @@ class Utils {
     }
     valuejson["selectedAttribute"] = selectedAttribute;
     valuejson["selectedIndex"] = selectedIndex;
+    // valuejson["updated"] = DateTime.now().toString();
     return documentReference.set(valuejson, SetOptions(merge: true));
   }
 
@@ -308,6 +312,23 @@ class Utils {
               }),
             });
       }
+      updateLeaderboard(model.playerTeam, points);
+    }
+  }
+
+  static updateLeaderboard(Teams team, int points) async {
+    SigninResult result = await PlayGames.signIn();
+    if (result.success) {
+      String name = teamName(team).toLowerCase();
+      ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
+          Team.leaderBoardMap[name], TimeSpan.TIME_SPAN_ALL_TIME, 10,
+          forceReload: true);
+      int totalPoints = 0;
+      if (results != null && results.scores.length > 0) {
+        totalPoints = results.scores[0].rawScore;
+      }
+      totalPoints = totalPoints + points;
+      PlayGames.submitScoreById(Team.leaderBoardMap[name], totalPoints);
     }
   }
 
@@ -331,6 +352,27 @@ class Utils {
     if (subscription != null) {
       await subscription.cancel();
       subscription = null;
+    }
+  }
+
+  static showLeaderboard(BuildContext context) async {
+    SigninResult result = await PlayGames.signIn();
+    if (result.success)
+      PlayGames.showAllLeaderboards();
+    else {
+      debugPrint("Error:" + result.message);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
+    }
+  }
+
+  static showLeaderboardForTeam(String team, BuildContext context) async {
+    SigninResult result = await PlayGames.signIn();
+    if (result.success)
+      PlayGames.showLeaderboard(Team.leaderBoardMap[team]);
+    else {
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
+      debugPrint("Error:" + result.message);
     }
   }
 

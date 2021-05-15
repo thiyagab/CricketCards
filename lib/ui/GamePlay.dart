@@ -128,68 +128,45 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   }
 
   Widget _controls(TrumpModel model, BuildContext context) {
+    String name = Utils.teamName(model.playerTeam);
     return Padding(
-        padding: EdgeInsets.fromLTRB(40, 80, 40, 40),
+        padding: EdgeInsets.fromLTRB(30, 80, 30, 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-                width: 150,
-                height: 50,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed))
-                          return Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.5);
-                        return null; // Use the component's default.
-                      },
-                    ),
-                  ),
-                  child: Text(
-                    "Play again",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () => {Navigator.pop(context)},
-                )),
-            Container(height: 20),
-            Container(
-                width: 120,
-                height: 50,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.pressed))
-                          return Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.5);
-                        return null; // Use the component's default.
-                      },
-                    ),
-                  ),
-                  child: Text(
-                    "Invite Friends",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () => {
-                    if (kIsWeb)
-                      {
-                        // SocialShare.shareOptions(
-                        //     "Hi friends, play for our favorite team to top the points table.  https://ipl-trump-cards.web.app/")
-                        Utils.share()
-                      }
-                    else
-                      Share.share(
-                          "Hi friends, play for our favorite team to get to the top of points table.  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards")
-                  },
-                )),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              controlButton(
+                  "Play", Icons.sports_cricket, () => {Navigator.pop(context)},
+                  width: 150),
+              SizedBox(width: 10),
+              controlButton(
+                  "Share", Icons.share, () => {Share.share(Utils.SHARE_TEXT)},
+                  width: 150)
+            ]),
+            Container(height: 10),
+            controlButton(
+              name + " " + "Leaderboard",
+              Icons.leaderboard,
+              () => {Utils.showLeaderboardForTeam(name.toLowerCase(), context)},
+            )
           ],
+        ));
+  }
+
+  Widget controlButton(String text, IconData icon, Function action,
+      {double width: 120}) {
+    return Container(
+        width: width,
+        height: 50,
+        child: ElevatedButton.icon(
+          style: CricketCardsAppTheme.elevatedButtonStyle(context),
+          label: Text(
+            text,
+            style: TextStyle(fontSize: 18),
+          ),
+          icon: Icon(icon),
+          onPressed: action,
         ));
   }
 

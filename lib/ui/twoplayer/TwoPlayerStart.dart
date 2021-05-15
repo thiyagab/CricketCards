@@ -108,15 +108,16 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      TextButton(
-                                          onPressed: () {
-                                            Share.share(
-                                                "Play for your favourite team against me in IPL Trump cards  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards.  Use code: ${snapshot.data.toString()}");
-                                          },
-                                          child: Text(
-                                            'Share',
-                                            style: TextStyle(fontSize: 20),
-                                          ))
+                                      IconButton(
+                                        onPressed: () {
+                                          Share.share(
+                                              "Play for your favourite team against me in IPL Trump cards  https://play.google.com/store/apps/details?id=com.droidapps.cricketcards.  Use code: ${snapshot.data.toString()}");
+                                        },
+                                        icon: Icon(
+                                          Icons.share,
+                                          color: Colors.white,
+                                        ),
+                                      )
                                     ]))
                       : TextField(
                           controller: textController,

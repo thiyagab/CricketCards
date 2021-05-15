@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/ui/CricketCardsTheme.dart';
 
 class Team {
@@ -27,6 +28,17 @@ class Team {
     "kolkata": Teams.KOLKATA,
     "delhi": Teams.DELHI,
     "rajasthan": Teams.RAJASTHAN
+  };
+  static Map<String, String> leaderBoardMap = {
+    "chennai": "CgkIkZLiy8cDEAIQAw",
+    "bengaluru": "CgkIkZLiy8cDEAIQBw",
+    "mumbai": "CgkIkZLiy8cDEAIQBQ",
+    "hyderabad": "CgkIkZLiy8cDEAIQBg",
+    "rajasthan": "CgkIkZLiy8cDEAIQCA",
+    "kolkata": "CgkIkZLiy8cDEAIQCQ",
+    "delhi": "CgkIkZLiy8cDEAIQCg",
+    "punjab": "CgkIkZLiy8cDEAIQCw",
+    Utils.IPL11.toLowerCase(): "CgkIkZLiy8cDEAIQDA",
   };
 }
 

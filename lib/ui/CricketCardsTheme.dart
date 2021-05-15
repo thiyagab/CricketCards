@@ -8,6 +8,17 @@ class CricketCardsAppTheme {
   static const Color lightText = Color(0xFF4A6572);
   static const Color textColor = Colors.white;
 
+  static Function elevatedButtonStyle = (BuildContext context) {
+    ButtonStyle(
+      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed))
+            return Theme.of(context).colorScheme.primary.withOpacity(0.5);
+          return null; // Use the component's default.
+        },
+      ),
+    );
+  };
   static const Decoration background_img = BoxDecoration(
       image: DecorationImage(
           image: AssetImage("assets/images/background.png"), fit: BoxFit.fill));

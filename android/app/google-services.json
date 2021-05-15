@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "122297026833-fdqdb90i8ojr1l6haulja3b611e2vjvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.droidapps.cricketcards",
+            "certificate_hash": "b19b6eedcae0a0fe79f649b34fa1ec5252e1ddc6"
+          }
+        },
+        {
+          "client_id": "122297026833-p4attr43c9knh1ljarf007odol949dsa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.droidapps.cricketcards",
+            "certificate_hash": "53c8708cb2458136002cd0c642914c051b8fc446"
+          }
+        },
+        {
           "client_id": "122297026833-oe17sje5nhi9ui0qb8ffpf1fm5ceqqjm.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +45,13 @@
             {
               "client_id": "122297026833-oe17sje5nhi9ui0qb8ffpf1fm5ceqqjm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "122297026833-6heee9o1qoiuao9uvh9n0vgogjo55kqu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.droidapps.cricketcards"
+              }
             }
           ]
         }
