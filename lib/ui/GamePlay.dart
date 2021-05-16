@@ -420,7 +420,8 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text("Login with Google play games to show off",
+                        Text(
+                            "Login with Google play games to be in the leaderboard",
                             style: TextStyle(fontSize: 18, color: Colors.blue)),
                         SizedBox(height: 10),
                         Row(
