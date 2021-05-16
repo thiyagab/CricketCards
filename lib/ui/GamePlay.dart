@@ -11,6 +11,7 @@ import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
 import 'package:ipltrumpcards/ui/CricketCardsTheme.dart';
 import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerCard.dart';
+import 'package:play_games/play_games.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
@@ -399,8 +400,44 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                     animationController.forward(from: 0.0),
                   }
                 else
-                  {Utils.updateScore(model)}
+                  {Utils.updateScore(context, model), checkToSignin(model)}
               });
+    }
+  }
+
+  checkToSignin(TrumpModel model) async {
+    SigninResult result = await PlayGames.getLastSignedInAccount();
+    if (result != null && result.success) {
+      Utils.updateLeaderboard(model);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+              child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Login with Google play games to show off",
+                            style: TextStyle(fontSize: 18, color: Colors.blue)),
+                        SizedBox(height: 10),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton.icon(
+                                  onPressed: () {
+                                    Utils.updateLeaderboard(model);
+                                  },
+                                  icon: Icon(Icons.login_outlined),
+                                  label: Text("Login",
+                                      style: TextStyle(
+                                          fontSize: 24, color: Colors.blue)))
+                            ])
+                      ])));
+        },
+      );
     }
   }
 }

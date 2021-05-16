@@ -293,7 +293,7 @@ class Utils {
         });
   }
 
-  static updateScore(TrumpModel model) {
+  static updateScore(BuildContext context, TrumpModel model) {
     int points = 0;
 
     if (model.playerScore > model.botScore) {
@@ -312,23 +312,28 @@ class Utils {
               }),
             });
       }
-      updateLeaderboard(model.playerTeam, points);
+      // updateLeaderboard(model);
     }
   }
 
-  static updateLeaderboard(Teams team, int points) async {
-    SigninResult result = await PlayGames.signIn();
-    if (result.success) {
-      String name = teamName(team).toLowerCase();
-      ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
-          Team.leaderBoardMap[name], TimeSpan.TIME_SPAN_ALL_TIME, 10,
-          forceReload: true);
-      int totalPoints = 0;
-      if (results != null && results.scores.length > 0) {
-        totalPoints = results.scores[0].rawScore;
+  static updateLeaderboard(TrumpModel model) async {
+    int points = 0;
+
+    if (model.playerScore > model.botScore) {
+      points = model.playerScore;
+      SigninResult result = await PlayGames.signIn();
+      if (result.success) {
+        String name = teamName(model.playerTeam).toLowerCase();
+        ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
+            Team.leaderBoardMap[name], TimeSpan.TIME_SPAN_ALL_TIME, 10,
+            forceReload: true);
+        int totalPoints = 0;
+        if (results != null && results.scores.length > 0) {
+          totalPoints = results.scores[0].rawScore;
+        }
+        totalPoints = totalPoints + points;
+        PlayGames.submitScoreById(Team.leaderBoardMap[name], totalPoints);
       }
-      totalPoints = totalPoints + points;
-      PlayGames.submitScoreById(Team.leaderBoardMap[name], totalPoints);
     }
   }
 
