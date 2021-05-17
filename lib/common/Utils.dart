@@ -324,17 +324,23 @@ class Utils {
       SigninResult result = await PlayGames.signIn();
       if (result.success) {
         String name = teamName(model.playerTeam).toLowerCase();
-        ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
-            Team.leaderBoardMap[name], TimeSpan.TIME_SPAN_ALL_TIME, 10,
-            forceReload: true);
-        int totalPoints = 0;
-        if (results != null && results.scores.length > 0) {
-          totalPoints = results.scores[0].rawScore;
-        }
-        totalPoints = totalPoints + points;
-        PlayGames.submitScoreById(Team.leaderBoardMap[name], totalPoints);
+        String leaderboardId = Team.leaderBoardMap[name];
+        await updateLeaderboardPoints(leaderboardId, points);
+        await updateLeaderboardPoints(Team.GLOBAL_LEADERBOARD, points);
       }
     }
+  }
+
+  static updateLeaderboardPoints(String leaderboardId, int points) async {
+    ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
+        leaderboardId, TimeSpan.TIME_SPAN_ALL_TIME, 10,
+        forceReload: true);
+    int totalPoints = 0;
+    if (results != null && results.scores.length > 0) {
+      totalPoints = results.scores[0].rawScore;
+    }
+    totalPoints = totalPoints + points;
+    PlayGames.submitScoreById(leaderboardId, totalPoints);
   }
 
   static updatePointsLocal(int scoredPoints) async {
@@ -374,9 +380,11 @@ class Utils {
   static showLeaderboardForTeam(String team, BuildContext context) async {
     SigninResult result = await PlayGames.signIn();
     if (result.success)
-      PlayGames.showLeaderboard(Team.leaderBoardMap[team]);
+      PlayGames.showLeaderboard(
+          team == null ? Team.GLOBAL_LEADERBOARD : Team.leaderBoardMap[team]);
     else {
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
       debugPrint("Error:" + result.message);
     }
   }

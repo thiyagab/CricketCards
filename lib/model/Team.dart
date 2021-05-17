@@ -40,6 +40,8 @@ class Team {
     "punjab": "CgkIkZLiy8cDEAIQCw",
     Utils.IPL11.toLowerCase(): "CgkIkZLiy8cDEAIQDA",
   };
+
+  static final String GLOBAL_LEADERBOARD = "CgkIkZLiy8cDEAIQDQ";
 }
 
 enum Teams {

@@ -146,11 +146,20 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                   width: 150)
             ]),
             Container(height: 10),
-            controlButton(
-              name + " " + "Leaderboard",
-              Icons.leaderboard,
-              () => {Utils.showLeaderboardForTeam(name.toLowerCase(), context)},
-            )
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              controlButton(
+                  name,
+                  Icons.leaderboard,
+                  () => {
+                        Utils.showLeaderboardForTeam(
+                            name.toLowerCase(), context)
+                      },
+                  width: 160),
+              SizedBox(width: 10),
+              controlButton("Global", Icons.leaderboard,
+                  () => {Utils.showLeaderboardForTeam(null, context)},
+                  width: 160)
+            ])
           ],
         ));
   }
@@ -400,12 +409,12 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                     animationController.forward(from: 0.0),
                   }
                 else
-                  {Utils.updateScore(context, model), checkToSignin(model)}
+                  {Utils.updateScore(context, model), updatePlayGames(model)}
               });
     }
   }
 
-  checkToSignin(TrumpModel model) async {
+  updatePlayGames(TrumpModel model) async {
     SigninResult result = await PlayGames.getLastSignedInAccount();
     if (result != null && result.success) {
       Utils.updateLeaderboard(model);
@@ -413,32 +422,34 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
       showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-              child: Container(
-                  padding: EdgeInsets.all(15),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                            "Login with Google play games to be in the leaderboard",
-                            style: TextStyle(fontSize: 18, color: Colors.blue)),
-                        SizedBox(height: 10),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton.icon(
-                                  onPressed: () {
-                                    Utils.updateLeaderboard(model);
-                                  },
-                                  icon: Icon(Icons.login_outlined),
-                                  label: Text("Login",
-                                      style: TextStyle(
-                                          fontSize: 24, color: Colors.blue)))
-                            ])
-                      ])));
+          return requestToSignInDialog(model);
         },
       );
     }
+  }
+
+  Dialog requestToSignInDialog(TrumpModel model) {
+    return Dialog(
+        child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                      "Connect with Google Play Games to join the Leaderboard.\n\nDisclaimer:\nThe Game DONOT process or store your signin info",
+                      style: TextStyle(fontSize: 18, color: Colors.blue)),
+                  SizedBox(height: 15),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    TextButton.icon(
+                        onPressed: () {
+                          Utils.updateLeaderboard(model);
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.login_outlined),
+                        label: Text("Connect",
+                            style: TextStyle(fontSize: 20, color: Colors.blue)))
+                  ])
+                ])));
   }
 }
