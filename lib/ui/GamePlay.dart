@@ -49,18 +49,19 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    return Consumer<TrumpModel>(
-        builder: (context, model, child) => SafeArea(
-            child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/background.png"),
-                        // colorFilter: new ColorFilter.mode(
-                        //     Colors.grey.withOpacity(0.4), BlendMode.srcATop),
-                        fit: BoxFit.fill)),
-                child: model.isGameOver()
-                    ? _gameOverScreen(model, context)
-                    : _gameScreen(model, context))));
+    return Scaffold(
+        body: Consumer<TrumpModel>(
+            builder: (context, model, child) => SafeArea(
+                child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/images/background.png"),
+                            // colorFilter: new ColorFilter.mode(
+                            //     Colors.grey.withOpacity(0.4), BlendMode.srcATop),
+                            fit: BoxFit.fill)),
+                    child: model.isGameOver()
+                        ? _gameOverScreen(model, context)
+                        : _gameScreen(model, context)))));
   }
 
   _gameScreen(TrumpModel model, BuildContext context) {
@@ -443,13 +444,20 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     TextButton.icon(
                         onPressed: () {
-                          Utils.updateLeaderboard(model);
                           Navigator.pop(context);
+                          signInAndUpdate(model);
                         },
                         icon: Icon(Icons.login_outlined),
                         label: Text("Connect",
                             style: TextStyle(fontSize: 20, color: Colors.blue)))
                   ])
                 ])));
+  }
+
+  void signInAndUpdate(TrumpModel model) async {
+    await PlayGames.signIn();
+    await Utils.updateLeaderboard(model);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Play Games connected")));
   }
 }

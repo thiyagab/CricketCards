@@ -332,15 +332,21 @@ class Utils {
   }
 
   static updateLeaderboardPoints(String leaderboardId, int points) async {
-    ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
-        leaderboardId, TimeSpan.TIME_SPAN_ALL_TIME, 10,
-        forceReload: true);
-    int totalPoints = 0;
-    if (results != null && results.scores.length > 0) {
-      totalPoints = results.scores[0].rawScore;
+    try {
+      ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
+          leaderboardId, TimeSpan.TIME_SPAN_ALL_TIME, 10,
+          forceReload: true);
+      int totalPoints = 0;
+      if (results != null && results.scores.length > 0) {
+        totalPoints = results.scores[0].rawScore;
+      }
+      totalPoints = totalPoints + points;
+      SubmitScoreResults scoreResults =
+          await PlayGames.submitScoreById(leaderboardId, totalPoints);
+      print(scoreResults.scoreResultAllTime.rawScore.toString());
+    } catch (e) {
+      print(e);
     }
-    totalPoints = totalPoints + points;
-    PlayGames.submitScoreById(leaderboardId, totalPoints);
   }
 
   static updatePointsLocal(int scoredPoints) async {
