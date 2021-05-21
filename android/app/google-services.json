@@ -14,19 +14,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "122297026833-597d24lljorqamlo1dts1akk8c7snuku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.droidapps.cricketcards",
+            "certificate_hash": "f89e245712ae75b2706424def54b03e06ada478f"
+          }
+        },
+        {
           "client_id": "122297026833-fdqdb90i8ojr1l6haulja3b611e2vjvo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.droidapps.cricketcards",
             "certificate_hash": "b19b6eedcae0a0fe79f649b34fa1ec5252e1ddc6"
-          }
-        },
-        {
-          "client_id": "122297026833-p4attr43c9knh1ljarf007odol949dsa.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.droidapps.cricketcards",
-            "certificate_hash": "53c8708cb2458136002cd0c642914c051b8fc446"
           }
         },
         {

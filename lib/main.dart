@@ -1,5 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,12 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   // Create the initialization Future outside of `build`:
 
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
-  MyApp() {
-    analytics.logAppOpen();
-  }
+  MyApp() {}
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +41,7 @@ class MyApp extends StatelessWidget {
                             bodyColor: Colors.white,
                             displayColor: Colors.white)),
             home: TeamList(),
-            navigatorObservers: <NavigatorObserver>[observer],
+            navigatorObservers: <NavigatorObserver>[Utils.observer],
             // GamePlay(title: 'Cricket Cards'),
           );
         }

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +16,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Utils {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   static final String IPL11 = 'IPL 11';
   static final String SHARE_TEXT =
       "Hi friends, play for our favorite team to get to the top of points table. https://play.google.com/store/apps/details?id=com.droidapps.cricketcards";
+
   static TrumpModel singlePlayer(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
@@ -25,6 +32,7 @@ class Utils {
     trumpModel.botCards = buildBotTeam(team);
     trumpModel.initMeta();
     trumpModel.gameState = TrumpModel.SINGLE;
+    // dummyUpdateLeaderboard(trumpModel);
     return trumpModel;
   }
 
@@ -262,6 +270,7 @@ class Utils {
   static Map<String, Player> playersMap = Map();
 
   static Future<dynamic> initialize() async {
+    if (analytics != null) analytics.logAppOpen();
     Teams.values.forEach((team) async {
       String data = await rootBundle.loadString('assets/teams/' +
           team.toString().substring(6).toLowerCase() +
@@ -316,6 +325,12 @@ class Utils {
     }
   }
 
+  static dummyUpdateLeaderboard(TrumpModel model) {
+    model.botScore = 0;
+    model.playerScore = 6;
+    updateLeaderboard(model);
+  }
+
   static updateLeaderboard(TrumpModel model) async {
     int points = 0;
 
@@ -325,28 +340,62 @@ class Utils {
       if (result.success) {
         String name = teamName(model.playerTeam).toLowerCase();
         String leaderboardId = Team.leaderBoardMap[name];
-        await updateLeaderboardPoints(leaderboardId, points);
-        await updateLeaderboardPoints(Team.GLOBAL_LEADERBOARD, points);
+
+        await updateLeaderboardPoints(
+            name, result.account.id, leaderboardId, points);
+        await updateLeaderboardPoints(
+            'global', result.account.id, Team.GLOBAL_LEADERBOARD, points);
       }
     }
   }
 
-  static updateLeaderboardPoints(String leaderboardId, int points) async {
+  static updateLeaderboardPoints(
+      String team, String account, String leaderboardId, int points) async {
     try {
-      ScoreResults results = await PlayGames.loadPlayerCenteredScoresById(
-          leaderboardId, TimeSpan.TIME_SPAN_ALL_TIME, 10,
-          forceReload: true);
-      int totalPoints = 0;
-      if (results != null && results.scores.length > 0) {
-        totalPoints = results.scores[0].rawScore;
-      }
-      totalPoints = totalPoints + points;
+      int totalPoints =
+          await checkAndFetchTotalpointsFirebase(team, account, points);
+      print('Total poitns: ' + totalPoints.toString());
       SubmitScoreResults scoreResults =
           await PlayGames.submitScoreById(leaderboardId, totalPoints);
       print(scoreResults.scoreResultAllTime.rawScore.toString());
     } catch (e) {
       print(e);
     }
+  }
+
+  static Future<int> checkAndFetchTotalpoints(
+      String team, String account, int points) async {
+    Snapshot snapshot = await PlayGames.openSnapshot('scores');
+
+    int totalPoints = points;
+    if (snapshot != null &&
+        snapshot.metadata != null &&
+        snapshot.metadata.containsKey(team)) {
+      totalPoints = points + int.parse(snapshot.metadata[team]);
+      snapshot.metadata[team] = totalPoints.toString();
+    }
+    await PlayGames.saveSnapshot(team, account, metadata: snapshot.metadata);
+    return totalPoints;
+  }
+
+  static Future<int> checkAndFetchTotalpointsFirebase(
+      String team, String account, int points) async {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('scores').doc(account);
+
+    DocumentSnapshot snapshot = await documentReference.get();
+
+    int totalPoints = points;
+
+    if (snapshot != null &&
+        snapshot.exists &&
+        snapshot.data().containsKey(team)) {
+      totalPoints = points + snapshot.data()[team];
+    }
+    await documentReference.set({
+      team: totalPoints,
+    }, SetOptions(merge: true));
+    return totalPoints;
   }
 
   static updatePointsLocal(int scoredPoints) async {
@@ -378,8 +427,19 @@ class Utils {
       PlayGames.showAllLeaderboards();
     else {
       debugPrint("Error:" + result.message);
+      logError("signin", result.message);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
+    }
+  }
+
+  static logError(String key, String error) {
+    logEvent("Error", key, error);
+  }
+
+  static logEvent(String event, String key, String value) {
+    if (analytics != null) {
+      analytics.logEvent(name: event, parameters: {key: value});
     }
   }
 
@@ -392,6 +452,7 @@ class Utils {
       // ScaffoldMessenger.of(context)
       //     .showSnackBar(SnackBar(content: Text('Retry signin or re-install')));
       debugPrint("Error:" + result.message);
+      logError("signin", result.message);
     }
   }
 
