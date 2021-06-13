@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -284,7 +285,22 @@ class Utils {
       }));
       teamPlayersMap.putIfAbsent(team.toString(), () => players);
     });
-    return Firebase.initializeApp();
+
+    await Firebase.initializeApp();
+    return signin();
+  }
+
+  static signin() async {
+    debugPrint('Signing..');
+    if (FirebaseAuth.instance.currentUser != null) {
+      debugPrint(FirebaseAuth.instance.currentUser.toString());
+      // debugPrint(FirebaseAuth.instance.currentUser.isAnonymous.toString());
+    } else {
+      UserCredential user = await FirebaseAuth.instance.signInAnonymously();
+      debugPrint('Signed');
+      debugPrint(user.toString());
+      debugPrint('Signed');
+    }
   }
 
   static testfirebase() {

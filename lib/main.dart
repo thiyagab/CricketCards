@@ -6,6 +6,7 @@ import 'package:ipltrumpcards/ui/TeamList.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   //TODO The state model is completely pulled up to the root, if we build more complex ui, think of pushing it down
   runApp(MyApp());
 }
