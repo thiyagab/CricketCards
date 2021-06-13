@@ -291,15 +291,8 @@ class Utils {
   }
 
   static signin() async {
-    debugPrint('Signing..');
-    if (FirebaseAuth.instance.currentUser != null) {
-      debugPrint(FirebaseAuth.instance.currentUser.toString());
-      // debugPrint(FirebaseAuth.instance.currentUser.isAnonymous.toString());
-    } else {
+    if (FirebaseAuth.instance.currentUser == null) {
       UserCredential user = await FirebaseAuth.instance.signInAnonymously();
-      debugPrint('Signed');
-      debugPrint(user.toString());
-      debugPrint('Signed');
     }
   }
 
