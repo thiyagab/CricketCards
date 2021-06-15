@@ -322,13 +322,19 @@ class Utils {
         DocumentReference teamReference =
             FirebaseFirestore.instance.collection('teams').doc(team);
         //TODO Move this logic to cloud function and make it transactional, else we will end up with so many dirty updates
-        teamReference.get().then((value) => {
-              teamReference.update({
-                "score": value.data()['score'] + points,
-                "plays": value.data()['plays'] + 1,
-                "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
-              }),
-            });
+        teamReference
+            .get(GetOptions(source: Source.server))
+            .then((value) => {
+                  teamReference.update({
+                    "score": value.data()['score'] + points,
+                    "plays": value.data()['plays'] + 1,
+                    "wins": value.data()['wins'] + (points == 0 ? 0 : 1)
+                  }),
+                })
+            .onError((error, stackTrace) {
+          debugPrint('OnError ' + error.toString());
+          return;
+        });
       }
       // updateLeaderboard(model);
     }
