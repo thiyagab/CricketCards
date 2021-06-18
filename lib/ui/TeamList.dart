@@ -49,16 +49,29 @@ class TeamList extends StatelessWidget {
       return row(context, fromDocument(docs[index]), index);
     }).toList();
 
-    widgets.add(Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: DefaultTextStyle(
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
-            child: Column(
-                children: [Text("Play for your Team or with friends")]))));
+    widgets.add(instruction());
     _addBottomWidgets(widgets, context);
     widgets.insert(0, header(context));
     return widgets;
+  }
+
+  Widget instruction() {
+    return Padding(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Icon(
+            Icons.star_border_outlined,
+            color: Colors.white,
+          ),
+          Text(" Last week's winner, 2 days to go for this week",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white))
+        ]));
+  }
+
+  String days2go() {
+    //TODO construct the days2go string
+    // DateTime.now().add(Duration(days: 1))
   }
 
   Widget header(BuildContext context) {
@@ -114,53 +127,61 @@ class TeamList extends StatelessWidget {
               '${(position + 1)}',
               style: TextStyle(fontSize: 24),
             )),
-        Expanded(
-            flex: 2,
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        Utils.teamName(team.name),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset('assets/images/cup.svg',
-                                    width: 12,
-                                    height: 12,
-                                    color: Colors.orangeAccent),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      team.score.toString() + " points",
-                                      textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                          color:
-                                              CricketCardsAppTheme.textColor),
-                                    ))
-                              ]))
-                    ]))),
+        nameAndPoints(team, position),
+        position == 2 ? cup() : SizedBox(width: 1),
         SvgPicture.asset(
           'assets/images/lb-${Utils.teamName(team.name).toLowerCase()}.svg',
           width: 50.0,
           allowDrawingOutsideViewBox: true,
         ),
         Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-            child: Text(
-              "   >",
-              style: TextStyle(fontSize: 20),
-            ))
+          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+          child: Icon(
+            Icons.keyboard_arrow_right_sharp,
+            color: Colors.white54,
+          ),
+        )
       ],
     );
+  }
+
+  Widget cup() {
+    return Icon(Icons.star_border_outlined, color: Colors.white54);
+  }
+
+  Widget nameAndPoints(Team team, int position) {
+    return Expanded(
+        flex: 2,
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    Utils.teamName(team.name),
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/cup.svg',
+                                width: 12,
+                                height: 12,
+                                color: Colors.orangeAccent),
+                            Padding(
+                                padding: EdgeInsets.only(left: 5),
+                                child: Text(
+                                  team.score.toString() + " points",
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      color: CricketCardsAppTheme.textColor),
+                                ))
+                          ]))
+                ])));
   }
 
   Widget _addBottomWidgets(List<Widget> widgets, BuildContext context) {

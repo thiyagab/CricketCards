@@ -332,7 +332,7 @@ class Utils {
                   }),
                 })
             .onError((error, stackTrace) {
-          debugPrint('OnError ' + error.toString());
+          if (error != null) logEvent('GetError', 'GetError', error.toString());
           return;
         });
       }
