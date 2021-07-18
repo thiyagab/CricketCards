@@ -33,7 +33,7 @@ exports.updateUser = functions.firestore
 });
 admin.initializeApp();
 
-exports.scheduledFunction = functions.pubsub.schedule('*/1 * * * *')
+exports.scheduledFunction = functions.pubsub.schedule('0 0 * * 1')
 .timeZone('Asia/Kolkata')
 .onRun(async (context) => {
     const cSnap = await admin.firestore().collection('teams').get();

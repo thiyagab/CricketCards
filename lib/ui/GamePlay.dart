@@ -337,7 +337,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
   _instructionText(TrumpModel model, BuildContext context) {
     CollectionReference teams = FirebaseFirestore.instance.collection('teams');
     return StreamBuilder<QuerySnapshot>(
-      stream: teams.orderBy('score', descending: true).snapshots(),
+      stream: teams.orderBy('weekscore', descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('');
@@ -365,7 +365,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     Team currentTeam;
     int playerPosition = 0;
     docs.asMap().forEach((index, doc) {
-      Team team = fromDocument(doc);
+      Team team = Team.fromDocument(doc);
       if (team.name == model.playerTeam) {
         playerPosition = index;
         currentTeam = team;
@@ -373,16 +373,11 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     });
     String instructionText = '';
     if (playerPosition > 0 && currentTeam != null) {
-      previousTeam = fromDocument(docs[playerPosition - 1]);
+      previousTeam = Team.fromDocument(docs[playerPosition - 1]);
       instructionText =
-          '${Utils.teamName(previousTeam.name)} is ahead of your team ${Utils.teamName(currentTeam.name)} by ${previousTeam.score - currentTeam.score} point(s).\nPlay again or Invite friends to beat to the top';
+          '${Utils.teamName(previousTeam.name)} is ahead of your team ${Utils.teamName(currentTeam.name)} by ${previousTeam.weekscore - currentTeam.weekscore} point(s).\nPlay again or Invite friends to beat to the top';
     }
     return instructionText;
-  }
-
-  Team fromDocument(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data();
-    return Team(data['name'], data['plays'], data['wins'], data['score']);
   }
 
   static bool waitForNext = false;

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
@@ -7,6 +8,7 @@ import 'package:ipltrumpcards/common/Utils.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/ui/twoplayer/TwoPlayerStart.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'CricketCardsTheme.dart';
 import 'GamePlay.dart';
@@ -31,42 +33,80 @@ class TeamList extends StatelessWidget {
                       child: Text("IPL Trump Cards")));
             }
 
-            return Container(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                decoration: CricketCardsAppTheme.background_img,
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: teamList(context, snapshot.data.docs),
-                ));
+            return TeamListContainer(snapshot.data.docs);
           },
+        ));
+  }
+}
+
+class TeamListContainer extends StatefulWidget {
+  List<QueryDocumentSnapshot> docs;
+  TeamListContainer(this.docs);
+
+  @override
+  State<StatefulWidget> createState() {
+    return TeamListContainerState();
+  }
+}
+
+class TeamListContainerState extends State<TeamListContainer> {
+  bool isWeek = true;
+
+  Widget build(BuildContext context) {
+    widget.docs.sort((a, b) {
+      return isWeek
+          ? (b['weekscore'] - a['weekscore'])
+          : b['score'] - a['score'];
+    });
+    return Container(
+        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+        decoration: CricketCardsAppTheme.background_img,
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: teamList(context, widget.docs),
         ));
   }
 
   List<Widget> teamList(
       BuildContext context, List<QueryDocumentSnapshot> docs) {
     List<Widget> widgets = Iterable<int>.generate(docs.length).map((index) {
-      return row(context, fromDocument(docs[index]), index);
+      return row(context, Team.fromDocument(docs[index]), index);
     }).toList();
-
+    widgets.insert(0, header(context));
     widgets.add(instruction());
     _addBottomWidgets(widgets, context);
-    widgets.insert(0, header(context));
+
     return widgets;
   }
 
   Widget instruction() {
     return Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(
-            Icons.star_border_outlined,
-            color: Colors.white,
-          ),
-          Text(" Last week's winner, 2 days to go for this week",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white))
-        ]));
+        child: !isWeek
+            ? Text(
+                "Play and score for your team",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white70, fontSize: 15),
+              )
+            : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(
+                  Icons.star_border_outlined,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                Text(" Total championships    ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white)),
+                Icon(
+                  Icons.star,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                Text(" Last week champion",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white))
+              ]));
   }
 
   String days2go() {
@@ -74,23 +114,75 @@ class TeamList extends StatelessWidget {
     // DateTime.now().add(Duration(days: 1))
   }
 
-  Widget header(BuildContext context) {
+  Widget header2(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: Text(
-        "Points Table",
+        isWeek ? "Weekly Tournament" : "Points Table",
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 24,
+            fontSize: 18,
             color: CricketCardsAppTheme.textColor,
             fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Team fromDocument(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data();
-    return Team(data['name'], data['plays'], data['wins'], data['score']);
+  Widget header(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          IconButton(
+              onPressed: () {
+                showInfo(context);
+              },
+              icon: Icon(
+                Icons.info_sharp,
+                color: Colors.white70,
+              )),
+          Expanded(
+              child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: isWeek ? "Weekly Tournament" : "Points Table",
+                    style: TextStyle(
+                        fontSize: 22,
+                        color: CricketCardsAppTheme.textColor,
+                        fontWeight: FontWeight.bold),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: getDaysToGoText(),
+                          style: TextStyle(
+                              color:
+                                  CricketCardsAppTheme.textColor.withAlpha(240),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300)),
+                    ],
+                  ))),
+          Switch(
+            value: isWeek,
+            onChanged: (value) {
+              setState(() {
+                isWeek = value;
+              });
+            },
+          )
+        ]));
+  }
+
+  String getDaysToGoText() {
+    if (isWeek) {
+      DateTime datetime = DateTime.now();
+      int diff = 7 - datetime.weekday;
+      if (diff == 1)
+        return '\n( Finals tomorrow )';
+      else if (diff == 0)
+        return '\n( Finals today )';
+      else
+        return "\n(" + (7 - datetime.weekday).toString() + " days to go )";
+    } else {
+      return "";
+    }
   }
 
   Widget row(BuildContext context, Team team, int position) {
@@ -128,7 +220,7 @@ class TeamList extends StatelessWidget {
               style: TextStyle(fontSize: 24),
             )),
         nameAndPoints(team, position),
-        position == 2 ? cup() : SizedBox(width: 1),
+        (isWeek && team.championships > 0) ? star(team) : SizedBox(width: 1),
         SvgPicture.asset(
           'assets/images/lb-${Utils.teamName(team.name).toLowerCase()}.svg',
           width: 50.0,
@@ -145,8 +237,19 @@ class TeamList extends StatelessWidget {
     );
   }
 
-  Widget cup() {
-    return Icon(Icons.star_border_outlined, color: Colors.white54);
+  Widget star(Team team) {
+    return Wrap(
+      direction: Axis.vertical,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Icon(team.champion ? Icons.star_rate : Icons.star_outline,
+            color: Colors.white54),
+        Text(
+          team.championships.toString(),
+          style: TextStyle(fontSize: 10),
+        ),
+      ],
+    );
   }
 
   Widget nameAndPoints(Team team, int position) {
@@ -175,7 +278,10 @@ class TeamList extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.only(left: 5),
                                 child: Text(
-                                  team.score.toString() + " points",
+                                  (isWeek
+                                          ? team.weekscore.toString()
+                                          : team.score.toString()) +
+                                      " points",
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       color: CricketCardsAppTheme.textColor),
@@ -200,6 +306,57 @@ class TeamList extends StatelessWidget {
             }),
           ],
         )));
+  }
+
+  showInfo(BuildContext context) {
+    // String icon = String.fromCharCode(0xea69);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text("IPL Trump Cards"),
+        content: RichText(
+            text: TextSpan(
+          text: 'Game Play:',
+          style: TextStyle(
+              fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+          children: <TextSpan>[
+            TextSpan(
+                text:
+                    '\n\n1. Its a simple trump cards play, where you bet with your player attributes\n2. Play and score for your team, you can play against IPL11 or with your friends',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
+            TextSpan(
+                text: '\n\nWeekly Tournament',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            TextSpan(
+                text: '\n\n1. The tournament goes from Monday to Sunday, and the score resets every week exactly at Sunday midnight\n2. ' +
+                    'The winner of the week gets championship star\n3. The Shaded star is the last week champion\n\nFeedback? ',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
+            TextSpan(
+              text: 'mail us @ 99products.in@gmail.com',
+              style: TextStyle(
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = followLink,
+            )
+          ],
+        )),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  followLink() {
+    launch('mailto:99products.in@gmail.com');
   }
 
   Widget iconButton(String text, IconData icon, Function action) {
