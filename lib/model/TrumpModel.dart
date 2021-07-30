@@ -33,6 +33,12 @@ class TrumpModel extends ChangeNotifier {
     return selectedIndex >= playerCards.length;
   }
 
+  bool dummyGameOver() {
+    selectedIndex = playerCards.length;
+    playerScore = 10;
+    botScore = 1;
+  }
+
   bool isBot(Player player) {
     return player != null && player.team != playerTeam;
   }

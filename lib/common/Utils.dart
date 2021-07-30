@@ -34,6 +34,7 @@ class Utils {
     trumpModel.initMeta();
     trumpModel.gameState = TrumpModel.SINGLE;
     // dummyUpdateLeaderboard(trumpModel);
+    // trumpModel.dummyGameOver();
     return trumpModel;
   }
 

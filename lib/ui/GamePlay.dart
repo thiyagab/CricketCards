@@ -334,7 +334,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     return "${model.selectedIndex}/11";
   }
 
-  _instructionText(TrumpModel model, BuildContext context) {
+  _instructionText1(TrumpModel model, BuildContext context) {
     CollectionReference teams = FirebaseFirestore.instance.collection('teams');
     return StreamBuilder<QuerySnapshot>(
       stream: teams.orderBy('weekscore', descending: true).snapshots(),
@@ -352,20 +352,73 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
                 TextStyle(fontSize: 16, color: CricketCardsAppTheme.textColor),
             textAlign: TextAlign.center,
             child: Text(
-              constructInstructionText(model, snapshot.data.docs),
+              checkAndConstructInstructionText(model, snapshot.data.docs),
             ));
       },
     );
   }
 
-  String constructInstructionText(
+  _instructionText(TrumpModel model, BuildContext context) {
+    CollectionReference teams = FirebaseFirestore.instance.collection('teams');
+    return FutureBuilder<QuerySnapshot>(
+      future: teams
+          .orderBy('weekscore', descending: true)
+          .get(GetOptions(source: Source.server)),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return DefaultTextStyle(
+              style: TextStyle(fontSize: 14), child: Text(""));
+        }
+        docsToTeam(model, snapshot.data.docs, true);
+        return DefaultTextStyle(
+            style:
+                TextStyle(fontSize: 16, color: CricketCardsAppTheme.textColor),
+            textAlign: TextAlign.center,
+            child: Text(
+              checkAndConstructInstructionText(model, snapshot.data.docs),
+            ));
+      },
+    );
+  }
+
+  String checkAndConstructInstructionText(
       TrumpModel model, List<QueryDocumentSnapshot> docs) {
+    //TODO we should have a better way to sort and check which team is ahead of player's team,
+    // The current logic is not realtime, and might be buggy
+    List<Team> teams = docsToTeam(model, docs, true);
+    sortTeamByWeekScore(teams);
+    return constructInstructionText(model, teams);
+  }
+
+  List<Team> docsToTeam(
+      TrumpModel model, List<QueryDocumentSnapshot> docs, bool updatescore) {
+    List<Team> teams = [];
+    docs.asMap().forEach((index, doc) {
+      Team team = Team.fromDocument(doc);
+      if (updatescore && team.name == model.playerTeam) {
+        team.weekscore = team.weekscore + model.playerScore;
+      }
+      teams.add(team);
+    });
+    return teams;
+  }
+
+  sortTeamByWeekScore(List<Team> teams) {
+    teams.sort((a, b) {
+      return b.weekscore - a.weekscore;
+    });
+  }
+
+  String constructInstructionText(TrumpModel model, List<Team> teams) {
     // return 'Chennai is ahead of Mumbai by 10 points.\nPlay more or invite friends to beat to the top';
     Team previousTeam;
     Team currentTeam;
     int playerPosition = 0;
-    docs.asMap().forEach((index, doc) {
-      Team team = Team.fromDocument(doc);
+
+    teams.asMap().forEach((index, team) {
       if (team.name == model.playerTeam) {
         playerPosition = index;
         currentTeam = team;
@@ -373,7 +426,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     });
     String instructionText = '';
     if (playerPosition > 0 && currentTeam != null) {
-      previousTeam = Team.fromDocument(docs[playerPosition - 1]);
+      previousTeam = teams[playerPosition - 1];
       instructionText =
           '${Utils.teamName(previousTeam.name)} is ahead of your team ${Utils.teamName(currentTeam.name)} by ${previousTeam.weekscore - currentTeam.weekscore} point(s).\nPlay again or Invite friends to beat to the top';
     }

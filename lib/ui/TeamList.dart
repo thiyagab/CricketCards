@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -141,26 +143,17 @@ class TeamListContainerState extends State<TeamListContainer> {
                 color: Colors.white70,
               )),
           Expanded(
-              child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: isWeek ? "Weekly Tournament" : "Points Table",
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: CricketCardsAppTheme.textColor,
-                        fontWeight: FontWeight.bold),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: getDaysToGoText(),
-                          style: TextStyle(
-                              color:
-                                  CricketCardsAppTheme.textColor.withAlpha(240),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300)),
-                    ],
-                  ))),
+              child: isWeek
+                  ? CountDownWidget()
+                  : Text("Points Table",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: CricketCardsAppTheme.textColor,
+                          fontWeight: FontWeight.bold))),
           Switch(
             value: isWeek,
+            activeColor: Colors.white,
             onChanged: (value) {
               setState(() {
                 isWeek = value;
@@ -329,7 +322,7 @@ class TeamListContainerState extends State<TeamListContainer> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             TextSpan(
                 text: '\n\n1. The tournament goes from Monday to Sunday, and the score resets every week exactly at Sunday midnight\n2. ' +
-                    'The winner of the week gets championship star\n3. The Shaded star is the last week champion\n\nFeedback? ',
+                    'The winner of the week gets championship star\n3. The Shaded star is the last week champion\n\nHave feedback?\nWant to correct/add stats?\nFound issues?\nJoin our team?\n ',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
             TextSpan(
               text: 'mail us @ 99products.in@gmail.com',
@@ -440,5 +433,82 @@ class TeamListContainerState extends State<TeamListContainer> {
   _twoPlayer(BuildContext context) async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TwoPlayerStart()));
+  }
+}
+
+class CountDownWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return CountDownWidgetState();
+  }
+}
+
+class CountDownWidgetState extends State<CountDownWidget> {
+  Timer timer;
+
+  @override
+  void dispose() {
+    clearTimer();
+    super.dispose();
+  }
+
+  clearTimer() {
+    if (timer != null) {
+      timer.cancel();
+      timer = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          text: "Weekly Tournament",
+          style: TextStyle(
+              fontSize: 22,
+              color: CricketCardsAppTheme.textColor,
+              fontWeight: FontWeight.bold),
+          children: <TextSpan>[
+            TextSpan(
+                text: getDaysToGoText(),
+                style: TextStyle(
+                    color: CricketCardsAppTheme.textColor.withAlpha(240),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300)),
+          ],
+        ));
+  }
+
+  String getDaysToGoText() {
+    DateTime datetime = DateTime.now();
+    int diff = 7 - datetime.weekday;
+    if (diff == 1)
+      return '\n( Score resets tomorrow midnight)';
+    else if (diff == 0) {
+      clearTimer();
+      timer = Timer(Duration(seconds: 1), () {
+        setState(() {});
+      });
+      return '\n( Score resets in ' + getHoursSecsText(datetime) + ')';
+    } else
+      return "\n( Score resets in " +
+          (7 - datetime.weekday).toString() +
+          " days )";
+  }
+
+  String getHoursSecsText(DateTime dateTime) {
+    int hour = 23 - dateTime.hour;
+    int minutes = 59 - dateTime.minute;
+    int seconds = 59 - dateTime.second;
+    return appendZero(hour) +
+        ":" +
+        appendZero(minutes) +
+        ":" +
+        appendZero(seconds);
+  }
+
+  String appendZero(int value) {
+    return value < 10 ? '0' + value.toString() : value.toString();
   }
 }

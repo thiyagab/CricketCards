@@ -9,7 +9,7 @@ class Team {
   final int totalPlays;
   final int totalWins;
   final int score;
-  final int weekscore;
+  int weekscore;
   final int championships;
   final bool champion;
 

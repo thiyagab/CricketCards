@@ -17,12 +17,14 @@ exports.updateUser = functions.firestore
     // ...or the previous value before this update
     const previousValue = change.before.data();   
     if(newValue.score<previousValue.score){
-        console.log(newValue)
-        console.log(previousValue)
+        console.log(newValue.score)
+        console.log(previousValue.score)
         return change.after.ref.set(previousValue, {merge: true});
     }else{
         let diff = newValue.score-previousValue.score;
-        if(diff >0){
+        //Our logic relies on the diff, and assumes thats the new score from the user,
+        //but Sometimes when an updates comes from a old cache, the diff is huge, so added a check less than 12
+        if(diff >0 && diff <12){
             newValue.weekscore=newValue.weekscore+diff;
             return change.after.ref.set(newValue,{merge:true});
         }
