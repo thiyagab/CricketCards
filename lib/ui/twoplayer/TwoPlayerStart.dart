@@ -53,7 +53,7 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
 
   Widget instructionText(BuildContext context) {
     return Text(
-        '\n\nNote: You can select your favorite team and score points for them or select IPL11 (mix of all players) for a casual play',
+        '\n\nNote: You can select your favorite team and score points for them or select IPL11 (mix of all players) for a casual play\n\nPlease make sure both are in latest version',
         style: TextStyle(fontSize: 12, color: CricketCardsAppTheme.textColor));
   }
 
@@ -85,6 +85,8 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
                             fontSize: 12,
                             color: CricketCardsAppTheme.textColor)),
                 value: host,
+                activeColor: Colors.white,
+                // activeTrackColor: Colors.white,
                 onChanged: (value) {
                   setState(() {
                     host = value;
@@ -197,6 +199,13 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
               selectedTeam.toLowerCase()) {
         showText(
             context, 'Please select a different team than the host or IPL 11');
+        return false;
+      }
+      if (data['version'] == null || data['version'] < Utils.DATA_VERSION) {
+        showText(context, 'Host is lower version. Please ask them to update');
+        return false;
+      } else if (data['version'] > Utils.DATA_VERSION) {
+        showText(context, 'Please update to latest version as host');
         return false;
       }
     }

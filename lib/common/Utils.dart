@@ -25,6 +25,8 @@ class Utils {
   static final String SHARE_TEXT =
       "Hi friends, play for our favorite team to get to the top of points table. https://play.google.com/store/apps/details?id=com.droidapps.cricketcards";
 
+  static final int DATA_VERSION = 1;
+
   static TrumpModel singlePlayer(Teams team) {
     TrumpModel trumpModel = TrumpModel();
     trumpModel.playerTeam = team;
@@ -180,6 +182,9 @@ class Utils {
     }
     valuejson["selectedAttribute"] = selectedAttribute;
     valuejson["selectedIndex"] = selectedIndex;
+    //This method is called both by host and joiners, but the version will be updated first by host
+    //and there is a validation in place to check the versions, so the version is expected to be same
+    valuejson['version'] = DATA_VERSION;
     // valuejson["updated"] = DateTime.now().toString();
     return documentReference.set(valuejson, SetOptions(merge: true));
   }
