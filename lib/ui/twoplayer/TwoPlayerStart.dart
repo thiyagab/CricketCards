@@ -53,7 +53,7 @@ class _TwoPlayerStartState extends State<TwoPlayerStart> {
 
   Widget instructionText(BuildContext context) {
     return Text(
-        '\n\nNote: You can select your favorite team and score points for them or select IPL11 (mix of all players) for a casual play\n\nPlease make sure both are in latest version',
+        '\n\nNote: You can select and score 2x points for your favorite team or select IPL11 (mix of all players) for a casual play\n\nPlease make sure both are in latest version',
         style: TextStyle(fontSize: 12, color: CricketCardsAppTheme.textColor));
   }
 

@@ -24,7 +24,7 @@ exports.updateUser = functions.firestore
         let diff = newValue.score-previousValue.score;
         //Our logic relies on the diff, and assumes thats the new score from the user,
         //but Sometimes when an updates comes from a old cache, the diff is huge, so added a check less than 12
-        if(diff >0 && diff <12){
+        if(diff >0 && diff <23){
             newValue.weekscore=newValue.weekscore+diff;
             return change.after.ref.set(newValue,{merge:true});
         }

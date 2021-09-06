@@ -321,6 +321,7 @@ class Utils {
     int points = 0;
 
     if (model.playerScore > model.botScore) {
+      if (!model.isSinglePlayer()) model.playerScore = model.playerScore * 2;
       points = model.playerScore;
       updatePointsLocal(points);
       if (model.isPlayingForTeam()) {

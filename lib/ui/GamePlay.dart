@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ipltrumpcards/common/Utils.dart';
+import 'package:ipltrumpcards/components/CircleProgressIndicator.dart';
 import 'package:ipltrumpcards/components/TapToPlay.dart';
 import 'package:ipltrumpcards/model/Team.dart';
 import 'package:ipltrumpcards/model/TrumpModel.dart';
@@ -15,7 +16,6 @@ import 'package:play_games/play_games.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
-import '../components/CircleProgressIndicator.dart';
 import 'PlayerCard.dart';
 
 class GamePlay extends StatefulWidget {
@@ -186,7 +186,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
     bool playerWins = model.playerScore > model.botScore;
     if (playerWins) {
       displayText = model.isPlayingForTeam()
-          ? 'You Scored ${model.playerScore} point(s) for ${Utils.teamName(model.playerTeam)}'
+          ? 'You scored ${model.playerScore} points for ${Utils.teamName(model.playerTeam)}'
           : 'You Won';
     } else if (model.playerScore == model.botScore) {
       displayText = "Match Drawn";
@@ -199,7 +199,7 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
           child: Center(
               child: DefaultTextStyle(
                   style: new TextStyle(
-                      fontSize: 24, color: CricketCardsAppTheme.textColor),
+                      fontSize: 21, color: CricketCardsAppTheme.textColor),
                   child: new Text(displayText)))),
       SvgPicture.asset(
           playerWins ? 'assets/images/won.svg' : 'assets/images/lost.svg',
@@ -253,11 +253,11 @@ class GamePlayState extends State<GamePlay> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                 color: Colors.redAccent,
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12.0),
-                    bottomLeft: Radius.circular(12.0),
-                    bottomRight: Radius.circular(12.0),
+                    topLeft: Radius.circular(22.0),
+                    bottomLeft: Radius.circular(22.0),
+                    bottomRight: Radius.circular(22.0),
                     topRight:
-                        Radius.circular(12.0)), //68.0 for right side curvy
+                        Radius.circular(22.0)), //68.0 for right side curvy
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                       color: Colors.red,

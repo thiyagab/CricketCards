@@ -289,12 +289,12 @@ class TeamListContainerState extends State<TeamListContainer> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            iconButton("  Play with Friends    ", Icons.sports_cricket,
-                () => _twoPlayer(context)),
+            iconButton("Play with Friends & score 2x points",
+                Icons.sports_cricket, () => _twoPlayer(context)),
             SizedBox(
               width: 10,
             ),
-            iconButton("Leaderboard", Icons.leaderboard, () {
+            iconButton("", Icons.leaderboard, () {
               Utils.showLeaderboard(context);
             }),
           ],
@@ -315,7 +315,7 @@ class TeamListContainerState extends State<TeamListContainer> {
           children: <TextSpan>[
             TextSpan(
                 text:
-                    '\n\n1. Its a simple trump cards play, where you bet with your player attributes\n2. Play and score for your team, you can play against IPL11 or with your friends',
+                    '\n\n1. Its a simple trump cards play, where you bet with your player attributes\n2. Play and score for your team, you can play against IPL11 or with your friends for 2x points',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
             TextSpan(
                 text: '\n\nWeekly Tournament',
@@ -353,81 +353,28 @@ class TeamListContainerState extends State<TeamListContainer> {
   }
 
   Widget iconButton(String text, IconData icon, Function action) {
-    return ElevatedButton.icon(
-        onPressed: action,
-        style: ElevatedButton.styleFrom(
-            minimumSize: Size(60, 50),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            elevation: 10,
-            primary: CricketCardsAppTheme.nearlyDarkBlue),
-        icon: Icon(icon, color: Colors.white),
-        label: Text(text));
-  }
-
-  Widget _twoPlayerControls(BuildContext context) {
-    return GestureDetector(
-        onTap: () => _twoPlayer(context),
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Play with friends',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset('assets/images/cup.svg',
-                                width: 12,
-                                height: 12,
-                                color: Colors.orangeAccent),
-                            Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: FutureBuilder(
-                                    future: Utils.getTotalPointsScored(),
-                                    builder: (context, snapshot) {
-                                      return Text(
-                                        snapshot.data.toString() + " points",
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            color:
-                                                CricketCardsAppTheme.textColor),
-                                      );
-                                    }))
-                          ]))
-                ])));
-  }
-
-  _addTwoPlayerControls(List<Widget> widgets, BuildContext context) {
-    widgets.add(Expanded(
-        child: GradientCard(
-            gradient: Gradients.buildGradient(
-                Alignment.topLeft, Alignment.bottomRight, [
-              CricketCardsAppTheme.nearlyDarkBlue.withBlue(120),
-              CricketCardsAppTheme.nearlyDarkBlue,
-            ]),
-            elevation: 10,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: Row(children: [
-              Expanded(child: _twoPlayerControls(context)),
-              IconButton(
-                  icon: Icon(
-                    Icons.leaderboard,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Utils.showLeaderboard(context);
-                  })
-            ]))));
+    if (!text.isEmpty) {
+      return ElevatedButton.icon(
+          onPressed: action,
+          style: ElevatedButton.styleFrom(
+              alignment: Alignment.center,
+              minimumSize: Size(60, 50),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              elevation: 10,
+              primary: CricketCardsAppTheme.nearlyDarkBlue),
+          icon: Icon(icon, color: Colors.white),
+          label: Text(text));
+    } else {
+      return Card(
+          elevation: 10,
+          child: Container(
+              width: 50,
+              height: 50,
+              color: CricketCardsAppTheme.nearlyDarkBlue,
+              child: IconButton(
+                  onPressed: action, icon: Icon(icon, color: Colors.white))));
+    }
   }
 
   _twoPlayer(BuildContext context) async {
